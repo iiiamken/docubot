@@ -1,5 +1,6 @@
 import Link from "next/link"
 import MaxWidthWrapper from "./MaxWidthWrapper"
+import { buttonVariants } from "@/components/ui/button"
 
 const Navbar = () => {
   return (
@@ -9,6 +10,20 @@ const Navbar = () => {
           <Link href="/" className="flex z-40 font-semibold">
             <span>docubot.</span>
           </Link>
+
+          <div className="hidden items-center space-x-4 sm:flex">
+            <>
+              <Link
+                href="/pricing"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                })}
+              >
+                Pricing
+              </Link>
+            </>
+          </div>
         </div>
       </MaxWidthWrapper>
     </nav>
