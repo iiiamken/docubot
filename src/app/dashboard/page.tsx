@@ -1,11 +1,11 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 
 const page = () => {
-  return <h1>Dashboard</h1>
-
   const { getUser } = getKindeServerSession()
   const user = getUser()
-  console.log(user)
+  console.log("user", user)
+
+  return <h1>Dashboard</h1>
 }
 
 export default page
