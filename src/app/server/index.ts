@@ -16,7 +16,7 @@ export const appRouter = router({
         id: user.id,
       },
     })
-
+    // create new user if not exist
     if (!dbUser) {
       await db.user.create({
         data: {
