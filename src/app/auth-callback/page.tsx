@@ -1,5 +1,10 @@
+import { useRouter } from "next/navigation"
+
 const page = () => {
-  return <h1>Dashboard</h1>
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const origin = searchParams.get("origin")
 }
 
 export default page
