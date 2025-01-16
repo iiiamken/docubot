@@ -1,11 +1,11 @@
 "use client"
 import { trpc } from "@/app/_trpc/client"
-import UploadButton from "./UploadButton"
-import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react"
-import Skeleton from "react-loading-skeleton"
-import Link from "next/link"
 import { format } from "date-fns"
+import { Ghost, MessageSquare, Plus, Trash } from "lucide-react"
+import Link from "next/link"
+import Skeleton from "react-loading-skeleton"
 import { Button } from "./ui/button"
+import UploadButton from "./UploadButton"
 
 const Dashboard = () => {
   const { data: files, isLoading } = trpc.getUserFiles.useQuery()
@@ -56,6 +56,9 @@ const Dashboard = () => {
                     <MessageSquare className="h-4 w-4" />
                     mocked
                   </div>
+                  <Button size="sm" className="w-full" variant="destructive">
+                    <Trash className="h-4 w-4" />
+                  </Button>
                 </div>
               </li>
             ))}
