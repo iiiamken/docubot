@@ -1,19 +1,29 @@
 "use client"
 import { trpc } from "@/app/_trpc/client"
-import { format } from "date-fns"
+import { format, set } from "date-fns"
 import { Ghost, MessageSquare, Plus, Trash } from "lucide-react"
 import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
 import { Button } from "./ui/button"
 import UploadButton from "./UploadButton"
+import { useState } from "react"
 
 const Dashboard = () => {
+  const [currentlyDeleting, setCurrentlyDeleting] = useState<string | null>(
+    null
+  )
   const utils = trpc.useContext()
 
   const { data: files, isLoading } = trpc.getUserFiles.useQuery()
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
     onSuccess: () => {
       utils.getUserFiles.invalidate()
+    },
+    onMutate: ({ id }) => {
+      setCurrentlyDeleting(id)
+    },
+    onSettled: () => {
+      null
     },
   })
   return (
