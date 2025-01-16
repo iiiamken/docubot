@@ -5,6 +5,8 @@ import { cn } from "./lib/utils"
 import Providers from "@/components/Providers"
 import Navbar from "@/components/Navbar"
 
+import "react-loading-skeleton/dist/skeleton.css"
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
