@@ -1,6 +1,8 @@
+"use client"
 import { useRouter, useSearchParams } from "next/navigation"
 import { trpc } from "../_trpc/client"
 import { Loader2 } from "lucide-react"
+import { useEffect } from "react"
 
 const Page = () => {
   const router = useRouter()
@@ -8,21 +10,43 @@ const Page = () => {
 
   const origin = searchParams.get("origin")
 
-  trpc.authCallback.useQuery(undefined, {
-    onSuccess: ({ success }) => {
-      if (success) {
-        // user is synced to db
-        router.push(origin ? `/${origin}` : "/dashboard")
-      }
-    },
-    onError: (err: { data: { code: string } }) => {
-      if (err.data?.code === "UNAUTHORIZED") {
-        router.push("/sign-in")
-      }
-    },
-    retry: true,
-    retryDelay: 500,
-  })
+  // trpc.authCallback.useQuery(undefined, {
+  //   onSuccess: (success) => {
+  //     if (success) {
+  //       router.push(origin ? `/${origin}` : "/dashboard")
+  //     }
+  //   },
+  //   onError: (err) => {
+  //     if (err.data?.code === "UNAUTHORIZED") {
+  //       router.push("/sign-in")
+  //     }
+  //   },
+  //   retry: true,
+  //   retryDelay: 500,
+  // })
+
+  const { data, isError, error, isSuccess } = trpc.authCallback.useQuery(
+    undefined,
+    {
+      retry: true,
+      retryDelay: 500,
+    }
+  )
+
+  // Handle success using a `useEffect`
+  useEffect(() => {
+    if (isSuccess && data?.success) {
+      router.push(origin ? `/${origin}` : "/dashboard")
+    }
+  }, [data, origin, router, isSuccess])
+
+  // Handle errors
+  useEffect(() => {
+    if (isError && error?.data?.code === "UNAUTHORIZED") {
+      router.push("/sign-in")
+    }
+  }, [isError, error, router])
+
   return (
     <div className="w-full mt-24 flex justify-center">
       <div className="flex flex-col items-center gap-2">
