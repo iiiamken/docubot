@@ -10,6 +10,7 @@ const Page = () => {
 
   const origin = searchParams.get("origin")
 
+  // DEPRECIATED USEQUERY METHOD
   // trpc.authCallback.useQuery(undefined, {
   //   onSuccess: (success) => {
   //     if (success) {
