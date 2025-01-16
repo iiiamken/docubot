@@ -1,5 +1,7 @@
+"use client"
 import { useState } from "react"
-import { Dialog } from "./ui/dialog"
+import { Dialog, DialogTrigger } from "./ui/dialog"
+import { Button } from "./ui/button"
 
 const UploadButton = () => {
   const [open, setIsOpen] = useState<boolean>(false)
@@ -9,7 +11,11 @@ const UploadButton = () => {
       onOpenChange={(visible) => {
         if (!visible) setIsOpen(visible)
       }}
-    ></Dialog>
+    >
+      <DialogTrigger asChild>
+        <Button>Upload PDF</Button>
+      </DialogTrigger>
+    </Dialog>
   )
 }
 

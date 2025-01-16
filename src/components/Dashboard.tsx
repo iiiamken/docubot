@@ -1,3 +1,5 @@
+import UploadButton from "./UploadButton"
+
 const Dashboard = () => {
   return (
     <main className="mx-auto max-w-7xl md:p-10">
