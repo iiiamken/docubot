@@ -1,6 +1,6 @@
 "use client"
 import { trpc } from "@/app/_trpc/client"
-import { format, set } from "date-fns"
+import { format } from "date-fns"
 import { Ghost, MessageSquare, Plus, Trash } from "lucide-react"
 import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
