@@ -1,7 +1,7 @@
 "use client"
 import { trpc } from "@/app/_trpc/client"
-import { format } from "date-fns"
-import { Ghost, MessageSquare, Plus, Trash } from "lucide-react"
+import { format, set } from "date-fns"
+import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react"
 import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
 import { Button } from "./ui/button"
@@ -23,7 +23,7 @@ const Dashboard = () => {
       setCurrentlyDeleting(id)
     },
     onSettled: () => {
-      null
+      setCurrentlyDeleting(null)
     },
   })
   return (
@@ -79,7 +79,11 @@ const Dashboard = () => {
                     onClick={() => deleteFile({ id: file.id })}
                     variant="destructive"
                   >
-                    <Trash className="h-4 w-4" />
+                    {currentlyDeleting === file.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </li>
