@@ -4,12 +4,16 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import Dropzone from "react-dropzone"
+import { Cloud } from "lucide-react"
 const UploadButton = () => {
   const [open, setIsOpen] = useState<boolean>(false)
 
   const UploadDropZone = () => {
     return (
-      <Dropzone multiple={false}>
+      <Dropzone
+        multiple={false}
+        onDrop={(acceptedFiles) => console.log(acceptedFiles)}
+      >
         {({ getRootProps, getInputProps, acceptedFiles }) => (
           <div
             {...getRootProps()}
@@ -21,7 +25,12 @@ const UploadButton = () => {
                 className="flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gray-50 hover:bg-gray-100"
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  example
+                  <Cloud className="h-6 w-6 text-zinc-500 mb-2" />
+                  <p className="mb-2 text-sm text-zinc-700">
+                    <span className="font-semibold">Click to upload</span>
+                    or drag and drop
+                  </p>
+                  <p className="text-sm text-zinc-500">PDF (up to 4MB)</p>
                 </div>
               </label>
             </div>
