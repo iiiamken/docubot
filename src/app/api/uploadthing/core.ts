@@ -1,3 +1,4 @@
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { createUploadthing, type FileRouter } from "uploadthing/next"
 
 const f = createUploadthing()
@@ -10,7 +11,13 @@ export const ourFileRouter = {
     },
   })
     .middleware(async ({ req }) => {
-      return {}
+      const { getUser } = getKindeServerSession()
+      const user = await getUser()
+
+      if (!user || !user.id) {
+        throw new Error("UNAUTHORIZED")
+      }
+      return { userId: user.id }
     })
     .onUploadComplete(async ({ metadata, file }) => {
       return {}
