@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
-
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 const UploadButton = () => {
   const [open, setIsOpen] = useState<boolean>(false)
   return (
@@ -18,7 +18,9 @@ const UploadButton = () => {
         <Button>Upload PDF</Button>
       </DialogTrigger>
       <DialogContent>Test Content</DialogContent>¨
-      <DialogTitle>Upload PDF</DialogTitle>
+      <VisuallyHidden asChild>
+        <DialogTitle>Upload PDF</DialogTitle>
+      </VisuallyHidden>
     </Dialog>
   )
 }
