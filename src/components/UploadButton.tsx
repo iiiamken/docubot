@@ -6,12 +6,17 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import Dropzone from "react-dropzone"
 import { Cloud, File } from "lucide-react"
 import { Progress } from "./ui/progress"
+import { useUploadThing } from "@/app/lib/uploadthing"
+import { useToast } from "@/hooks/use-toast"
 const UploadButton = () => {
   const [open, setIsOpen] = useState<boolean>(false)
 
   const UploadDropZone = () => {
     const [isUploading, setIsUploading] = useState<boolean>(false)
     const [uploadProgress, setUploadprogress] = useState<number>(0)
+    const { toast } = useToast()
+
+    const { startUpload } = useUploadThing("pdfUploader")
     const startSimulatedProgress = () => {
       //start by setting progress to 0
       setUploadprogress(0)
@@ -35,7 +40,15 @@ const UploadButton = () => {
           const progressInterval = startSimulatedProgress()
 
           //handle file uploading
+          const res = startUpload(acceptedFiles)
 
+          if (!res) {
+            toast({
+              title: "Something went wrong",
+              description: "Please try again",
+              variant: "destructive ",
+            })
+          }
           clearInterval(progressInterval)
           setUploadprogress(100)
         }}
