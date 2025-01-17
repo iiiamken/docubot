@@ -8,7 +8,10 @@ import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useResizeDetector } from "react-resize-detector"
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString()
 
 type PdfRendererProps = {
   url: string
@@ -40,8 +43,9 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             }}
             file={url}
             className="max-h-full"
-          />
-          <Page width={resizeWidth ? resizeWidth : 1} pageNumber={1} />
+          >
+            <Page width={resizeWidth ? resizeWidth : 1} pageNumber={1} />
+          </Document>
         </div>
       </div>
     </div>

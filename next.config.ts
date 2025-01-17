@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.resolve.alias.canvas = false
-    config.reslove.alias.encoding = false
+    config.resolve.alias.encoding = false
     return config
   },
 }
