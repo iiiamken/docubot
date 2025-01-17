@@ -11,10 +11,34 @@ const UploadButton = () => {
 
   const UploadDropZone = () => {
     const [isUploading, setIsUploading] = useState<boolean>(false)
+    const [uploadProgress, setUploadprogress] = useState<number>(0)
+    const startSimulatedProgress = () => {
+      //start by setting progress to 0
+      setUploadprogress(0)
+      //update progress with interval
+      const interval = setInterval(() => {
+        setUploadprogress((prevProgress) => {
+          if (prevProgress >= 95) {
+            clearInterval(interval)
+            return prevProgress
+          }
+          return prevProgress + 5
+        })
+      }, 500)
+      return interval
+    }
     return (
       <Dropzone
         multiple={false}
-        onDrop={(acceptedFiles) => console.log(acceptedFiles)}
+        onDrop={(acceptedFiles) => {
+          setUploadprogress(0)
+          const progressInterval = startSimulatedProgress()
+
+          //handle file uploading
+
+          clearInterval(progressInterval)
+          setUploadprogress(100)
+        }}
       >
         {({ getRootProps, getInputProps, acceptedFiles }) => (
           <div
@@ -47,7 +71,10 @@ const UploadButton = () => {
                 )}
                 {isUploading && (
                   <div className="w-full mt-4 max-w-xs mx-auto">
-                    <Progress value={50} className="h-1 w-full bg-zinc-200" />
+                    <Progress
+                      value={uploadProgress}
+                      className="h-1 w-full bg-zinc-200"
+                    />
                   </div>
                 )}
               </label>
