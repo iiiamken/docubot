@@ -1,15 +1,15 @@
 "use client"
-import { useState } from "react"
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
-import { Button } from "./ui/button"
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
-import Dropzone from "react-dropzone"
-import { Cloud, Divide, File, Loader2 } from "lucide-react"
-import { Progress } from "./ui/progress"
+import { trpc } from "@/app/_trpc/client"
 import { useUploadThing } from "@/app/lib/uploadthing"
 import { useToast } from "@/hooks/use-toast"
-import { trpc } from "@/app/_trpc/client"
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
+import { Cloud, File, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import Dropzone from "react-dropzone"
+import { Button } from "./ui/button"
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
+import { Progress } from "./ui/progress"
 const UploadButton = () => {
   const [open, setIsOpen] = useState<boolean>(false)
 
@@ -74,7 +74,7 @@ const UploadButton = () => {
           clearInterval(progressInterval)
           setUploadprogress(100)
 
-          startPolling(key)
+          startPolling({ key })
         }}
       >
         {({ getRootProps, getInputProps, acceptedFiles }) => (
