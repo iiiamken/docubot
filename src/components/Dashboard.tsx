@@ -9,9 +9,9 @@ import { Button } from "./ui/button"
 import UploadButton from "./UploadButton"
 
 const Dashboard = () => {
-  const [currentlyDeleting, setCurrentlyDeleting] = useState<string | null>(
-    null
-  )
+  const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
+    string | null
+  >(null)
   const utils = trpc.useContext()
 
   const { data: files, isLoading } = trpc.getUserFiles.useQuery()
@@ -20,10 +20,10 @@ const Dashboard = () => {
       utils.getUserFiles.invalidate()
     },
     onMutate: ({ id }) => {
-      setCurrentlyDeleting(id)
+      setCurrentlyDeletingFile(id)
     },
     onSettled: () => {
-      setCurrentlyDeleting(null)
+      setCurrentlyDeletingFile(null)
     },
   })
   return (
@@ -74,12 +74,12 @@ const Dashboard = () => {
                     mocked
                   </div>
                   <Button
+                    onClick={() => deleteFile({ id: file.id })}
                     size="sm"
                     className="w-full"
-                    onClick={() => deleteFile({ id: file.id })}
                     variant="destructive"
                   >
-                    {currentlyDeleting === file.id ? (
+                    {currentlyDeletingFile === file.id ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                       <Trash className="h-4 w-4" />

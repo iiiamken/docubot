@@ -59,7 +59,9 @@ const UploadButton = () => {
               description: "Please try again",
               variant: "destructive",
             })
+            return
           }
+
           const [fileResponse] = res
 
           const key = fileResponse?.key
