@@ -115,6 +115,12 @@ const UploadButton = () => {
                     />
                   </div>
                 )}
+                <input
+                  {...getInputProps}
+                  type="file"
+                  id="dropzone-file"
+                  className="hidden"
+                />
               </label>
             </div>
           </div>
