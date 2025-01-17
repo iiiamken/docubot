@@ -5,10 +5,12 @@ import { Button } from "./ui/button"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import Dropzone from "react-dropzone"
 import { Cloud, File } from "lucide-react"
+import { Progress } from "./ui/progress"
 const UploadButton = () => {
   const [open, setIsOpen] = useState<boolean>(false)
 
   const UploadDropZone = () => {
+    const [isUploading, setIsUploading] = useState<boolean>(false)
     return (
       <Dropzone
         multiple={false}
@@ -41,6 +43,11 @@ const UploadButton = () => {
                         {acceptedFiles[0].name}
                       </div>
                     </div>
+                  </div>
+                )}
+                {isUploading && (
+                  <div className="w-full mt-4 max-w-xs mx-auto">
+                    <Progress value={50} className="h-1 w-full bg-zinc-200" />
                   </div>
                 )}
               </label>
