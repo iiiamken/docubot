@@ -31,7 +31,7 @@ const UploadButton = () => {
       <Dropzone
         multiple={false}
         onDrop={(acceptedFiles) => {
-          setUploadprogress(0)
+          setIsUploading(true)
           const progressInterval = startSimulatedProgress()
 
           //handle file uploading
