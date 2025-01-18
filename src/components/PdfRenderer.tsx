@@ -15,6 +15,10 @@ import { z } from "zod"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { DropdownMenu, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -27,6 +31,7 @@ type PdfRendererProps = {
 const PdfRenderer = ({ url }: PdfRendererProps) => {
   const [numPages, setNumPages] = useState<number>()
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [scale, setScale] = useState<number>(1)
 
   const CustomValidator = z.object({
     page: z
@@ -102,10 +107,13 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
         <div className="space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button>
+              <Button className="gap-1.5" aria-label="zoom" variant="ghost">
                 <Search className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>100%</DropdownMenuItem>
+            </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
