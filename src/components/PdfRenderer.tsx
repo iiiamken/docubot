@@ -10,6 +10,7 @@ import { useResizeDetector } from "react-resize-detector"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { useState } from "react"
+import { z } from "zod"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -22,6 +23,14 @@ type PdfRendererProps = {
 const PdfRenderer = ({ url }: PdfRendererProps) => {
   const [numPages, setNumPages] = useState<number>()
   const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const CustomValidator = z.object({
+    page: z
+      .string()
+      .refine((num) => Number(num) > 0 && Number(num) <= numPages!),
+  })
+
+  type TCustomValidator = z.infer<typeof CustomValidator>
   const { toast } = useToast()
 
   const { width: resizeWidth, ref: resizeRef } = useResizeDetector()
