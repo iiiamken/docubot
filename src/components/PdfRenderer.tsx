@@ -5,7 +5,7 @@ import { Document, Page, pdfjs } from "react-pdf"
 import { cn } from "@/app/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ChevronDown, ChevronUp, Loader2, Search } from "lucide-react"
+import { ChevronDown, ChevronUp, Loader2, RotateCw, Search } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import "react-pdf/dist/Page/AnnotationLayer.css"
@@ -22,6 +22,7 @@ import {
 } from "./ui/dropdown-menu"
 
 import SimpleBar from "simplebar-react"
+import PdfFullscreen from "./PdfFullscreen"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -35,6 +36,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   const [numPages, setNumPages] = useState<number>()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [scale, setScale] = useState<number>(1)
+  const [rotation, setRotation] = useState<number>(0)
 
   const CustomValidator = z.object({
     page: z
@@ -131,6 +133,16 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <Button
+            onClick={() => setRotation((prev) => prev + 90)}
+            variant="ghost"
+            aria-label="rotate 90 degrees clockwise"
+          >
+            <RotateCw className="h-4 w-4" />
+          </Button>
+
+          <PdfFullscreen />
         </div>
       </div>
 
@@ -160,6 +172,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 width={resizeWidth ? resizeWidth : 1}
                 pageNumber={currentPage}
                 scale={scale}
+                rotate={rotation}
               />
             </Document>
           </div>
