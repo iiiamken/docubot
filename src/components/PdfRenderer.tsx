@@ -2,17 +2,18 @@
 
 import { Document, Page, pdfjs } from "react-pdf"
 
-import "react-pdf/dist/Page/TextLayer.css"
-import "react-pdf/dist/Page/AnnotationLayer.css"
-import { ChevronDown, ChevronUp, Loader2 } from "lucide-react"
+import { cn } from "@/app/lib/utils"
 import { useToast } from "@/hooks/use-toast"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ChevronDown, ChevronUp, Loader2 } from "lucide-react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import "react-pdf/dist/Page/AnnotationLayer.css"
+import "react-pdf/dist/Page/TextLayer.css"
 import { useResizeDetector } from "react-resize-detector"
+import { z } from "zod"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
-import { useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -34,7 +35,12 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
 
   type TCustomValidator = z.infer<typeof CustomValidator>
 
-  const { register } = useForm<TCustomValidator>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<TCustomValidator>({
     defaultValues: {
       page: "1",
     },
@@ -43,6 +49,11 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   const { toast } = useToast()
 
   const { width: resizeWidth, ref: resizeRef } = useResizeDetector()
+
+  const handlePageSubmit = ({ page }: TCustomValidator) => {
+    setCurrentPage(Number(page))
+    setValue("page", String(page))
+  }
   return (
     <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
       <div className="h-14 w-full border-b border-zinc-200 flex items-center justify-between px-2">
@@ -58,7 +69,16 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             <ChevronDown className="h-4 w-4" />
           </Button>
           <div className="flex items-center gap-1.5">
-            <Input {...register("page")} className="w-12 h-8" />
+            <Input
+              {...register("page")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSubmit(handlePageSubmit)()
+              }}
+              className={cn(
+                "w-12 h-8",
+                errors.page && "focus-visible:ring-red-500"
+              )}
+            />
             <p className="text-zinc-700 text-sm space-x-1">
               <span>/</span>
               <span>{numPages ?? "x"}</span>
