@@ -19,6 +19,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu"
+import SimpleBar from "simplebar-react"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -131,33 +132,35 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
       </div>
 
       <div className="flex-1 w-full max-h-screen">
-        <div ref={resizeRef}>
-          <Document
-            loading={
-              <div className="flex justify-center">
-                <Loader2 className="my-24 h-6 w-6 animate-spin" />
-              </div>
-            }
-            onLoadError={() => {
-              toast({
-                title: "Error loading PDF",
-                description: "Please try again later",
-                variant: "destructive",
-              })
-            }}
-            onLoadSuccess={({ numPages }) => {
-              setNumPages(numPages)
-            }}
-            file={url}
-            className="max-h-full"
-          >
-            <Page
-              width={resizeWidth ? resizeWidth : 1}
-              pageNumber={currentPage}
-              scale={scale}
-            />
-          </Document>
-        </div>
+        <SimpleBar>
+          <div ref={resizeRef}>
+            <Document
+              loading={
+                <div className="flex justify-center">
+                  <Loader2 className="my-24 h-6 w-6 animate-spin" />
+                </div>
+              }
+              onLoadError={() => {
+                toast({
+                  title: "Error loading PDF",
+                  description: "Please try again later",
+                  variant: "destructive",
+                })
+              }}
+              onLoadSuccess={({ numPages }) => {
+                setNumPages(numPages)
+              }}
+              file={url}
+              className="max-h-full"
+            >
+              <Page
+                width={resizeWidth ? resizeWidth : 1}
+                pageNumber={currentPage}
+                scale={scale}
+              />
+            </Document>
+          </div>
+        </SimpleBar>
       </div>
     </div>
   )
