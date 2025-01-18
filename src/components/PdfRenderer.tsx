@@ -5,7 +5,7 @@ import { Document, Page, pdfjs } from "react-pdf"
 import { cn } from "@/app/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ChevronDown, ChevronUp, Loader2 } from "lucide-react"
+import { ChevronDown, ChevronUp, Loader2, Search } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import "react-pdf/dist/Page/AnnotationLayer.css"
@@ -14,6 +14,7 @@ import { useResizeDetector } from "react-resize-detector"
 import { z } from "zod"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
+import { DropdownMenu, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -96,6 +97,16 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           >
             <ChevronUp className="h-4 w-4" />
           </Button>
+        </div>
+
+        <div className="space-x-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>
+                <Search className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+          </DropdownMenu>
         </div>
       </div>
 
