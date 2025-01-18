@@ -11,6 +11,8 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { useState } from "react"
 import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -31,6 +33,13 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   })
 
   type TCustomValidator = z.infer<typeof CustomValidator>
+
+  const { register } = useForm<TCustomValidator>({
+    defaultValues: {
+      page: "1",
+    },
+    resolver: zodResolver(CustomValidator),
+  })
   const { toast } = useToast()
 
   const { width: resizeWidth, ref: resizeRef } = useResizeDetector()
@@ -49,7 +58,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             <ChevronDown className="h-4 w-4" />
           </Button>
           <div className="flex items-center gap-1.5">
-            <Input className="w-12 h-8" />
+            <Input {...register("page")} className="w-12 h-8" />
             <p className="text-zinc-700 text-sm space-x-1">
               <span>/</span>
               <span>{numPages ?? "x"}</span>
