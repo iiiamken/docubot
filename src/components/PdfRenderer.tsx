@@ -14,11 +14,13 @@ import { useResizeDetector } from "react-resize-detector"
 import { z } from "zod"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
-import { DropdownMenu, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import {
+  DropdownMenu,
+  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu"
+} from "./ui/dropdown-menu"
+
 import SimpleBar from "simplebar-react"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -110,21 +112,22 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             <DropdownMenuTrigger asChild>
               <Button className="gap-1.5" aria-label="zoom" variant="ghost">
                 <Search className="h-4 w-4" />
-                {scale * 100}% <ChevronDown className="h-3 w-3 opacity-50" />
+                {scale * 100}%
+                <ChevronDown className="h-3 w-3 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onSelect={() => setScale(1)}>
-                100
+                100%
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setScale(1.5)}>
-                150
+                150%
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setScale(2)}>
-                200
+                200%
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setScale(2.5)}>
-                250
+                250%
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -132,7 +135,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
       </div>
 
       <div className="flex-1 w-full max-h-screen">
-        <SimpleBar autoHide={false} className="max-h-[calc(100vh - 10rem)]">
+        <SimpleBar autoHide={false} className="max-h-[calc(100vh-10rem)]">
           <div ref={resizeRef}>
             <Document
               loading={
