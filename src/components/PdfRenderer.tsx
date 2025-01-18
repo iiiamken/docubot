@@ -46,7 +46,16 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               <span>{numPages ?? "x"}</span>
             </p>
           </div>
-          <Button variant={"ghost"} aria-label="next page">
+          <Button
+            disabled={numPages === undefined || currentPage === numPages}
+            onClick={() => {
+              setCurrentPage((prev) =>
+                prev + 1 > numPages! ? numPages! : prev + 1
+              )
+            }}
+            variant={"ghost"}
+            aria-label="next page"
+          >
             <ChevronUp className="h-4 w-4" />
           </Button>
         </div>
