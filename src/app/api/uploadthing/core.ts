@@ -46,15 +46,16 @@ export const ourFileRouter = {
         const pagesAmount = pageLevelDocs.length
 
         //vectorize and indexing
+
         const pineconeIndex = pc.Index("docubot")
 
         const embeddings = new OpenAIEmbeddings({
           openAIApiKey: process.env.OPENAI_API_KEY,
         })
+
         await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
           pineconeIndex,
           namespace: createdFile.id,
-          textKey: "pageContent",
         })
 
         await db.file.update({
