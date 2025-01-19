@@ -79,6 +79,9 @@ export const appRouter = router({
       }
       return file
     }),
+  getFileUploadStatus: privateProcedure
+    .input(z.object({ fileId: z.string() }))
+    .mutation(() => {}),
 })
 
 export type AppRouter = typeof appRouter
