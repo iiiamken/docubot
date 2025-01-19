@@ -1,5 +1,5 @@
+import { SendMessageValidator } from "@/app/lib/SendMessageValidator"
 import { db } from "@/db"
-import { SendMessageValidator } from "@/lib/validators/SendMessageValidator"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextRequest } from "next/server"
 
