@@ -1,10 +1,10 @@
+import { pc } from "@/app/lib/pinecode"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { createUploadthing, type FileRouter } from "uploadthing/next"
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"
-import { pinecone } from "@/app/lib/pinecode"
 import { OpenAIEmbeddings } from "@langchain/openai"
 import { PineconeStore } from "@langchain/pinecone"
+import { createUploadthing, type FileRouter } from "uploadthing/next"
 
 const f = createUploadthing()
 
@@ -46,8 +46,7 @@ export const ourFileRouter = {
         const pagesAmount = pageLevelDocs.length
 
         //vectorize and indexing
-        const pinecone = new pinecone()
-        const pineconeIndex = pinecone.Index("docubot")
+        const pineconeIndex = pc.Index("docubot")
 
         const embeddings = new OpenAIEmbeddings({
           openAIApiKey: process.env.OPENAI_API_KEY,
@@ -55,6 +54,7 @@ export const ourFileRouter = {
         await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
           pineconeIndex,
           namespace: createdFile.id,
+          textKey: "pageContent",
         })
 
         await db.file.update({
