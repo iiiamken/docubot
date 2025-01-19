@@ -46,7 +46,7 @@ export const ourFileRouter = {
         const pagesAmount = pageLevelDocs.length
 
         //vectorize and indexing
-
+        // const pinecone = await getPineconeClient()
         const pineconeIndex = pinecone.Index("docubot")
 
         const embeddings = new OpenAIEmbeddings({
