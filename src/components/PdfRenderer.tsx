@@ -73,6 +73,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             disabled={currentPage <= 1}
             onClick={() => {
               setCurrentPage((prev) => (prev - 1 > 1 ? prev - 1 : 1))
+              setValue("page", String(currentPage + 1))
             }}
             variant={"ghost"}
             aria-label="previous page"
@@ -101,6 +102,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               setCurrentPage((prev) =>
                 prev + 1 > numPages! ? numPages! : prev + 1
               )
+              setValue("page", String(currentPage + 1))
             }}
             variant={"ghost"}
             aria-label="next page"
@@ -142,7 +144,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             <RotateCw className="h-4 w-4" />
           </Button>
 
-          <PdfFullscreen />
+          <PdfFullscreen url={url} />
         </div>
       </div>
 
