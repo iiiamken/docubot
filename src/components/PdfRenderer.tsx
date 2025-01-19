@@ -1,28 +1,28 @@
 "use client"
 
 import { Document, Page, pdfjs } from "react-pdf"
-
 import { cn } from "@/app/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ChevronDown, ChevronUp, Loader2, RotateCw, Search } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import "react-pdf/dist/Page/AnnotationLayer.css"
-import "react-pdf/dist/Page/TextLayer.css"
 import { useResizeDetector } from "react-resize-detector"
 import { z } from "zod"
 import { Button } from "./ui/button"
-import { Input } from "./ui/input"
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
+import { Input } from "./ui/input"
 
 import SimpleBar from "simplebar-react"
 import PdfFullscreen from "./PdfFullscreen"
+
+import "react-pdf/dist/Page/AnnotationLayer.css"
+import "react-pdf/dist/Page/TextLayer.css"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -172,24 +172,26 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               file={url}
               className="max-h-full"
             >
-              {isLoading ? (
+              {isLoading && renderedScale ? (
                 <Page
                   width={resizeWidth ? resizeWidth : 1}
                   pageNumber={currentPage}
                   scale={scale}
                   rotate={rotation}
+                  key={"@" + renderedScale}
                 />
               ) : null}
 
               <Page
+                className={cn(isLoading ? "hidden" : "")}
                 width={resizeWidth ? resizeWidth : 1}
                 pageNumber={currentPage}
                 scale={scale}
                 rotate={rotation}
-                className={isLoading ? "hidden" : ""}
+                key={"@" + scale}
                 loading={
                   <div className="flex justify-center">
-                    <Loader2 className="my-24 h6- w-6 animate-spin" />
+                    <Loader2 className="my-24 h-6 w-6 animate-spin" />
                   </div>
                 }
                 onRenderSuccess={() => setRenderedScale(scale)}

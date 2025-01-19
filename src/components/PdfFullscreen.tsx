@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Dialog, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import { Expand, Loader2 } from "lucide-react"
 import { DialogContent } from "@radix-ui/react-dialog"
@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Document, Page } from "react-pdf"
 import { useResizeDetector } from "react-resize-detector"
 import SimpleBar from "simplebar-react"
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 
 interface PdfFullscreenProps {
   url: string
@@ -31,7 +32,7 @@ const PdfFullscreen = ({ url }: PdfFullscreenProps) => {
           <Expand className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="m">
+      <DialogContent className="max-w-7xl w-full">
         <SimpleBar autoHide={false} className="max-h-[calc(100vh-10rem)] mt-6">
           <div ref={resizeRef}>
             <Document
@@ -64,6 +65,9 @@ const PdfFullscreen = ({ url }: PdfFullscreenProps) => {
           </div>
         </SimpleBar>
       </DialogContent>
+      <VisuallyHidden asChild>
+        <DialogTitle>Upload PDF</DialogTitle>
+      </VisuallyHidden>
     </Dialog>
   )
 }
