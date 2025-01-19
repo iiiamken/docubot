@@ -146,7 +146,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             <RotateCw className="h-4 w-4" />
           </Button>
 
-          <PdfFullscreen url={url} />
+          <PdfFullscreen fileUrl={url} />
         </div>
       </div>
 

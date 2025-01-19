@@ -1,40 +1,42 @@
 import { useState } from "react"
-import { Dialog, DialogTitle, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import { Expand, Loader2 } from "lucide-react"
-import { DialogContent } from "@radix-ui/react-dialog"
-import { useToast } from "@/hooks/use-toast"
+import SimpleBar from "simplebar-react"
 import { Document, Page } from "react-pdf"
 import { useResizeDetector } from "react-resize-detector"
-import SimpleBar from "simplebar-react"
+import { useToast } from "@/hooks/use-toast"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 
 interface PdfFullscreenProps {
-  url: string
+  fileUrl: string
 }
 
-const PdfFullscreen = ({ url }: PdfFullscreenProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
+  const [isOpen, setIsOpen] = useState(false)
   const [numPages, setNumPages] = useState<number>()
 
   const { toast } = useToast()
-  const { width: resizeWidth, ref: resizeRef } = useResizeDetector()
+
+  const { width, ref } = useResizeDetector()
 
   return (
     <Dialog
       open={isOpen}
       onOpenChange={(v) => {
-        if (!v) setIsOpen(v)
+        if (!v) {
+          setIsOpen(v)
+        }
       }}
     >
       <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-        <Button variant="ghost" aria-label="fullscreen" className="gap-1.5">
+        <Button variant="ghost" className="gap-1.5" aria-label="fullscreen">
           <Expand className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-7xl w-full">
         <SimpleBar autoHide={false} className="max-h-[calc(100vh-10rem)] mt-6">
-          <div ref={resizeRef}>
+          <div ref={ref}>
             <Document
               loading={
                 <div className="flex justify-center">
@@ -48,18 +50,12 @@ const PdfFullscreen = ({ url }: PdfFullscreenProps) => {
                   variant: "destructive",
                 })
               }}
-              onLoadSuccess={({ numPages }) => {
-                setNumPages(numPages)
-              }}
-              file={url}
+              onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+              file={fileUrl}
               className="max-h-full"
             >
               {new Array(numPages).fill(0).map((_, i) => (
-                <Page
-                  key={i}
-                  pageNumber={i + 1}
-                  width={resizeWidth ? resizeWidth : 1}
-                />
+                <Page key={i} width={width ? width : 1} pageNumber={i + 1} />
               ))}
             </Document>
           </div>
