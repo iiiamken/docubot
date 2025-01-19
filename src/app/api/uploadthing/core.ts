@@ -1,11 +1,10 @@
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { createUploadthing, type FileRouter } from "uploadthing/next"
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-import { pinecone } from "@/app/lib/pinecode";
-import {OpenAIEmbeddings} from "@langchain/openai"
-import { PineconeStore } from "@langchain/pinecone";
-
+import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"
+import { pinecone } from "@/app/lib/pinecode"
+import { OpenAIEmbeddings } from "@langchain/openai"
+import { PineconeStore } from "@langchain/pinecone"
 
 const f = createUploadthing()
 
@@ -43,7 +42,7 @@ export const ourFileRouter = {
         const loader = new PDFLoader(blob)
 
         const pageLevelDocs = await loader.load()
-        
+
         const pagesAmount = pageLevelDocs.length
 
         //vectorize and indexing
@@ -51,14 +50,31 @@ export const ourFileRouter = {
         const pineconeIndex = pinecone.Index("docubot")
 
         const embeddings = new OpenAIEmbeddings({
-          openAIApiKey:process.env.OPENAI_API_KEY
+          openAIApiKey: process.env.OPENAI_API_KEY,
         })
-await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
-       pineconeIndex,
-       namespace: createdFile.id,
+        await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
+          pineconeIndex,
+          namespace: createdFile.id,
         })
-      
-      } catch ( ) {}
+
+        await db.file.update({
+          where: {
+            id: createdFile.id,
+          },
+          data: {
+            uploadStatus: "SUCCESS",
+          },
+        })
+      } catch (err) {
+        await db.file.update({
+          where: {
+            id: createdFile.id,
+          },
+          data: {
+            uploadStatus: "FAILED",
+          },
+        })
+      }
     }),
 } satisfies FileRouter
 
