@@ -26,7 +26,7 @@ const PdfFullscreen = ({ url }: PdfFullscreenProps) => {
         if (!v) setIsOpen(v)
       }}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger onClick={() => setIsOpen(true)} asChild>
         <Button variant="ghost" aria-label="fullscreen" className="gap-1.5">
           <Expand className="h-4 w-4" />
         </Button>
