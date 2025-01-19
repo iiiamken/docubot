@@ -4,6 +4,7 @@ import { createUploadthing, type FileRouter } from "uploadthing/next"
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { pinecone } from "@/app/lib/pinecode";
 import {OpenAIEmbeddings} from "@langchain/openai"
+import { PineconeStore } from "@langchain/pinecone";
 
 
 const f = createUploadthing()
@@ -52,7 +53,11 @@ export const ourFileRouter = {
         const embeddings = new OpenAIEmbeddings({
           openAIApiKey:process.env.OPENAI_API_KEY
         })
-
+await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
+       pineconeIndex,
+       namespace: createdFile.id,
+        })
+      
       } catch ( ) {}
     }),
 } satisfies FileRouter
