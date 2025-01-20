@@ -1,9 +1,11 @@
-import { openai } from "@/app/lib/openAI"
 import { pc } from "@/app/lib/pinecode"
 import { SendMessageValidator } from "@/app/lib/SendMessageValidator"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextRequest } from "next/server"
+import { streamText } from "ai"
+import { openai as openaiClient } from "@/app/lib/openai"
+import { openai } from "@ai-sdk/openai"
 
 export const POST = async (req: NextRequest) => {
   // endpoint for asking a question to a pdf file
@@ -42,7 +44,6 @@ export const POST = async (req: NextRequest) => {
   const model = "multilingual-e5-large"
 
   const query = [message]
-  console.log(query)
 
   const embedding = await pc.inference.embed(model, query, {
     inputType: "query",
@@ -54,8 +55,6 @@ export const POST = async (req: NextRequest) => {
     includeValues: false,
     includeMetadata: true,
   })
-
-  console.log("results", results)
 
   const prevMessages = await db.message.findMany({
     where: {
@@ -76,10 +75,41 @@ export const POST = async (req: NextRequest) => {
   // const response = await openai.chat.completions.create({
   //   messages: query,
   // })
-  const openaiResponse = await openai.chat.completions.create({
-    model: "gpt-4o",
-    stream: true,
-    temperature: 0,
+  // const openaiResponse = await openaiClient.chat.completions.create({
+  //   model: "gpt-4o",
+  //   stream: true,
+  //   temperature: 0,
+  //   messages: [
+  //     {
+  //       role: "system",
+  //       content:
+  //         "Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format.",
+  //     },
+  //     {
+  //       role: "user",
+  //       content: `Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format. \nIf you don't know the answer, just say that you don't know, don't try to make up an answer.
+
+  // \n----------------\n
+
+  // PREVIOUS CONVERSATION:
+  // ${formattedPrevMessages.map((message) => {
+  //   if (message.role === "user") return `User: ${message.content}\n`
+  //   return `Assistant: ${message.content}\n`
+  // })}
+
+  // \n----------------\n
+
+  // CONTEXT:
+  // ${results.matches.map((r) => r.metadata).join("\n\n")}
+
+  // USER INPUT: ${message}`,
+  //     },
+  //   ],
+  // })
+
+  const result = streamText({
+    model: openai("gpt-4o"),
+    system: "You are a helpful assistant.",
     messages: [
       {
         role: "system",
@@ -107,4 +137,6 @@ export const POST = async (req: NextRequest) => {
       },
     ],
   })
+
+  return result.toDataStreamResponse()
 }
