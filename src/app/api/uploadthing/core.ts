@@ -1,3 +1,4 @@
+import page from "@/app/dashboard/page"
 import { pc } from "@/app/lib/pinecode"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
@@ -42,21 +43,43 @@ export const ourFileRouter = {
         const loader = new PDFLoader(blob)
 
         const pageLevelDocs = await loader.load()
+        //added ids to pageLevelDocs
+        pageLevelDocs.forEach((doc, i) => (doc.id = `${i}`)) // Extract `pageContent`
 
+        const newPageLevelDocs = pageLevelDocs.map((doc) => ({
+          id: doc.id,
+          text: doc.pageContent,
+        }))
         const pagesAmount = pageLevelDocs.length
 
         //vectorize and indexing
 
-        // const pineconeIndex = pc.Index("docubot")
+        const pineconeIndex = pc.Index("docubot")
 
         // const embeddings = new OpenAIEmbeddings({
         //   openAIApiKey: process.env.OPENAI_API_KEY,
         // })
+        // const texts = newPageLevelDocs.map((doc) => doc.pageContent)
 
-        // await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
-        //   pineconeIndex,
-        //   namespace: createdFile.id,
-        // })
+        // const documentsEmbedding = await embeddings.embedDocuments(texts)
+
+        const model = "multilingual-e5-large"
+
+        const embeddings = await pc.inference.embed(
+          model,
+          newPageLevelDocs.map((d) => d.text),
+          { inputType: "passage", truncate: "END" }
+        )
+
+        const vectors = newPageLevelDocs.map((d, i) => ({
+          id: d.id!,
+          values: embeddings[i].values!,
+          metadata: { text: d.text },
+        }))
+
+        console.log("vectors)", vectors)
+
+        await pineconeIndex.namespace("test").upsert(vectors)
 
         await db.file.update({
           where: {
