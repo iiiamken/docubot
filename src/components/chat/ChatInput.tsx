@@ -45,7 +45,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                   addMessage()
                   textareaRef.current?.focus()
                 }}
-                aria-label="Send message"
+                aria-label="send message"
                 className="absolute bottom-1.5 right-[8px]"
               >
                 <Send className="h-4 w-4" />
