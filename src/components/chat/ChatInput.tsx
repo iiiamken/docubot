@@ -19,6 +19,8 @@ return (
           <div className="relative flex flex-col w-full flex-grow p-4">
             <div className="relative">
               <Textarea
+              onChange={handleInputChange}
+              value={message}
               onKeyDown={(e)=>{
                 if(e.key ==="enter" && !e.shiftKey){
                   e.preventDefault()
@@ -37,6 +39,12 @@ return (
               />
 
               <Button
+              disabled={isLoading || isDisabled}
+              type="submit"
+              onClick={()=>{
+                addMessage()
+                textAreaRef.current?.focus()
+              }}
                 aria-label="Send message"
                 className="absolute bottom-1.5 right-[8px]"
               >
