@@ -48,12 +48,14 @@ export const POST = async (req: NextRequest) => {
     inputType: "query",
   })
 
-  const queryResponse = await pineconeIndex.namespace(file.id).query({
-    topK: 3,
+  const results = await pineconeIndex.namespace(file.id).query({
+    topK: 4,
     vector: embedding[0].values!,
     includeValues: false,
     includeMetadata: true,
   })
+
+  console.log("results", results)
 
   const prevMessages = await db.message.findMany({
     where: {
@@ -78,7 +80,7 @@ export const POST = async (req: NextRequest) => {
     model: "gpt-4o",
     stream: true,
     temperature: 0,
-    message: [
+    messages: [
       {
         role: "system",
         content:
@@ -99,7 +101,7 @@ export const POST = async (req: NextRequest) => {
   \n----------------\n
   
   CONTEXT:
-  ${results.map((r) => r.pageContent).join("\n\n")}
+  ${results.matches.map((r) => r.metadata).join("\n\n")}
   
   USER INPUT: ${message}`,
       },
