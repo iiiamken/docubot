@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server"
 import { db } from "@/db"
 import { z } from "zod"
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query"
+import next from "next"
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
     //check if user exist
@@ -98,9 +99,11 @@ export const appRouter = router({
     .input(
       z.object({
         limit: z.number().min(1).max(100).nullish(),
+        cursor: z.string().nullish(),
+        fileId: z.string(),
       })
     )
-    .query((input, ctx) => {
+    .query(async ({ input, ctx }) => {
       const { userId } = ctx
       const { fileId, cursor } = input
       const limit = input?.limit ?? INFINITE_QUERY_LIMIT
@@ -111,7 +114,7 @@ export const appRouter = router({
 
       if (!file) throw new TRPCError({ code: "NOT_FOUND" })
 
-      const messages = db.message.findMany({
+      const messages = await db.message.findMany({
         take: limit + 1,
         where: { fileId },
         orderBy: { createdAt: "desc" },
@@ -123,6 +126,15 @@ export const appRouter = router({
           text: true,
         },
       })
+
+      // determine cursor logic
+      let nextCursor: typeof cursor | undefined = undefined
+      if (messages.length > limit) {
+        const nextItem = messages.pop()
+        nextCursor = nextItem?.id
+      }
+
+      return { messages, nextCursor }
     }),
 })
 
