@@ -1,10 +1,7 @@
-import page from "@/app/dashboard/page"
 import { pc } from "@/app/lib/pinecode"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"
-import { OpenAIEmbeddings } from "@langchain/openai"
-import { PineconeStore } from "@langchain/pinecone"
 import { createUploadthing, type FileRouter } from "uploadthing/next"
 
 const f = createUploadthing()
