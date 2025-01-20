@@ -47,16 +47,16 @@ export const ourFileRouter = {
 
         //vectorize and indexing
 
-        const pineconeIndex = pc.Index("docubot")
+        // const pineconeIndex = pc.Index("docubot")
 
-        const embeddings = new OpenAIEmbeddings({
-          openAIApiKey: process.env.OPENAI_API_KEY,
-        })
+        // const embeddings = new OpenAIEmbeddings({
+        //   openAIApiKey: process.env.OPENAI_API_KEY,
+        // })
 
-        await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
-          pineconeIndex,
-          namespace: createdFile.id,
-        })
+        // await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
+        //   pineconeIndex,
+        //   namespace: createdFile.id,
+        // })
 
         await db.file.update({
           where: {
