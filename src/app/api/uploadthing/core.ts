@@ -56,13 +56,6 @@ export const ourFileRouter = {
 
         const pineconeIndex = pc.Index("docubot3")
 
-        // const embeddings = new OpenAIEmbeddings({
-        //   openAIApiKey: process.env.OPENAI_API_KEY,
-        // })
-        // const texts = newPageLevelDocs.map((doc) => doc.pageContent)
-
-        // const documentsEmbedding = await embeddings.embedDocuments(texts)
-
         const model = "multilingual-e5-large"
 
         const embeddings = await pc.inference.embed(
@@ -79,9 +72,7 @@ export const ourFileRouter = {
 
         console.log("vectors)", vectors)
 
-        await pineconeIndex
-          .namespace(createdFile.name + "@id:" + createdFile.id)
-          .upsert(vectors)
+        await pineconeIndex.namespace(createdFile.id).upsert(vectors)
 
         await db.file.update({
           where: {

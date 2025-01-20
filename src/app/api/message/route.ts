@@ -1,3 +1,4 @@
+import { pc } from "@/app/lib/pinecode"
 import { SendMessageValidator } from "@/app/lib/SendMessageValidator"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
@@ -34,4 +35,34 @@ export const POST = async (req: NextRequest) => {
       fileId,
     },
   })
+
+  //1. vectorize message
+  const pineconeIndex = pc.Index("docubot3")
+  const model = "multilingual-e5-large"
+
+  const query = [message]
+  console.log(query)
+
+  const embedding = await pc.inference.embed(model, query, {
+    inputType: "query",
+  })
+
+  const queryResponse = await pineconeIndex.namespace(file.id).query({
+    topK: 3,
+    vector: embedding[0].values!,
+    includeValues: false,
+    includeMetadata: true,
+  })
+
+  const prevMessages = await db.message.findMany({
+    where: {
+      fileId,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+    take: 6,
+  })
+
+  //2. send to openAI to get response
 }
