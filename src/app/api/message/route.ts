@@ -4,7 +4,6 @@ import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextRequest } from "next/server"
 import { streamText } from "ai"
-import { openaiClient } from "@/app/lib/openai"
 import { openai } from "@ai-sdk/openai"
 
 export const POST = async (req: NextRequest) => {
