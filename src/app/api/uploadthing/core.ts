@@ -53,25 +53,19 @@ export const ourFileRouter = {
         const pagesAmount = pageLevelDocs.length
 
         //vectorize and indexing
-
         const pineconeIndex = pc.Index("docubot3")
 
         const model = "multilingual-e5-large"
-
         const embeddings = await pc.inference.embed(
           model,
           newPageLevelDocs.map((d) => d.text),
           { inputType: "passage", truncate: "END" }
         )
-
         const vectors = newPageLevelDocs.map((d, i) => ({
           id: d.id!,
           values: embeddings[i].values!,
           metadata: { text: d.text },
         }))
-
-        console.log("vectors)", vectors)
-
         await pineconeIndex.namespace(createdFile.id).upsert(vectors)
 
         await db.file.update({

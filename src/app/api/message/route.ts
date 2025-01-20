@@ -1,3 +1,4 @@
+import { openai } from "@/app/lib/openAI"
 import { pc } from "@/app/lib/pinecode"
 import { SendMessageValidator } from "@/app/lib/SendMessageValidator"
 import { db } from "@/db"
@@ -65,4 +66,13 @@ export const POST = async (req: NextRequest) => {
   })
 
   //2. send to openAI to get response
+  // const response = await openai.chat.completions.create({
+  //   messages: query,
+  // })
+  const openaiResponse = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [{ role: "user", content: "Say this is a test" }],
+    stream: true,
+    temperature: 0,
+  })
 }
