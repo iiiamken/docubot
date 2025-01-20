@@ -54,7 +54,7 @@ export const ourFileRouter = {
 
         //vectorize and indexing
 
-        const pineconeIndex = pc.Index("docubot")
+        const pineconeIndex = pc.Index("docubot3")
 
         // const embeddings = new OpenAIEmbeddings({
         //   openAIApiKey: process.env.OPENAI_API_KEY,
