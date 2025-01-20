@@ -79,7 +79,9 @@ export const ourFileRouter = {
 
         console.log("vectors)", vectors)
 
-        await pineconeIndex.namespace("test").upsert(vectors)
+        await pineconeIndex
+          .namespace(createdFile.name + "@id:" + createdFile.id)
+          .upsert(vectors)
 
         await db.file.update({
           where: {
