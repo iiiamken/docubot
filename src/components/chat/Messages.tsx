@@ -7,15 +7,17 @@ interface MessagesProps {
 }
 
 const Messages = ({ fileId }: MessagesProps) => {
-  trpc.getFileMessages.useInfiniteQuery(
-    {
-      fileId,
-      limit: INFINITE_QUERY_LIMIT,
-    },
-    {
-      getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    }
-  )
+  const { data, isLoading, fetchNextPage } =
+    trpc.getFileMessages.useInfiniteQuery(
+      {
+        fileId,
+        limit: INFINITE_QUERY_LIMIT,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage?.nextCursor,
+      }
+    )
+  const messages = data?.pages.flatMap((page) => page.messages)
 
   const loadingMessage = {
     createdAt: new Date().toISOString(),
@@ -27,6 +29,11 @@ const Messages = ({ fileId }: MessagesProps) => {
       </span>
     ),
   }
+
+  const combinedMessages = [
+    ...(true ? [loadingMessage] : []),
+    ...(messages ?? []),
+  ]
   return (
     <div className="flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"></div>
   )
