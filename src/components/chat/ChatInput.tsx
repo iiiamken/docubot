@@ -11,7 +11,7 @@ interface ChatInputProps {
 const ChatInput = ({ isDisabled }: ChatInputProps) => {
   const { addMessage, handleInputChange, isLoading, message } =
     useContext(ChatContext)
-  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   return (
     <div className="absolute bottom-0 left-0 w-full">
       <div className="mx-2 flex flex-row gap-3 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">
@@ -19,15 +19,16 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
           <div className="relative flex flex-col w-full flex-grow p-4">
             <div className="relative">
               <Textarea
+                ref={textareaRef}
                 onChange={handleInputChange}
                 value={message}
                 onKeyDown={(e) => {
-                  if (e.key === "enter" && !e.shiftKey) {
+                  if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault()
 
                     addMessage()
 
-                    textAreaRef.current?.focus()
+                    textareaRef.current?.focus()
                   }
                 }}
                 rows={1}
@@ -42,7 +43,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                 type="submit"
                 onClick={() => {
                   addMessage()
-                  textAreaRef.current?.focus()
+                  textareaRef.current?.focus()
                 }}
                 aria-label="Send message"
                 className="absolute bottom-1.5 right-[8px]"
