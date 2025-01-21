@@ -2,7 +2,6 @@ import { trpc } from "@/app/_trpc/client"
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query"
 import { useToast } from "@/hooks/use-toast"
 import { useMutation } from "@tanstack/react-query"
-import { X } from "lucide-react"
 import { ReactNode, createContext, useRef, useState } from "react"
 
 type StreamResponse = {
