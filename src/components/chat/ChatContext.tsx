@@ -1,6 +1,8 @@
 import { trpc } from "@/app/_trpc/client"
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query"
+import { useToast } from "@/hooks/use-toast"
 import { useMutation } from "@tanstack/react-query"
+import { X } from "lucide-react"
 import { ReactNode, createContext, useRef, useState } from "react"
 
 type StreamResponse = {
@@ -30,6 +32,8 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
 
   const backupMessage = useRef("")
 
+  const { toast } = useToast()
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value)
   }
@@ -50,6 +54,81 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
 
       return response.body
     },
+    onSuccess: async (stream) => {
+      setIsLoading(false)
+      if (!stream) {
+        return toast({
+          title: "There was a problem sending this message",
+          description: "Please refresh this page and try again",
+          variant: "destructive",
+        })
+      }
+
+      const reader = stream.getReader()
+      const decoder = new TextDecoder()
+      let done = false
+
+      //accumulated response
+      let accResponse = ""
+
+      //reading the stream
+      while (!done) {
+        const { value, done: doneReading } = await reader?.read()
+        done = doneReading
+        const chunkValue = decoder.decode(value)
+        accResponse += chunkValue
+
+        //append value into our message
+        utils.getFileMessages.setInfiniteData(
+          { fileId, limit: INFINITE_QUERY_LIMIT },
+          (old) => {
+            if (!old) return { pages: [], pageParams: [] }
+
+            let isAiResponseCreated = old.pages.some((page) =>
+              page.messages.some((message) => message.id === "ai-response")
+            )
+
+            let updatedPages = old.pages.map((page) => {
+              if (page === old.pages[0]) {
+                let updatedMessages
+
+                if (!isAiResponseCreated) {
+                  updatedMessages = [
+                    {
+                      createdAt: new Date().toISOString(),
+                      id: "ai-response",
+                      text: accResponse,
+                      isUserMessage: false,
+                    },
+                    ...page.messages,
+                  ]
+                } else {
+                  updatedMessages = page.messages.map((message) => {
+                    if (message.id === "ai-response") {
+                      return {
+                        ...message,
+                        text: accResponse,
+                      }
+                    }
+                    return message
+                  })
+                }
+
+                return {
+                  ...page,
+                  messages: updatedMessages,
+                }
+              }
+
+              return page
+            })
+
+            return { ...old, pages: updatedPages }
+          }
+        )
+      }
+    },
+
     onMutate: async ({ message }) => {
       backupMessage.current = message
       setMessage("")
