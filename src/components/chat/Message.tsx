@@ -2,6 +2,7 @@ import { cn } from "@/app/lib/utils"
 import { ExtendedMessages } from "@/types/message"
 import { Icons } from "../Icons"
 import Markdown from "react-markdown"
+import { format } from "date-fns"
 
 interface MessageProps {
   message: ExtendedMessages
@@ -55,6 +56,17 @@ const Message = ({ message, isNextMessageSamePerson }: MessageProps) => {
           ) : (
             message.text
           )}
+
+          {message.id !== "loading-message" ? (
+            <div
+              className={cn("text-xs select-none mt-2 w-full text-right", {
+                "text-zinc-500": !message.isUserMessage,
+                "text-blue-300": message.isUserMessage,
+              })}
+            >
+              {format(new Date(message.createdAt), "HH:mm")}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
