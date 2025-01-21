@@ -1,6 +1,7 @@
 import { cn } from "@/app/lib/utils"
 import { ExtendedMessages } from "@/types/message"
-import { Icons } from "../icons"
+import { Icons } from "../Icons"
+import Markdown from "react-markdown"
 
 interface MessageProps {
   message: ExtendedMessages
@@ -44,7 +45,17 @@ const Message = ({ message, isNextMessageSamePerson }: MessageProps) => {
             "rounded-bl-none":
               !isNextMessageSamePerson && !message.isUserMessage,
           })}
-        ></div>
+        >
+          {typeof message.text === "string" ? (
+            <Markdown
+              className={cn("prose", { "text-zinc-50": message.isUserMessage })}
+            >
+              {message.text}
+            </Markdown>
+          ) : (
+            message.text
+          )}
+        </div>
       </div>
     </div>
   )
