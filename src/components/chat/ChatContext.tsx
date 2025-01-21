@@ -50,7 +50,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
 
       return response.body
     },
-    onMutate: async () => {
+    onMutate: async ({ message }) => {
       backupMessage.current = message
       setMessage("")
 
@@ -63,14 +63,11 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       utils.getFileMessages.setInfiniteData(
         { fileId, INFINITE_QUERY_LIMIT },
         (old) => {
-          //handling edge case of no old data exist
           if (!old) {
             return { pages: [], pageParams: [] }
           }
-          //3.1 cloning old page
           let newPages = [...old.pages]
           let latestPage = newPages[0]!
-          //3.2 mutate pages messages
           latestPage.messages = [
             {
               createdAt: new Date().toISOString(),
@@ -80,13 +77,29 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
             },
             ...latestPage.messages,
           ]
-          //updating the last page to our new page with injected message
           newPages[0] = latestPage
 
-          //overwrite the data in our api
           return { ...old, pages: newPages }
         }
       )
+
+      setIsLoading(true)
+      return {
+        previousMessages:
+          previousMessages?.pages.flatMap((page) => page.messages) ?? [],
+      }
+    },
+    onError: (_, __, context) => {
+      setMessage(backupMessage.current)
+      utils.getFileMessages.setData(
+        { fileId },
+        { messages: context?.previousMessages ?? [] }
+      )
+    },
+    onSettled: async () => {
+      setIsLoading(false)
+
+      await utils.getFileMessages.invalidate({ fileId })
     },
   })
 
