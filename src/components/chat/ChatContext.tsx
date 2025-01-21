@@ -61,7 +61,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       const previousMessages = utils.getFileMessages.getInfiniteData()
       //3. optimistically input data
       utils.getFileMessages.setInfiniteData(
-        { fileId, INFINITE_QUERY_LIMIT },
+        { fileId, limit: INFINITE_QUERY_LIMIT },
         (old) => {
           if (!old) {
             return { pages: [], pageParams: [] }
