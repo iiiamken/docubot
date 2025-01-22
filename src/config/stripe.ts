@@ -20,7 +20,7 @@ export const PLANS = [
     price: {
       amount: 10,
       priceId: {
-        test: "",
+        test: "price_1Qk82nFvykRbROwOwRFPAIIZ",
         production: "",
       },
     },
