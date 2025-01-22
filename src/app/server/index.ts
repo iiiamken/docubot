@@ -135,6 +135,7 @@ export const appRouter = router({
 
       return { messages, nextCursor }
     }),
+    getStripeSession: 
 })
 
 export type AppRouter = typeof appRouter
