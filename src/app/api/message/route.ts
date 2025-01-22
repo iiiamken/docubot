@@ -55,7 +55,6 @@ export const POST = async (req: NextRequest) => {
     includeMetadata: true,
   })
 
-  console.log("results", results.matches[0].metadata)
   const prevMessages = await db.message.findMany({
     where: {
       fileId,
@@ -115,7 +114,6 @@ export const POST = async (req: NextRequest) => {
       if (content !== undefined) {
         completeMessage += content
       }
-      console.log(completeMessage)
 
       yield encoder.encode(content!)
     }

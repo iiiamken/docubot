@@ -144,8 +144,8 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
           if (!old) {
             return { pages: [], pageParams: [] }
           }
-          let newPages = [...old.pages]
-          let latestPage = newPages[0]!
+          const newPages = [...old.pages]
+          const latestPage = newPages[0]!
           latestPage.messages = [
             {
               createdAt: new Date().toISOString(),
