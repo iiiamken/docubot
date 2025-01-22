@@ -4,6 +4,7 @@ import { SendMessageValidator } from "@/app/lib/SendMessageValidator"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextRequest } from "next/server"
+import { useIntersection } from "@mantine/hooks"
 
 export const POST = async (req: NextRequest) => {
   // endpoint for asking a question to a pdf file
@@ -101,22 +102,21 @@ export const POST = async (req: NextRequest) => {
     ],
   })
 
+  //create stream of responses
+
   let completeMessage = ""
 
   const encoder = new TextEncoder()
 
   async function* makeIterator() {
-    // first send the OAI chunks
     for await (const chunk of response) {
-      const delta = chunk.choices[0].delta.content
-      // accumulate the message
-      if (delta !== undefined) {
-        completeMessage += delta
+      const content = chunk.choices[0].delta.content
+      if (content !== undefined) {
+        completeMessage += content
       }
       console.log(completeMessage)
 
-      // yield the delta chunk
-      yield encoder.encode(delta!)
+      yield encoder.encode(content!)
     }
   }
 
@@ -128,7 +128,6 @@ export const POST = async (req: NextRequest) => {
         const { value, done } = await iterator.next()
 
         if (done) {
-          // Call your function with the completeMessage when the stream is done
           await db.message.create({
             data: {
               text: completeMessage,
