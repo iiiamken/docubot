@@ -55,6 +55,7 @@ export const POST = async (req: NextRequest) => {
     includeMetadata: true,
   })
 
+  console.log("results", results.matches[0].metadata)
   const prevMessages = await db.message.findMany({
     where: {
       fileId,
@@ -95,7 +96,7 @@ export const POST = async (req: NextRequest) => {
       \n----------------\n
 
       CONTEXT:
-      ${results.matches.map((r) => r.metadata).join("\n\n")}
+      ${results.matches.map((r) => r.metadata?.text).join("\n\n")}
 
       USER INPUT: ${message}`,
       },

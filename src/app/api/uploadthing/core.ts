@@ -65,6 +65,7 @@ export const ourFileRouter = {
         }))
         await pineconeIndex.namespace(createdFile.id).upsert(vectors)
 
+        //update loading status
         await db.file.update({
           where: {
             id: createdFile.id,
