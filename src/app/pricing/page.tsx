@@ -49,6 +49,7 @@ const pricingItems = [
       {
         text: "25 pages per PDF",
         footnote: "The maximum amount of pages per PDF-file.",
+        negative: false,
       },
       {
         text: "16MB file size limit",
