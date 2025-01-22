@@ -103,56 +103,47 @@ export const POST = async (req: NextRequest) => {
 
   let completeMessage = ""
 
-  // for await (const part of response) {
-  //   const content = part.choices[0]?.delta?.content || ""
-  //   console.log("content", content)
-
-  //   completeResponse += content // Accumulate the chunks
-  // }
-
-  // console.log(completeResponse)
-  // await db.message.create({
-  //   data: {
-  //     text: completeResponse,
-  //     isUserMessage: false,
-  //     fileId,
-  //     userId,
-  //   },
-  // })
-
   const encoder = new TextEncoder()
 
   async function* makeIterator() {
     // first send the OAI chunks
     for await (const chunk of response) {
-      const delta = chunk.choices[0].delta.content as string
-      // you can do any additional post processing / transformation step here, like
-      completeMessage += delta
+      const delta = chunk.choices[0].delta.content
+      // accumulate the message
+      if (delta !== undefined) {
+        completeMessage += delta
+      }
       console.log(completeMessage)
 
-      // you can yield any string by `yield encoder.encode(str)`, including JSON:
-      yield encoder.encode(JSON.stringify(delta))
+      // yield the delta chunk
+      yield encoder.encode(delta!)
     }
+  }
 
-    // optionally, some additional info can be sent here, like
-    // yield encoder.encode(JSON.stringify({ thread_id: thread._id }))
+  function iteratorToStream(
+    iterator: AsyncGenerator<Uint8Array<ArrayBufferLike>, void, unknown>
+  ) {
+    return new ReadableStream({
+      async pull(controller) {
+        const { value, done } = await iterator.next()
+
+        if (done) {
+          // Call your function with the completeMessage when the stream is done
+          await db.message.create({
+            data: {
+              text: completeMessage,
+              isUserMessage: false,
+              fileId,
+              userId,
+            },
+          })
+          controller.close()
+        } else {
+          controller.enqueue(value)
+        }
+      },
+    })
   }
 
   return new Response(iteratorToStream(makeIterator()))
-}
-
-function iteratorToStream(
-  iterator: AsyncGenerator<Uint8Array<ArrayBufferLike>, void, unknown>
-) {
-  return new ReadableStream({
-    async pull(controller) {
-      const { value, done } = await iterator.next()
-
-      if (done) {
-        controller.close()
-      } else {
-        controller.enqueue(value)
-      }
-    },
-  })
 }
