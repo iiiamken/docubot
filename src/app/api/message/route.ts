@@ -3,9 +3,9 @@ import { pc } from "@/app/lib/pinecode"
 import { SendMessageValidator } from "@/app/lib/SendMessageValidator"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest) => {
   // endpoint for asking a question to a pdf file
 
   const body = await req.json()
@@ -70,7 +70,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   }))
 
   //2. send to openAI to get response
-  const stream = await openaiClient.chat.completions.create({
+  const response = await openaiClient.chat.completions.create({
     model: "gpt-4",
     stream: true,
     messages: [
@@ -88,7 +88,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       PREVIOUS CONVERSATION:
       ${formattedPrevMessages.map((message) => {
         if (message.role === "user") return `User: ${message.content}\n`
-        return `Assistant: ${message.content}\n`
+        return `Docubot: ${message.content}\n`
       })}
 
       \n----------------\n
@@ -101,23 +101,58 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     ],
   })
 
-  let completeResponse = ""
-  for await (const part of stream) {
-    const content = part.choices[0]?.delta?.content || ""
-    console.log("content", content)
-    completeResponse += content // Accumulate the chunks
-  }
-  // for await (const chunk of stream) {
-  //   const content = process.stdout.write(chunk.choices[0]?.delta?.content || "")
-  //   completeResponse += content
+  let completeMessage = ""
+
+  // for await (const part of response) {
+  //   const content = part.choices[0]?.delta?.content || ""
+  //   console.log("content", content)
+
+  //   completeResponse += content // Accumulate the chunks
   // }
-  console.log(completeResponse)
-  await db.message.create({
-    data: {
-      text: completeResponse,
-      isUserMessage: false,
-      fileId,
-      userId,
+
+  // console.log(completeResponse)
+  // await db.message.create({
+  //   data: {
+  //     text: completeResponse,
+  //     isUserMessage: false,
+  //     fileId,
+  //     userId,
+  //   },
+  // })
+
+  const encoder = new TextEncoder()
+
+  async function* makeIterator() {
+    // first send the OAI chunks
+    for await (const chunk of response) {
+      const delta = chunk.choices[0].delta.content as string
+      // you can do any additional post processing / transformation step here, like
+      completeMessage += delta
+      console.log(completeMessage)
+
+      // you can yield any string by `yield encoder.encode(str)`, including JSON:
+      yield encoder.encode(JSON.stringify(delta))
+    }
+
+    // optionally, some additional info can be sent here, like
+    // yield encoder.encode(JSON.stringify({ thread_id: thread._id }))
+  }
+
+  return new Response(iteratorToStream(makeIterator()))
+}
+
+function iteratorToStream(
+  iterator: AsyncGenerator<Uint8Array<ArrayBufferLike>, void, unknown>
+) {
+  return new ReadableStream({
+    async pull(controller) {
+      const { value, done } = await iterator.next()
+
+      if (done) {
+        controller.close()
+      } else {
+        controller.enqueue(value)
+      }
     },
   })
 }
