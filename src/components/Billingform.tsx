@@ -14,27 +14,30 @@ import { Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { useToast } from "@/hooks/use-toast"
 import { getUserSubscriptionPlan } from "@/app/lib/stripe"
+import { useState } from "react"
 
 interface BillingFormProps {
   subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>
 }
 
 const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { toast } = useToast()
 
-  const { mutate: createStripeSession, isLoading } =
-    trpc.createStripeSession.useMutation({
-      onSuccess: ({ url }) => {
-        if (url) window.location.href = url
-        if (!url) {
-          toast({
-            title: "There was a problem...",
-            description: "Please try again in a moment",
-            variant: "destructive",
-          })
-        }
-      },
-    })
+  const { mutate: createStripeSession } = trpc.createStripeSession.useMutation({
+    onSuccess: ({ url }) => {
+      if (url) window.location.href = url
+      if (!url) {
+        toast({
+          title: "There was a problem...",
+          description: "Please try again in a moment",
+          variant: "destructive",
+        })
+      }
+      setIsLoading(false)
+    },
+    onMutate: () => setIsLoading(true),
+  })
 
   return (
     <MaxWidthWrapper className="max-w-5xl">
