@@ -21,8 +21,8 @@ interface BillingFormProps {
 }
 
 const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { mutate: createStripeSession } = trpc.createStripeSession.useMutation({
     onSuccess: ({ url }) => {
@@ -52,7 +52,8 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
           <CardHeader>
             <CardTitle>Subscription Plan</CardTitle>
             <CardDescription>
-              You are currently on the <strong>{subscriptionPlan.name}</strong>{" "}
+              You are currently on the{" "}
+              <strong>{subscriptionPlan.isSubscribed.valueOf.name}</strong>{" "}
               plan.
             </CardDescription>
           </CardHeader>

@@ -11,6 +11,7 @@ import { cn } from "../lib/utils"
 import { ArrowRight, Check, HelpCircle, Minus } from "lucide-react"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
+import UpgradeButton from "@/components/UpgradeButton"
 
 const pricingItems = [
   {
