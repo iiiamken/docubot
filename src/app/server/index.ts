@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server"
 import { db } from "@/db"
 import { z } from "zod"
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query"
+import { absoluteUrl } from "../lib/utils"
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
     //check if user exist
@@ -135,7 +136,12 @@ export const appRouter = router({
 
       return { messages, nextCursor }
     }),
-    getStripeSession: 
+  getStripeSession: privateProcedure.mutation(({ ctx }) => {
+    const { userId } = ctx
+
+    const billingUrl = absoluteUrl("dashboard/billing")
+    if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" })
+  }),
 })
 
 export type AppRouter = typeof appRouter
