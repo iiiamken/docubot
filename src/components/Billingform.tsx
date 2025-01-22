@@ -1,8 +1,6 @@
 "use client"
 
 import { trpc } from "@/app/_trpc/client"
-import { getUserSubscriptionPlan } from "@/app/lib/stripe"
-import { useToast } from "@/hooks/use-toast"
 import MaxWidthWrapper from "./MaxWidthWrapper"
 import {
   Card,
@@ -14,13 +12,16 @@ import {
 import { Button } from "./ui/button"
 import { Loader2 } from "lucide-react"
 import { format } from "date-fns"
+import { useToast } from "@/hooks/use-toast"
+import { getUserSubscriptionPlan } from "@/app/lib/stripe"
 
-interface BillingformProps {
+interface BillingFormProps {
   subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>
 }
 
-const Billingform = ({ subscriptionPlan }: BillingformProps) => {
+const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
   const { toast } = useToast()
+
   const { mutate: createStripeSession, isLoading } =
     trpc.createStripeSession.useMutation({
       onSuccess: ({ url }) => {
@@ -34,8 +35,9 @@ const Billingform = ({ subscriptionPlan }: BillingformProps) => {
         }
       },
     })
+
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className="max-w-5xl">
       <form
         className="mt-12"
         onSubmit={(e) => {
@@ -47,7 +49,8 @@ const Billingform = ({ subscriptionPlan }: BillingformProps) => {
           <CardHeader>
             <CardTitle>Subscription Plan</CardTitle>
             <CardDescription>
-              You are on the <strong>{subscriptionPlan.name}</strong> plan
+              You are currently on the <strong>{subscriptionPlan.name}</strong>{" "}
+              plan.
             </CardDescription>
           </CardHeader>
 
@@ -77,4 +80,4 @@ const Billingform = ({ subscriptionPlan }: BillingformProps) => {
   )
 }
 
-export default Billingform
+export default BillingForm
