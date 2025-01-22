@@ -39,6 +39,8 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
     onMutate: () => setIsLoading(true),
   })
 
+  console.log(subscriptionPlan)
+
   return (
     <MaxWidthWrapper className="max-w-5xl">
       <form
