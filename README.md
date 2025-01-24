@@ -17,11 +17,12 @@ Dokubot is a Fullstack Typescript SaaS project using Next.js 15 framework.
 - [Features](#features)
 - [Usage](#usage)
 - [Testing](#testing)
-- [Tech stack](#license)
+- [Tech stack](#techstack)
+- [Database structure](#databaseStructure)
 
 ## Features
 
-- Upload a Pdf-document to be able to ask or discuss anything about the contents.
+- Upload a Pdf-document to generate an AI robot you can ask or discuss anything about the contents.
 
 - Documents and conversations will be stored and linked to user account for future use.
 
@@ -60,10 +61,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - Settings for Stripe and amount messages rendered ( Infinite query limit ) in chatbox in config folder.
 
-#### - Testing
+## - Testing
+
+- To run individial test file add route to file:
+
+```bash
+npx playwright test /testFile.test.ts
+```
 
 - To run tests headless:
-  $npx playwright test
 
 ```bash
 npx playwright test
