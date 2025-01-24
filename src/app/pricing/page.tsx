@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/tooltip"
 import { PLANS } from "@/config/stripe"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { cn } from "../lib/utils"
+import { cn } from "../../lib/utils"
 import { ArrowRight, Check, HelpCircle, Minus } from "lucide-react"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"

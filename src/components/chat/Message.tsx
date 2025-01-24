@@ -2,7 +2,7 @@ import { Icons } from "../Icons"
 import ReactMarkdown from "react-markdown"
 import { format } from "date-fns"
 import { forwardRef } from "react"
-import { cn } from "@/app/lib/utils"
+import { cn } from "@/lib/utils"
 import { ExtendedMessages } from "@/types/message"
 
 interface MessageProps {

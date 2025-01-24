@@ -25,7 +25,7 @@ import {
 import SimpleBar from "simplebar-react"
 import PdfFullscreen from "./PdfFullscreen"
 import { useToast } from "@/hooks/use-toast"
-import { cn } from "@/app/lib/utils"
+import { cn } from "@/lib/utils"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",

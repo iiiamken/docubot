@@ -1,4 +1,4 @@
-import { pc } from "@/app/lib/pinecode"
+import { pc } from "@/lib/pinecode"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"

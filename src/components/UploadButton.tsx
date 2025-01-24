@@ -1,6 +1,6 @@
 "use client"
 import { trpc } from "@/app/_trpc/client"
-import { useUploadThing } from "@/app/lib/uploadthing"
+import { useUploadThing } from "@/lib/uploadthing"
 import { useToast } from "@/hooks/use-toast"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import { Cloud, File, Loader2 } from "lucide-react"

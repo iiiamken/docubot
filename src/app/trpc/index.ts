@@ -4,8 +4,8 @@ import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { TRPCError } from "@trpc/server"
 import { z } from "zod"
-import { getUserSubscriptionPlan, stripe } from "../lib/stripe"
-import { absoluteUrl } from "../lib/utils"
+import { getUserSubscriptionPlan, stripe } from "../../lib/stripe"
+import { absoluteUrl } from "../../lib/utils"
 import { privateProcedure, publicProcedure, router } from "./trpc"
 
 export const appRouter = router({

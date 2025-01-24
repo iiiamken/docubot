@@ -13,7 +13,7 @@ import { Button } from "./ui/button"
 import { Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { useToast } from "@/hooks/use-toast"
-import { getUserSubscriptionPlan } from "@/app/lib/stripe"
+import { getUserSubscriptionPlan } from "@/lib/stripe"
 import { useState } from "react"
 
 interface BillingFormProps {
