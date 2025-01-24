@@ -4,7 +4,6 @@ import { SendMessageValidator } from "@/app/lib/SendMessageValidator"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextRequest } from "next/server"
-import { useIntersection } from "@mantine/hooks"
 
 export const POST = async (req: NextRequest) => {
   // endpoint for asking a question to a pdf file
