@@ -28,7 +28,7 @@ export type subscriptionPlanType = {
 }
 
 export async function getUserSubscriptionPlan(): Promise<subscriptionPlanType> {
-  const { getUser } = getKindeServerSession()
+  const { getUser } = await getKindeServerSession()
   const user = await getUser()
 
   if (!user.id) {
