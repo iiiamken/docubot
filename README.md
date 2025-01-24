@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dokubot
+
+Turn your Pdf-document into a robot and ask me any question about the contents!
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Features](#features)
+- [Usage](#usage)
+- [Testing](#testing)
+- [Tech stack](#license)
 
 ## Getting Started
 
-First, run the development server:
+1. Login by creating an account
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. Upload a Pdf-file
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Start chatting!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Upload a Pdf-document to be able to ask or discuss anything about the contents.
 
-## Learn More
+- Documents will be stored and linked to user accounts for future use and safety.
 
-To learn more about Next.js, take a look at the following resources:
+- Fast and efficient payments.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[ Examples of how to use the project, including any command-line arguments or configuration options ]
 
-## Deploy on Vercel
+#### - Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- To run tests headless:
+  $npx playwright test
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- To run tests headed:
+  $npx playwright test --headed
+
+- To run tests in UI-Mode for ex. time travel debugging, watch mode and more:
+  $npx playwright test --ui
+
+- To show HTML-reporter:
+  $npx playwright test show-report
+
+- To open Playwright Inspector:
+  $npx playwright test --debug
+
+## Tech stack
+
+- NextJS
+- TypeScript
+- Tailwind
+- Shadcn UI
+- Playwright
+- tRPC
+- Prisma
+- PostgreSQL
+- Uploadthing
+- Pinecone
+- Open AI
+- Langchain
+- Stripe
