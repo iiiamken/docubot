@@ -14,7 +14,18 @@ export async function getUserSubscriptionPlan() {
 
   if (!user.id) {
     return {
-      ...PLANS[0],
+      name: "Free",
+      slug: "free",
+      qouta: 10,
+      pagesPerPdf: 5,
+      price: {
+        amount: 0,
+        priceIds: {
+          test: "",
+          production: "",
+        },
+      },
+
       isSubscribed: false,
       isCanceled: false,
       stripeCurrentPeriodEnd: null,
