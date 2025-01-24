@@ -2,50 +2,96 @@
 
 Turn your Pdf-document into a robot and ask me any question about the contents!
 
+Dokubot is a Fullstack Typescript SaaS project using Next.js 15 framework.
+
+1. Login
+
+2. Upload a Pdf-file
+
+3. Start chatting
+
+4. Upgrade plan for more features
+
 ## Table of Contents
 
-- [Getting Started](#getting-started)
 - [Features](#features)
 - [Usage](#usage)
 - [Testing](#testing)
 - [Tech stack](#license)
 
-## Getting Started
-
-1. Login by creating an account
-
-2. Upload a Pdf-file
-
-3. Start chatting!
-
 ## Features
 
 - Upload a Pdf-document to be able to ask or discuss anything about the contents.
 
-- Documents will be stored and linked to user accounts for future use and safety.
+- Documents and conversations will be stored and linked to user account for future use.
 
-- Fast and efficient payments.
+- Fast, secure and efficient payments using Stripe payments.
 
 ## Usage
 
-[ Examples of how to use the project, including any command-line arguments or configuration options ]
+- Start by install packages:
+
+```
+npm install
+```
+
+- Setup services and .env file.
+
+1. Setup Kinde and copy enviroment variables to .env
+2. Setup Uploadthing and set UPLOADTHING_API_KEY in .env
+3. Setup Open AI and set OPENAI_API_KEY in .env
+4. Setup Pinecone and set PINECONE_API_KEY in .env
+5. Setup Stripe and set STIPE_SECRET_KEY in .env
+6. Setup database, ex. PostgrSQL and set DATABASE_URL in .env
+
+- To start project in a local server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+- Settings for Stripe and amount messages rendered ( Infinite query limit ) in chatbox in config folder.
 
 #### - Testing
 
 - To run tests headless:
   $npx playwright test
 
+```bash
+npx playwright test
+```
+
 - To run tests headed:
-  $npx playwright test --headed
+
+```bash
+npx playwright test --headed
+```
 
 - To run tests in UI-Mode for ex. time travel debugging, watch mode and more:
-  $npx playwright test --ui
+
+```bash
+npx playwright test --ui
+```
 
 - To show HTML-reporter:
-  $npx playwright test show-report
+
+```bash
+npx playwright test show-report
+```
 
 - To open Playwright Inspector:
-  $npx playwright test --debug
+
+```bash
+npx playwright test --debug
+```
 
 ## Tech stack
 
@@ -62,3 +108,40 @@ Turn your Pdf-document into a robot and ask me any question about the contents!
 - Open AI
 - Langchain
 - Stripe
+
+## Database structure
+
+```mermaid
+erDiagram
+    USER {
+        string id
+        string email
+        string stripeCustomerId
+        string stripeSubscriptionId
+        string stripePriceId
+        dateTime stripeCurrentPeriodEnd
+    }
+
+    FILE {
+        string id
+        string name
+        string uploadStatus
+        string url
+        string key
+        dateTime createdAt
+        dateTime updatedAt
+    }
+
+    MESSAGE {
+        string id
+        string text
+        boolean isUserMessage
+        dateTime createdAt
+        dateTime updatedAt
+    }
+
+    USER ||--o{ FILE: ""
+    USER ||--o{ MESSAGE: ""
+    FILE ||--o{ MESSAGE : ""
+
+```
