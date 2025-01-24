@@ -1,4 +1,4 @@
-import { AppRouter } from "@/app/server"
+import { AppRouter } from "@/app/trpc"
 import { inferRouterOutputs } from "@trpc/server"
 import { JSX } from "react"
 
