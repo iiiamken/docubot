@@ -13,7 +13,7 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       const { getUser } = getKindeServerSession()
       const user = await getUser()
 
@@ -47,7 +47,7 @@ export const ourFileRouter = {
           id: doc.id,
           text: doc.pageContent,
         }))
-        const pagesAmount = pageLevelDocs.length
+        // const pagesAmount = pageLevelDocs.length
 
         //vectorize and indexing
         const pineconeIndex = pc.Index("docubot3")
@@ -75,6 +75,7 @@ export const ourFileRouter = {
           },
         })
       } catch (err) {
+        console.log(err)
         await db.file.update({
           where: {
             id: createdFile.id,
