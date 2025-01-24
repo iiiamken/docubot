@@ -1,7 +1,9 @@
+//
 "use client"
+
 import { Loader2 } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Suspense, useEffect } from "react"
+import { useEffect } from "react"
 import { trpc } from "../_trpc/client"
 
 const Page = () => {
@@ -32,8 +34,9 @@ const Page = () => {
     }
   }, [isError, error, router])
 
-  return (
-    <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin" />}>
+  // Render loading state explicitly
+  if (!data) {
+    return (
       <div className="w-full mt-24 flex justify-center">
         <div className="flex flex-col items-center gap-2">
           <Loader2 className="h-8 w-8 animate-spin text-zinc-800" />
@@ -41,8 +44,10 @@ const Page = () => {
           <p>You will be redirected automatically when completed.</p>
         </div>
       </div>
-    </Suspense>
-  )
+    )
+  }
+
+  return null // No need to render anything since navigation happens in `useEffect`
 }
 
 export default Page
