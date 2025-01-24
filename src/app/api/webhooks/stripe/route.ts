@@ -1,5 +1,6 @@
 import { stripe } from "@/app/lib/stripe"
 import { db } from "@/db"
+import { sub } from "date-fns"
 import { headers } from "next/headers"
 import type Stripe from "stripe"
 
@@ -53,6 +54,18 @@ export async function POST(request: Request) {
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
     )
+
+    await db.user.update({
+      where: {
+        stripeSubscriptionId: subscription.id,
+      },
+      data: {
+        stripePriceId: subscription.items.data[0]?.price.id,
+        stripeCurrentPeriodEnd: new Date(
+          subscription.current_period_end * 1000
+        ),
+      },
+    })
   }
 
   return new Response(null, { status: 200 })
