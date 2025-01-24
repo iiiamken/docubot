@@ -20,15 +20,15 @@ export type subscriptionPlanType = {
       production: string
     }
   }
-  stripeSubscriptionId?: string | null
-  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string
+  stripeCustomerId?: string
   stripeCurrentPeriodEnd: Date | null
   isSubscribed: boolean
   isCanceled: boolean
 }
 
 export async function getUserSubscriptionPlan(): Promise<subscriptionPlanType> {
-  const { getUser } = await getKindeServerSession()
+  const { getUser } = getKindeServerSession()
   const user = await getUser()
 
   if (!user.id) {
@@ -74,9 +74,9 @@ export async function getUserSubscriptionPlan(): Promise<subscriptionPlanType> {
 
   return {
     ...plan,
-    stripeSubscriptionId: dbUser.stripeSubscriptionId,
+    stripeSubscriptionId: dbUser.stripeSubscriptionId!,
     stripeCurrentPeriodEnd: dbUser.stripeCurrentPeriodEnd,
-    stripeCustomerId: dbUser.stripeCustomerId,
+    stripeCustomerId: dbUser.stripeCustomerId!,
     isSubscribed,
     isCanceled,
   }
