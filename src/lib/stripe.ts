@@ -20,6 +20,10 @@ export async function getUserSubscriptionPlan() {
       stripeCurrentPeriodEnd: null,
     }
   }
+  console.log(
+    "useriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduserid",
+    user.id
+  )
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -35,6 +39,10 @@ export async function getUserSubscriptionPlan() {
       stripeCurrentPeriodEnd: null,
     }
   }
+  console.log(
+    "dbUser dbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUser",
+    dbUser
+  )
 
   const isSubscribed = Boolean(
     dbUser.stripePriceId &&
@@ -54,7 +62,7 @@ export async function getUserSubscriptionPlan() {
     isCanceled = stripePlan.cancel_at_period_end
   }
 
-  return {
+  const subscriptionPlan = {
     ...plan,
     stripeSubscriptionId: dbUser.stripeSubscriptionId,
     stripeCurrentPeriodEnd: dbUser.stripeCurrentPeriodEnd,
@@ -62,4 +70,10 @@ export async function getUserSubscriptionPlan() {
     isSubscribed,
     isCanceled,
   }
+
+  console.log(
+    "SUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULT",
+    subscriptionPlan
+  )
+  return subscriptionPlan
 }

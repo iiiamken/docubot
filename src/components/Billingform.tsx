@@ -44,9 +44,9 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
     <MaxWidthWrapper className="max-w-5xl">
       <form
         className="mt-12"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault()
-          createStripeSession()
+          await createStripeSession()
         }}
       >
         <Card>
