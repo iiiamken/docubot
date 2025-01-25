@@ -155,7 +155,7 @@ export const appRouter = router({
     if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
 
     const subscriptionPlan = await getUserSubscriptionPlan()
-    console.log("subscriptionPlan", subscriptionPlan)
+
     if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: dbUser.stripeCustomerId,
