@@ -1,6 +1,7 @@
 import { PLANS } from "@/config/stripe"
 import { db } from "@/db"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
+import { TRPCError } from "@trpc/server"
 import Stripe from "stripe"
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
@@ -12,6 +13,12 @@ export const getUserSubscriptionPlan = async () => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
+  if (!user) return new TRPCError({ code: "UNAUTHORIZED" })
+  console.log(
+    "useriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduserid",
+    user.id
+  )
+
   if (!user.id) {
     return {
       ...PLANS[0],
@@ -20,10 +27,6 @@ export const getUserSubscriptionPlan = async () => {
       stripeCurrentPeriodEnd: null,
     }
   }
-  console.log(
-    "useriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduserid",
-    user.id
-  )
 
   const dbUser = await db.user.findFirst({
     where: {
