@@ -22,6 +22,7 @@ interface BillingFormProps {
 
 const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  console.log("subscriptionPlan billingform", subscriptionPlan)
 
   const { toast } = useToast()
 

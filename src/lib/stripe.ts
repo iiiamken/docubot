@@ -11,7 +11,8 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
 export async function getUserSubscriptionPlan() {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
-
+  console.log("DATDATDATDATDTADTATADTA", PLANS)
+  console.log("PLANPLANPLANPLANPLAN", PLANS[0])
   if (!user.id) {
     return {
       ...PLANS[0],
@@ -34,6 +35,7 @@ export async function getUserSubscriptionPlan() {
       isCanceled: false,
       stripeCurrentPeriodEnd: new Date(),
     }
+    console.log("NO USERNO USERNO USERNO USERNO USER")
   }
 
   const isSubscribed = Boolean(
@@ -44,7 +46,7 @@ export async function getUserSubscriptionPlan() {
 
   const plan = isSubscribed
     ? PLANS.find((plan) => plan.price.priceIds.test === dbUser.stripePriceId)
-    : new Date()
+    : PLANS[0]
 
   let isCanceled = false
   if (isSubscribed && dbUser.stripeSubscriptionId) {
@@ -53,7 +55,7 @@ export async function getUserSubscriptionPlan() {
     )
     isCanceled = stripePlan.cancel_at_period_end
   }
-
+  console.log("plan", plan)
   return {
     ...plan,
     stripeSubscriptionId: dbUser.stripeSubscriptionId,
