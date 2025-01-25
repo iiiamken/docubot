@@ -8,7 +8,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
   typescript: true,
 })
 
-export async function getUserSubscriptionPlan() {
+export const getUserSubscriptionPlan = async () => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
@@ -52,7 +52,7 @@ export async function getUserSubscriptionPlan() {
 
   const plan = isSubscribed
     ? PLANS.find((plan) => plan.price.priceIds.test === dbUser.stripePriceId)
-    : null
+    : PLANS[0]
 
   let isCanceled = false
   if (isSubscribed && dbUser.stripeSubscriptionId) {
