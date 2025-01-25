@@ -17,7 +17,7 @@ export async function getUserSubscriptionPlan() {
       ...PLANS[0],
       isSubscribed: false,
       isCanceled: false,
-      stripeCurrentPeriodEnd: null,
+      stripeCurrentPeriodEnd: { data: "null" },
     }
   }
 
@@ -32,7 +32,7 @@ export async function getUserSubscriptionPlan() {
       ...PLANS[0],
       isSubscribed: false,
       isCanceled: false,
-      stripeCurrentPeriodEnd: null,
+      stripeCurrentPeriodEnd: { data: "null" },
     }
   }
 
@@ -44,7 +44,7 @@ export async function getUserSubscriptionPlan() {
 
   const plan = isSubscribed
     ? PLANS.find((plan) => plan.price.priceIds.test === dbUser.stripePriceId)
-    : null
+    : { data: "null" }
 
   let isCanceled = false
   if (isSubscribed && dbUser.stripeSubscriptionId) {
