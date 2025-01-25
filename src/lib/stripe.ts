@@ -13,7 +13,13 @@ export const getUserSubscriptionPlan = async () => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
-  if (!user) return new TRPCError({ code: "UNAUTHORIZED" })
+  if (!user)
+    return {
+      ...PLANS[0],
+      isSubscribed: false,
+      isCanceled: false,
+      stripeCurrentPeriodEnd: null,
+    }
   console.log(
     "useriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduserid",
     user.id
