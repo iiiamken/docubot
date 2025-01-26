@@ -2,7 +2,7 @@
 
 import { Loader2 } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react"
 import { trpc } from "../_trpc/client"
 
 const Page = () => {
