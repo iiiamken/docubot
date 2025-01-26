@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
     config.resolve.alias.encoding = false
     return config
   },
+
+  images: {
+    domains: ["gravatar.com"],
+  },
 }
 
 export default nextConfig
