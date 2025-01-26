@@ -48,7 +48,7 @@ const Page = () => {
     )
   }
 
-  return null // No need to render anything since navigation happens in `useEffect`
+  // return null // No need to render anything since navigation happens in `useEffect`
 }
 
 export default Page
