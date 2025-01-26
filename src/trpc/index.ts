@@ -48,7 +48,7 @@ export const appRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx
       //find the file
-      const file = db.file.findFirst({
+      const file = await db.file.findFirst({
         where: {
           id: input.id,
           userId,
@@ -111,7 +111,7 @@ export const appRouter = router({
       const { fileId, cursor } = input
       const limit = input?.limit ?? INFINITE_QUERY_LIMIT
 
-      const file = db.file.findFirst({
+      const file = await db.file.findFirst({
         where: { userId, id: fileId },
       })
 
