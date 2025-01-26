@@ -4,14 +4,7 @@ import type Stripe from "stripe"
 
 export async function POST(request: Request) {
   const body = await request.text()
-  console.log(
-    "bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody",
-    body
-  )
-  console.log(
-    "request.headersrequest.headersrequest.headersrequest.headersrequest.headersrequest.headersrequest.headers",
-    request.headers
-  )
+
   const signature = request.headers.get("stripe-Signature") ?? ""
 
   let event: Stripe.Event
@@ -28,10 +21,7 @@ export async function POST(request: Request) {
       { status: 400 }
     )
   }
-  console.log(
-    "eventeventeventeventeventeventeventeventeventeventeventeventeventeventeventeventevent",
-    event
-  )
+
   const session = event.data.object as Stripe.Checkout.Session
 
   if (!session?.metadata?.userId) {
@@ -39,17 +29,10 @@ export async function POST(request: Request) {
       status: 200,
     })
   }
-  console.log(
-    "event.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.typeevent.type",
-    event.type
-  )
+
   if (event.type === "checkout.session.completed") {
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
-    )
-    console.log(
-      "subscriptioncompletedsubscriptioncompletedsubscriptioncompletedsubscriptioncompletedsubscriptioncompletedsubscriptioncompletedsubscriptioncompletedsubscriptioncompletedsubscriptioncompletedsubscriptioncompleted",
-      subscription
     )
 
     await db.user.update({
@@ -71,10 +54,6 @@ export async function POST(request: Request) {
     // Retrieve the subscription details from Stripe.
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
-    )
-    console.log(
-      "subscriptionSUCCEEDEDsubscriptionSUCCEEDEDsubscriptionSUCCEEDEDsubscriptionSUCCEEDEDsubscriptionSUCCEEDED,subscriptionSUCCEEDEDsubscriptionSUCCEEDEDsubscriptionSUCCEEDEDsubscriptionSUCCEEDEDsubscriptionSUCCEEDED",
-      subscription
     )
 
     await db.user.update({

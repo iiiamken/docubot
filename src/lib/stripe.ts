@@ -38,10 +38,6 @@ export const getUserSubscriptionPlan = async (): Promise<subscriptionPlan> => {
       isCanceled: false,
       stripeCurrentPeriodEnd: null,
     }
-  console.log(
-    "useriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduseriduserid",
-    user.id
-  )
 
   if (!user.id) {
     return {
@@ -66,10 +62,6 @@ export const getUserSubscriptionPlan = async (): Promise<subscriptionPlan> => {
       stripeCurrentPeriodEnd: null,
     }
   }
-  console.log(
-    "dbUser dbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUserdbUser",
-    dbUser
-  )
 
   const isSubscribed = Boolean(
     dbUser.stripePriceId &&
@@ -118,9 +110,5 @@ export const getUserSubscriptionPlan = async (): Promise<subscriptionPlan> => {
     isCanceled,
   }
 
-  console.log(
-    "SUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULTSUBRESULT",
-    subscriptionPlan
-  )
   return subscriptionPlan
 }

@@ -155,14 +155,21 @@ export const appRouter = router({
     if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
 
     const subscriptionPlan = await getUserSubscriptionPlan()
-
+    console.log(
+      "subscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlan",
+      subscriptionPlan
+    )
     if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: dbUser.stripeCustomerId,
         return_url: billingUrl,
       })
-
-      return { url: stripeSession.url }
+      const stripeUrl = { url: stripeSession.url }
+      console.log(
+        "stripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrl",
+        stripeUrl
+      )
+      return stripeUrl
     }
 
     const stripeSession = await stripe.checkout.sessions.create({

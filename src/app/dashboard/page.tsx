@@ -7,20 +7,25 @@ import { redirect } from "next/navigation"
 const Page = async () => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
-
-  //make sure user is logged in
+  console.log(
+    "DASHBOARDuseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruseruseruseruseruseruseruseruseruseruseruseruseruser",
+    user
+  )
   if (!user || !user.id) redirect("/auth-callback?origin=dashboard")
 
-  //check if user is in db
   const dbUser = await db.user.findFirst({
     where: {
       id: user.id,
     },
   })
-  //redirect if user is not in db
+  console.log(
+    "dbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARD",
+    dbUser
+  )
   if (!dbUser) redirect("/auth-callback?origin=dashboard")
 
   const subscriptionPlan = await getUserSubscriptionPlan()
+
   return <Dashboard subscriptionPlan={subscriptionPlan} />
 }
 
