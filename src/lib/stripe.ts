@@ -8,7 +8,26 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
   typescript: true,
 })
 
-export const getUserSubscriptionPlan = async () => {
+type subscriptionPlan = {
+  name: string
+  slug: string
+  quota: number
+  pagesPerPdf: number
+  price: {
+    amount: number
+    priceIds: {
+      test: string
+      production: string
+    }
+  }
+  stripeSubscriptionId?: string | null
+  stripeCurrentPeriodEnd: Date | null
+  stripeCustomerId?: string | null
+  isSubscribed: boolean
+  isCanceled: boolean
+}
+
+export const getUserSubscriptionPlan = async (): Promise<subscriptionPlan> => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
@@ -69,6 +88,26 @@ export const getUserSubscriptionPlan = async () => {
     )
     isCanceled = stripePlan.cancel_at_period_end
   }
+
+  if (!PLANS || !plan)
+    return {
+      name: "Free",
+      slug: "free",
+      quota: 10,
+      pagesPerPdf: 5,
+      price: {
+        amount: 0,
+        priceIds: {
+          test: "",
+          production: "",
+        },
+      },
+      stripeSubscriptionId: dbUser.stripeSubscriptionId,
+      stripeCurrentPeriodEnd: dbUser.stripeCurrentPeriodEnd,
+      stripeCustomerId: dbUser.stripeCustomerId,
+      isSubscribed,
+      isCanceled,
+    }
 
   const subscriptionPlan = {
     ...plan,

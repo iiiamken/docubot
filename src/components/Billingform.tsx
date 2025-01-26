@@ -39,22 +39,23 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
       setIsLoading(false)
     },
     onMutate: () => setIsLoading(true),
+    onSettled: () => setIsLoading(false),
   })
   return (
     <MaxWidthWrapper className="max-w-5xl">
       <form
         className="mt-12"
-        onSubmit={async (e) => {
+        onSubmit={(e) => {
           e.preventDefault()
-          await createStripeSession()
+          createStripeSession()
         }}
       >
         <Card>
           <CardHeader>
             <CardTitle>Subscription Plan</CardTitle>
             <CardDescription>
-              {/* You are currently on the <strong>{subscriptionPlan.name}</strong>{" "} */}
-              plan. You are currently on the <strong>Free</strong> plan.
+              You are currently on the <strong>{subscriptionPlan.name}</strong>{" "}
+              plan.
             </CardDescription>
           </CardHeader>
 
