@@ -82,7 +82,7 @@ const Page = () => {
     if (isSuccess && data?.success) {
       router.push(origin ? `/${origin}` : "/dashboard")
     }
-  }, [data, origin, router, isSuccess])
+  }, [data, isSuccess])
 
   // Handle errors
   useEffect(() => {

@@ -16,7 +16,7 @@ export function constructMetadata({
   title = "Dokubot at your service!",
   description = "Dokubot is an open-source software to make chatting to your PDF files easy.",
   image = "/thumbnail.png",
-  icons = "/favicon.ico",
+  icons = "/favicon.svg",
   noIndex = false,
 }: {
   title?: string

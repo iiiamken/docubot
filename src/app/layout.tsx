@@ -1,11 +1,12 @@
-import Navbar from "@/components/Navbar"
-import Providers from "@/components/Providers"
+import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import { cn, constructMetadata } from "../lib/utils"
 import "./globals.css"
+import { cn } from "../lib/utils"
+import Providers from "@/components/Providers"
+import Navbar from "@/components/Navbar"
 
-import { Toaster } from "@/components/ui/toaster"
 import "react-loading-skeleton/dist/skeleton.css"
+import { Toaster } from "@/components/ui/toaster"
 
 import "simplebar-react/dist/simplebar.min.css"
 
@@ -19,7 +20,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-export const metadata = constructMetadata()
+export const metadata: Metadata = {
+  title: "Dokubot at your service!",
+  description: "Create a Robot out of your PDF Documents!",
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/dokubot-icon.svg" />
+        <link rel="icon" href="/favicon.svg" />
       </head>
       <Providers>
         <body
