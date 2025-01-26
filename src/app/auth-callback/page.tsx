@@ -69,13 +69,8 @@ const Page = () => {
     setOrigin(params.get("origin"))
   }, [])
 
-  const { data, isError, error, isSuccess } = trpc.authCallback.useQuery(
-    undefined,
-    {
-      retry: true,
-      retryDelay: 500,
-    }
-  )
+  const { data, isError, error, isSuccess } =
+    trpc.authCallback.useQuery(undefined)
 
   // Handle success using a `useEffect`
   useEffect(() => {
@@ -92,7 +87,7 @@ const Page = () => {
   }, [isError, error])
 
   // Render loading state explicitly
-  if (!data) {
+  {
     return (
       <div className="w-full mt-24 flex justify-center">
         <div className="flex flex-col items-center gap-2">

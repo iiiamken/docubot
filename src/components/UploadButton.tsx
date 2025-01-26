@@ -10,15 +10,18 @@ import Dropzone from "react-dropzone"
 import { Button } from "./ui/button"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Progress } from "./ui/progress"
-const UploadButton = () => {
+
+const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
   const [open, setIsOpen] = useState<boolean>(false)
 
-  const UploadDropZone = () => {
+  const UploadDropZone = ({ isSubscribed }: { isSubscribed: boolean }) => {
     const [isUploading, setIsUploading] = useState<boolean>(false)
     const [uploadProgress, setUploadprogress] = useState<number>(0)
     const { toast } = useToast()
 
-    const { startUpload } = useUploadThing("pdfUploader")
+    const { startUpload } = useUploadThing(
+      isSubscribed ? "proPlanUploader" : "freePlanUploader"
+    )
 
     const router = useRouter()
     const { mutate: startPolling } = trpc.getFile.useMutation({
@@ -95,7 +98,9 @@ const UploadButton = () => {
                     <span className="font-semibold">Click to upload</span>
                     or drag and drop
                   </p>
-                  <p className="text-sm text-zinc-500">PDF (up to 4MB)</p>
+                  <p className="text-sm text-zinc-500">
+                    PDF (up to {isSubscribed ? "16" : "4"}MB)
+                  </p>
                 </div>
                 {acceptedFiles && acceptedFiles[0] && (
                   <div className="max-w-xs bg-white items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200">
@@ -151,7 +156,7 @@ const UploadButton = () => {
         <Button>Upload PDF</Button>
       </DialogTrigger>
       <DialogContent>
-        <UploadDropZone />
+        <UploadDropZone isSubscribed={isSubscribed} />
       </DialogContent>
       <VisuallyHidden asChild>
         <DialogTitle>Upload PDF</DialogTitle>
