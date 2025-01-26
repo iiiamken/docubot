@@ -1,12 +1,11 @@
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import "./globals.css"
-import { cn } from "../lib/utils"
-import Providers from "@/components/Providers"
 import Navbar from "@/components/Navbar"
+import Providers from "@/components/Providers"
+import { Geist, Geist_Mono } from "next/font/google"
+import { cn, constructMetadata } from "../lib/utils"
+import "./globals.css"
 
-import "react-loading-skeleton/dist/skeleton.css"
 import { Toaster } from "@/components/ui/toaster"
+import "react-loading-skeleton/dist/skeleton.css"
 
 import "simplebar-react/dist/simplebar.min.css"
 
@@ -20,11 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-export const metadata: Metadata = {
-  title: "Dokubot at your service!",
-  description: "Create a Robot out of your PDF Documents!",
-}
-
+export const metadata = constructMetadata()
 export default function RootLayout({
   children,
 }: Readonly<{
