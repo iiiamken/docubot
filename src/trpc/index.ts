@@ -10,20 +10,20 @@ import { privateProcedure, publicProcedure, router } from "./trpc"
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
-    //check if user exist
     const { getUser } = getKindeServerSession()
     const user = await getUser()
-    if (!user.id || !user.email) {
-      throw new TRPCError({ code: "UNAUTHORIZED" })
-    }
-    // check if user is in db
+
+    if (!user.id || !user.email) throw new TRPCError({ code: "UNAUTHORIZED" })
+
+    // check if the user is in the database
     const dbUser = await db.user.findFirst({
       where: {
         id: user.id,
       },
     })
-    // create new user if not exist
+
     if (!dbUser) {
+      // create user in db
       await db.user.create({
         data: {
           id: user.id,
@@ -31,6 +31,7 @@ export const appRouter = router({
         },
       })
     }
+
     return { success: true }
   }),
   getUserFiles: privateProcedure.query(async ({ ctx }) => {
