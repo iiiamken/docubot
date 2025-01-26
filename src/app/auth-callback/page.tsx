@@ -2,7 +2,7 @@
 
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { trpc } from "../_trpc/client"
 
 const Page = () => {
@@ -10,10 +10,9 @@ const Page = () => {
   const [origin, setOrigin] = useState<string | null>(null)
 
   // Extract query parameters safely
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    setOrigin(params.get("origin"))
-  }, [])
+
+  const params = new URLSearchParams(window.location.search)
+  setOrigin(params.get("origin"))
 
   const { data, isError, error, isSuccess } =
     trpc.authCallback.useQuery(undefined)
