@@ -4,7 +4,7 @@ import { getUserSubscriptionPlan } from "@/lib/stripe"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { redirect } from "next/navigation"
 
-const page = async () => {
+const Page = async () => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
@@ -24,4 +24,4 @@ const page = async () => {
   return <Dashboard subscriptionPlan={subscriptionPlan} />
 }
 
-export default page
+export default Page
