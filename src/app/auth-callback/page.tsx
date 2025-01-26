@@ -82,14 +82,14 @@ const Page = () => {
     if (isSuccess && data?.success) {
       router.push(origin ? `/${origin}` : "/dashboard")
     }
-  }, [data, isSuccess])
+  }, [isSuccess])
 
   // Handle errors
   useEffect(() => {
     if (isError && error?.data?.code === "UNAUTHORIZED") {
       router.push("/sign-in")
     }
-  }, [isError, error, router])
+  }, [isError, error])
 
   // Render loading state explicitly
   if (!data) {
