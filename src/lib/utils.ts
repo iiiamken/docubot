@@ -42,11 +42,11 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: "@kennyTD",
+      creator: "@kennyDinh",
     },
     icons,
-    metadataBase: new URL("https://dokubot.vercel.app"),
-    themeColor: "#FFF",
+    metadataBase: new URL("https://quill-jet.vercel.app"),
+    // themeColor: "#FFF",
     ...(noIndex && {
       robots: {
         index: false,
