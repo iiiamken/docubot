@@ -11,7 +11,7 @@ const Page = async () => {
     user
   )
   // if (!user || !user.id) redirect("/auth-callback?origin=dashboard")
-
+  if (!user || !user.id) console.log("hello")
   const dbUser = await db.user.findFirst({
     where: {
       id: user.id,
@@ -22,7 +22,7 @@ const Page = async () => {
     dbUser
   )
   // if (!dbUser) redirect("/auth-callback?origin=dashboard")
-
+  if (!dbUser) return console.log("Hi again")
   const subscriptionPlan = await getUserSubscriptionPlan()
 
   return <Dashboard subscriptionPlan={subscriptionPlan} />
