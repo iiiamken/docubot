@@ -74,7 +74,6 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
 
                   <div className="flex items-center gap-2">
                     <MessageSquare className="h-4 w-4" />
-                    mocked
                   </div>
                   <Button
                     onClick={() => deleteFile({ id: file.id })}

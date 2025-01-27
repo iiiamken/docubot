@@ -57,9 +57,17 @@ const onUploadComplete = async ({
     const pageLevelDocs = await loader.load()
 
     const pagesAmt = pageLevelDocs.length
+    console.log(
+      "pagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmtpagesAmt",
+      pagesAmt
+    )
 
     const { subscriptionPlan } = metadata
     const { isSubscribed } = subscriptionPlan
+    console.log(
+      "isSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribedisSubscribed",
+      isSubscribed
+    )
 
     const isProExceeded =
       pagesAmt > PLANS.find((plan) => plan.name === "Pro")!.pagesPerPdf
@@ -75,6 +83,7 @@ const onUploadComplete = async ({
           id: createdFile.id,
         },
       })
+      return
     }
     pageLevelDocs.forEach((doc, i) => (doc.id = `${i}`))
 
