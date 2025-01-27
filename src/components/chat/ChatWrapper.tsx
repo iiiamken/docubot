@@ -21,11 +21,18 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
     },
     {
       refetchInterval: (data) =>
-        data?.state.data?.status === "SUCCESS" ||
-        data?.state.data?.status === "FAILED"
+        data!.state.data!.status === "SUCCESS" ||
+        data!.state.data!.status === "FAILED"
           ? false
           : 500,
     }
+    // {
+    //   refetchInterval: (data) =>
+    //     data?.state.data?.status === "SUCCESS" ||
+    //     data?.state.data?.status === "FAILED"
+    //       ? false
+    //       : 500,
+    // }
   )
   if (isLoading)
     return (
