@@ -18,14 +18,8 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
   const { data, isLoading } = trpc.getFileUploadStatus.useQuery(
     {
       fileId,
-    },
-    {
-      refetchInterval: (data) =>
-        data!.state.data!.status === "SUCCESS" ||
-        data!.state.data!.status === "FAILED"
-          ? false
-          : 500,
     }
+
     // {
     //   refetchInterval: (data) =>
     //     data?.state.data?.status === "SUCCESS" ||
