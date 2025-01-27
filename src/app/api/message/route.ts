@@ -6,12 +6,14 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextRequest } from "next/server"
 
 export const POST = async (req: NextRequest) => {
+  // endpoint for asking a question to a pdf file
+
   const body = await req.json()
 
   const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  const user = getUser()
 
-  const { id: userId } = user
+  const { id: userId } = await user
 
   if (!userId) return new Response("Unauthorized", { status: 401 })
 
@@ -35,6 +37,7 @@ export const POST = async (req: NextRequest) => {
     },
   })
 
+  //1. vectorize message
   const pineconeIndex = pc.Index("docubot3")
   const model = "multilingual-e5-large"
 
@@ -66,6 +69,7 @@ export const POST = async (req: NextRequest) => {
     content: msg.text,
   }))
 
+  //2. send to openAI to get response
   const response = await openaiClient.chat.completions.create({
     model: "gpt-4",
     stream: true,
@@ -96,6 +100,8 @@ export const POST = async (req: NextRequest) => {
       },
     ],
   })
+
+  //create stream of responses
 
   let completeMessage = ""
 
