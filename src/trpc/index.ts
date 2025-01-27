@@ -163,7 +163,7 @@ export const appRouter = router({
     if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: dbUser.stripeCustomerId,
-        return_url: billingUrl,
+        return_url: "https://dokubot.vercel.app/dashboard/billing",
       })
       const stripeUrl = { url: stripeSession.url }
 
