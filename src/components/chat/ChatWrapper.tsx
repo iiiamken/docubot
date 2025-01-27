@@ -1,13 +1,14 @@
 "use client"
 
-import ChatInput from "./ChatInput"
-import Messages from "./Messages"
+import { trpc } from "@/app/_trpc/client"
+import { PLANS } from "@/config/stripe"
 import { ChevronLeft, Loader2, XCircle } from "lucide-react"
 import Link from "next/link"
+import { useEffect } from "react"
 import { buttonVariants } from "../ui/button"
 import { ChatContextProvider } from "./ChatContext"
-import { PLANS } from "@/config/stripe"
-import { trpc } from "@/app/_trpc/client"
+import ChatInput from "./ChatInput"
+import Messages from "./Messages"
 
 interface ChatWrapperProps {
   fileId: string
@@ -15,19 +16,27 @@ interface ChatWrapperProps {
 }
 
 const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
-  const { data, isLoading } = trpc.getFileUploadStatus.useQuery(
-    {
-      fileId,
+  const { data, isLoading, refetch } = trpc.getFileUploadStatus.useQuery({
+    fileId,
+  })
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | number
+
+    const pollStatus = async () => {
+      const result = await refetch()
+
+      const status = result.data?.status
+
+      if (status === "SUCCESS" || status === "FAILED") {
+        clearInterval(intervalId)
+      }
     }
 
-    // {
-    //   refetchInterval: (data) =>
-    //     data?.state.data?.status === "SUCCESS" ||
-    //     data?.state.data?.status === "FAILED"
-    //       ? false
-    //       : 500,
-    // }
-  )
+    intervalId = setInterval(pollStatus, 500)
+
+    return () => clearInterval(intervalId)
+  }, [fileId, refetch])
+
   if (isLoading)
     return (
       <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
