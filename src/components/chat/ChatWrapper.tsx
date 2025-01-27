@@ -20,8 +20,6 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
     fileId,
   })
   useEffect(() => {
-    let intervalId: NodeJS.Timeout | number
-
     const pollStatus = async () => {
       const result = await refetch()
 
@@ -32,7 +30,7 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
       }
     }
 
-    intervalId = setInterval(pollStatus, 500)
+    const intervalId = setInterval(pollStatus, 500)
 
     return () => clearInterval(intervalId)
   }, [fileId, refetch])
