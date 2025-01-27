@@ -1,28 +1,25 @@
 import Dashboard from "@/components/Dashboard"
-import { db } from "@/db"
 import { getUserSubscriptionPlan } from "@/lib/stripe"
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { redirect } from "next/navigation"
 
 const Page = async () => {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
-  console.log(
-    "DASHBOARDuseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruseruseruseruseruseruseruseruseruseruseruseruseruser",
-    user
-  )
-  if (!user || !user.id) redirect("/")
+  // const { getUser } = getKindeServerSession()
+  // const user = await getUser()
+  // console.log(
+  //   "DASHBOARDuseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruseruseruseruseruseruseruseruseruseruseruseruseruser",
+  //   user
+  // )
+  // if (!user || !user.id) redirect("/")
 
-  const dbUser = await db.user.findFirst({
-    where: {
-      id: user.id,
-    },
-  })
-  console.log(
-    "dbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARD",
-    dbUser
-  )
-  if (!dbUser) redirect("/")
+  // const dbUser = await db.user.findFirst({
+  //   where: {
+  //     id: user.id,
+  //   },
+  // })
+  // console.log(
+  //   "dbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARD",
+  //   dbUser
+  // )
+  // if (!dbUser) redirect("/")
 
   const subscriptionPlan = await getUserSubscriptionPlan()
 
