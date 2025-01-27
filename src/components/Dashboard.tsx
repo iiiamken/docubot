@@ -16,7 +16,7 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null)
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
 
   const { data: files, isLoading } = trpc.getUserFiles.useQuery()
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
