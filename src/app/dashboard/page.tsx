@@ -11,8 +11,8 @@ const Page = async () => {
     "DASHBOARDuseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruDASHBOARDseruseruseruseruseruseruseruseruseruseruseruseruseruseruseruser",
     user
   )
-  if (!user || !user.id) redirect("/dashboard")
-  // if (!user || !user.id) redirect("/auth-callback?origin=dashboard")
+  if (!user || !user.id) redirect("/auth-callback?origin=dashboard")
+
   const dbUser = await db.user.findFirst({
     where: {
       id: user.id,
@@ -22,8 +22,8 @@ const Page = async () => {
     "dbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARDdbUserDASHBOARD",
     dbUser
   )
-  // if (!dbUser) redirect("/auth-callback?origin=dashboard")
-  if (!dbUser) redirect("/dashboard")
+  if (!dbUser) redirect("/auth-callback?origin=dashboard")
+
   const subscriptionPlan = await getUserSubscriptionPlan()
 
   return <Dashboard subscriptionPlan={subscriptionPlan} />

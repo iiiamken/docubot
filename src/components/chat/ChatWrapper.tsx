@@ -102,7 +102,6 @@
 
 "use client"
 
-import { trpc } from "@/app/_trpc/client"
 import ChatInput from "./ChatInput"
 import Messages from "./Messages"
 import { ChevronLeft, Loader2, XCircle } from "lucide-react"
@@ -110,6 +109,7 @@ import Link from "next/link"
 import { buttonVariants } from "../ui/button"
 import { ChatContextProvider } from "./ChatContext"
 import { PLANS } from "@/config/stripe"
+import { trpc } from "@/app/_trpc/client"
 
 interface ChatWrapperProps {
   fileId: string
