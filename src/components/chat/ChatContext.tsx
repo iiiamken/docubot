@@ -67,17 +67,14 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       const decoder = new TextDecoder()
       let done = false
 
-      //accumulated response
       let accResponse = ""
 
-      //reading the stream
       while (!done) {
         const { value, done: doneReading } = await reader?.read()
         done = doneReading
         const chunkValue = decoder.decode(value)
         accResponse += chunkValue
 
-        //append value into our message
         utils.getFileMessages.setInfiniteData(
           { fileId, limit: INFINITE_QUERY_LIMIT },
           (old) => {
@@ -132,12 +129,10 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       backupMessage.current = message
       setMessage("")
 
-      //1. cancel outgoing fetches
       await utils.getFileMessages.cancel()
 
-      //2. get data in case we need to revert
       const previousMessages = utils.getFileMessages.getInfiniteData()
-      //3. optimistically input data
+
       utils.getFileMessages.setInfiniteData(
         { fileId, limit: INFINITE_QUERY_LIMIT },
         (old) => {

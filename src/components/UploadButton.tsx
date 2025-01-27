@@ -32,9 +32,8 @@ const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
       retryDelay: 500,
     })
     const startSimulatedProgress = () => {
-      //start by setting progress to 0
       setUploadprogress(0)
-      //update progress with interval
+
       const interval = setInterval(() => {
         setUploadprogress((prevProgress) => {
           if (prevProgress >= 95) {
@@ -53,7 +52,6 @@ const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
           setIsUploading(true)
           const progressInterval = startSimulatedProgress()
 
-          //handle file uploading
           const res = await startUpload(acceptedFiles)
 
           if (!res) {

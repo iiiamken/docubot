@@ -15,7 +15,6 @@ export const appRouter = router({
 
     if (!user.id || !user.email) throw new TRPCError({ code: "UNAUTHORIZED" })
 
-    // check if the user is in the database
     const dbUser = await db.user.findFirst({
       where: {
         id: user.id,
@@ -23,7 +22,6 @@ export const appRouter = router({
     })
 
     if (!dbUser) {
-      // create user in db
       await db.user.create({
         data: {
           id: user.id,
@@ -48,19 +46,17 @@ export const appRouter = router({
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx
-      //find the file
+
       const file = await db.file.findFirst({
         where: {
           id: input.id,
           userId,
         },
       })
-      //if not throw error
       if (!file) {
         throw new TRPCError({ code: "NOT_FOUND" })
       }
 
-      //delete file
       await db.file.delete({
         where: {
           id: input.id,
@@ -73,7 +69,6 @@ export const appRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx
 
-      // check if file exist
       const file = await db.file.findFirst({
         where: {
           key: input.key,
@@ -131,7 +126,6 @@ export const appRouter = router({
         },
       })
 
-      // determine cursor logic
       let nextCursor: typeof cursor | undefined = undefined
       if (messages.length > limit) {
         const nextItem = messages.pop()
@@ -156,10 +150,7 @@ export const appRouter = router({
     if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
 
     const subscriptionPlan = await getUserSubscriptionPlan()
-    console.log(
-      "subscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlansubscriptionPlan",
-      subscriptionPlan
-    )
+
     if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: dbUser.stripeCustomerId,

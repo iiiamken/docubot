@@ -76,16 +76,13 @@ const onUploadComplete = async ({
         },
       })
     }
-    //added ids to pageLevelDocs
-    pageLevelDocs.forEach((doc, i) => (doc.id = `${i}`)) // Extract `pageContent`
+    pageLevelDocs.forEach((doc, i) => (doc.id = `${i}`))
 
     const newPageLevelDocs = pageLevelDocs.map((doc) => ({
       id: doc.id,
       text: doc.pageContent,
     }))
-    // const pagesAmount = pageLevelDocs.length
 
-    //vectorize and indexing
     const pineconeIndex = pc.Index("docubot3")
 
     const model = "multilingual-e5-large"
@@ -101,7 +98,6 @@ const onUploadComplete = async ({
     }))
     await pineconeIndex.namespace(createdFile.id).upsert(vectors)
 
-    //update loading status
     await db.file.update({
       where: {
         id: createdFile.id,

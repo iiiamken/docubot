@@ -70,7 +70,6 @@ const pricingItems = [
 ]
 
 const Page = async () => {
-  //check login
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
