@@ -77,11 +77,11 @@ export const POST = async (req: NextRequest) => {
       {
         role: "system",
         content:
-          "Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format.Respond in less than 100 words",
+          "Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format.Respond in less than 50 words",
       },
       {
         role: "user",
-        content: `Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format. \nIf you don't know the answer, just say that you don't know, don't try to make up an answer. Respond in less than 100 words.
+        content: `Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format. \nIf you don't know the answer, just say that you don't know, don't try to make up an answer. Respond in less than 50 words.
 
       \n----------------\n
 
