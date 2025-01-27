@@ -50,7 +50,7 @@ import PdfRenderer from "@/components/PdfRenderer"
 import { db } from "@/db"
 import { getUserSubscriptionPlan } from "@/lib/stripe"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 
 interface PageProps {
   params: Promise<{ fileid: string }> // `params` is asynchronous due to dynamic routing
@@ -62,7 +62,7 @@ const Page = async ({ params }: PageProps) => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
-  // if (!user || !user.id) redirect(`/auth-callback?origin=dashboard/${fileid}`)
+  if (!user || !user.id) redirect(`/auth-callback?origin=dashboard/${fileid}`)
 
   const file = await db.file.findFirst({
     where: {
