@@ -166,10 +166,7 @@ export const appRouter = router({
         return_url: billingUrl,
       })
       const stripeUrl = { url: stripeSession.url }
-      console.log(
-        "stripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrlstripeUrl",
-        stripeUrl
-      )
+
       return stripeUrl
     }
 
