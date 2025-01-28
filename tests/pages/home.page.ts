@@ -5,11 +5,16 @@ export class Home {
   constructor(private page: Page) {}
 
   //locators
-  private title = this.page.locator("#title")
+  private description = this.page.locator("#test-description")
+
+  //getter for the description
+  getDescription() {
+    return this.description
+  }
 
   //actions
   async navigateToPage() {
-    await this.page.goto("https://dokubot.vercel.app")
+    await this.page.goto("https://dokubot.vercel.app/")
   }
 
   async clickLink() {

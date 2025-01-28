@@ -17,7 +17,10 @@ export default function Home() {
           Chat with your <span className="text-blue-600">documents</span> in
           seconds.
         </h1>
-        <p className="mt-5 max-w-prose text-zinc-700 sm:text-lg">
+        <p
+          id="test-description"
+          className="mt-5 max-w-prose text-zinc-700 sm:text-lg"
+        >
           Dokubot allows you to have conversations with any PDF document. Simply
           upload your file and start asking questions right away.
         </p>
@@ -32,8 +35,6 @@ export default function Home() {
           Get started <ArrowRight className="ml-2 h-5 w-5" />
         </Link>
       </MaxWidthWrapper>
-
-      {/* value proposition section */}
 
       <div>
         <div className="relative isolate">
@@ -82,7 +83,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* feature section */}
       <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-56">
         <div className="mb-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
