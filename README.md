@@ -28,6 +28,10 @@ Dokubot is a Fullstack Typescript SaaS project using Next.js 15 framework.
 
 - Fast, secure and efficient payments using Stripe payments.
 
+- infinite querying for performance and quick load.
+
+- optimistic upload for user experience.
+
 ## Usage
 
 - Start by install packages:
@@ -62,6 +66,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Settings for Stripe and amount messages rendered ( Infinite query limit ) in chatbox in config folder.
 
 ## - Testing
+
+This project uses Playwright with Typescript and POM, Page Object Model, structure.
 
 - To run individial test file add route to file:
 
