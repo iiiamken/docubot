@@ -9,11 +9,18 @@ test.describe("Test homepage", () => {
 
     expect(currentUrl).toBe("https://dokubot.vercel.app/")
   })
+
   test("Description to be visible", async ({ page }) => {
     const homePage = new Home(page)
-    const description = homePage.getDescription().innerText()
+    await homePage.navigateToPage()
+    const descriptionElement = homePage.getDescription()
 
-    expect(description).toBe(
+    // Ensure the description is visible first
+    await expect(descriptionElement).toBeVisible()
+
+    const descriptionText = await descriptionElement.textContent()
+
+    expect(descriptionText).toBe(
       "Dokubot allows you to have conversations with any PDF document. Simply upload your file and start asking questions right away."
     )
   })
