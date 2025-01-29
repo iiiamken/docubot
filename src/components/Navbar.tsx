@@ -18,7 +18,11 @@ const Navbar = async () => {
     <nav className="sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
-          <Link href="/" className="flex z-40 font-semibold">
+          <Link
+            id="home-icon-link"
+            href="/"
+            className="flex z-40 font-semibold"
+          >
             <span>Dokubot.</span>
           </Link>
 
@@ -28,6 +32,7 @@ const Navbar = async () => {
             {!user ? (
               <>
                 <Link
+                  id="pricing-link"
                   href="/pricing"
                   className={buttonVariants({
                     variant: "ghost",
@@ -37,6 +42,7 @@ const Navbar = async () => {
                   Pricing
                 </Link>
                 <LoginLink
+                  id="sign-in-link"
                   className={buttonVariants({
                     variant: "ghost",
                     size: "sm",
@@ -45,6 +51,7 @@ const Navbar = async () => {
                   Sign in
                 </LoginLink>
                 <RegisterLink
+                  id="register-link"
                   className={buttonVariants({
                     size: "sm",
                   })}
@@ -55,6 +62,7 @@ const Navbar = async () => {
             ) : (
               <>
                 <Link
+                  id="dashboard-nav-link"
                   href="/dashboard"
                   className={buttonVariants({
                     variant: "ghost",
