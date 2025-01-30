@@ -20,7 +20,7 @@ const pricingItems = [
     quota: 10,
     features: [
       {
-        text: "5 pages per PDF",
+        text: "10 pages per PDF",
         footnote: "The maximum amount of pages per PDF-file.",
       },
       {
@@ -47,7 +47,7 @@ const pricingItems = [
     quota: PLANS.find((p) => p.slug === "pro")!.quota,
     features: [
       {
-        text: "25 pages per PDF",
+        text: "120 pages per PDF",
         footnote: "The maximum amount of pages per PDF-file.",
         negative: false,
       },
