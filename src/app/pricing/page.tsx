@@ -92,6 +92,7 @@ const Page = async () => {
             return (
               <div
                 key={plan}
+                id={`${plan}-pricing-plan`}
                 className={cn("relative rounded-2xl bg-white shadow-lg", {
                   "border-2 border-blue-600 shadow-blue-200": plan === "Pro",
                   "border border-gray-200": plan !== "Pro",
