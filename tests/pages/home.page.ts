@@ -6,12 +6,16 @@ export class Home {
 
   //locators
   private description = this.page.locator("#test-description")
+  private previewImage = this.page.locator("#dashboard-preview-image")
 
   //getter for the description
   getDescription() {
     return this.description
   }
 
+  getDashboardImage() {
+    return this.previewImage
+  }
   //actions
   async navigateToPage() {
     await this.page.goto("https://dokubot.vercel.app/")

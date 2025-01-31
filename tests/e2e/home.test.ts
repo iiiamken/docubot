@@ -24,4 +24,13 @@ test.describe("Test homepage", () => {
       "Dokubot allows you to have conversations with any PDF document. Simply upload your file and start asking questions right away."
     )
   })
+
+  test("preview to be visible", async ({ page }) => {
+    const homePage = new Home(page)
+    await homePage.navigateToPage()
+
+    const previewImage = await homePage.getDashboardImage()
+
+    await expect(previewImage).toBeVisible()
+  })
 })
