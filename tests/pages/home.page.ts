@@ -7,6 +7,7 @@ export class Home {
   //locators
   private description = this.page.locator("#test-description")
   private previewImage = this.page.locator("#dashboard-preview-image")
+  private uploadImage = this.page.locator("#file-upload-preview-image")
 
   //getter for the description
   getDescription() {
@@ -15,6 +16,10 @@ export class Home {
 
   getDashboardImage() {
     return this.previewImage
+  }
+
+  getUploadImage() {
+    return this.uploadImage
   }
   //actions
   async navigateToPage() {

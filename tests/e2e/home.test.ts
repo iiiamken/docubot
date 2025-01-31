@@ -25,12 +25,21 @@ test.describe("Test homepage", () => {
     )
   })
 
-  test("preview to be visible", async ({ page }) => {
+  test("dashboard preview image to be visible", async ({ page }) => {
     const homePage = new Home(page)
     await homePage.navigateToPage()
 
-    const previewImage = await homePage.getDashboardImage()
+    const previewImage = homePage.getDashboardImage()
 
     await expect(previewImage).toBeVisible()
+  })
+
+  test("upload image to be visible", async ({ page }) => {
+    const homePage = new Home(page)
+    await homePage.navigateToPage()
+
+    const uploadImage = homePage.getUploadImage()
+
+    await expect(uploadImage).toBeVisible()
   })
 })
