@@ -15,7 +15,6 @@ test.describe("Test homepage", () => {
     await homePage.navigateToPage()
     const descriptionElement = homePage.getDescription()
 
-    // Ensure the description is visible first
     await expect(descriptionElement).toBeVisible()
 
     const descriptionText = await descriptionElement.textContent()
@@ -41,5 +40,22 @@ test.describe("Test homepage", () => {
     const uploadImage = homePage.getUploadImage()
 
     await expect(uploadImage).toBeVisible()
+  })
+
+  test("step1,2,3 components visible", async ({ page }) => {
+    const homePage = new Home(page)
+    await homePage.navigateToPage()
+
+    const step1 = homePage.getStep1()
+
+    await expect(step1).toBeVisible()
+
+    const step2 = homePage.getStep1()
+
+    await expect(step2).toBeVisible()
+
+    const step3 = homePage.getStep1()
+
+    await expect(step3).toBeVisible()
   })
 })
