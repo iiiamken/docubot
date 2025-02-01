@@ -58,4 +58,21 @@ test.describe("Test homepage", () => {
 
     await expect(step3).toBeVisible()
   })
+
+  test.only("test get started link navigation", async ({ page }) => {
+    const homePage = new Home(page)
+    await homePage.navigateToPage()
+    const context = page.context() // Get the current browser context
+
+    const getStartedLink = homePage.getGetStartedLink()
+
+    await expect(getStartedLink).toBeVisible()
+    const [newPage] = await Promise.all([
+      context.waitForEvent("page"), // Wait for the new tab
+      await getStartedLink.click(), // Click that triggers the new tab
+    ])
+
+    await newPage.waitForLoadState() // Ensure the page is fully loaded
+    await expect(newPage).toHaveURL(/^https:\/\/dokubot\.kinde\.com/)
+  })
 })
