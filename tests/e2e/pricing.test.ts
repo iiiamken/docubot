@@ -109,4 +109,19 @@ test.describe("test Pricing page", () => {
 
     await expect(page).toHaveURL(regexKindeLogin)
   })
+
+  test("get started navbar button navigate to kinde register page", async ({
+    page,
+  }) => {
+    const pricingPage = new Pricing(page)
+    await pricingPage.navigateToPricingPage()
+
+    const registerLink = pricingPage.getRegisterLink()
+
+    await expect(registerLink).toBeVisible()
+
+    await registerLink.click()
+
+    await expect(page).toHaveURL(regexKindeRegister)
+  })
 })
