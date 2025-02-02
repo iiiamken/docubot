@@ -1,5 +1,6 @@
 import test, { expect } from "@playwright/test"
 import { Home } from "../pages/home.page"
+import { sign } from "crypto"
 
 test.describe("Test homepage", () => {
   test("Go to homepage", async ({ page }) => {
@@ -59,7 +60,7 @@ test.describe("Test homepage", () => {
     await expect(step3).toBeVisible()
   })
 
-  test.only("test get started link navigation", async ({ page }) => {
+  test("get started link navigate to kinde login", async ({ page }) => {
     const homePage = new Home(page)
     await homePage.navigateToPage()
     const context = page.context() // Get the current browser context
@@ -73,6 +74,23 @@ test.describe("Test homepage", () => {
     ])
 
     await newPage.waitForLoadState() // Ensure the page is fully loaded
-    await expect(newPage).toHaveURL(/^https:\/\/dokubot\.kinde\.com/)
+    await expect(newPage).toHaveURL(
+      /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:login/
+    )
+  })
+
+  test.only("sign in button navigate to kinde login", async ({ page }) => {
+    const homePage = new Home(page)
+    await homePage.navigateToPage()
+
+    const signIn = homePage.getSignIn()
+
+    await expect(signIn).toBeVisible()
+
+    await signIn.click()
+
+    await expect(page).toHaveURL(
+      /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:login/
+    )
   })
 })

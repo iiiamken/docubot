@@ -12,6 +12,7 @@ export class Home {
   private step2 = this.page.locator("#step-2")
   private step3 = this.page.locator("#step-3")
   private getStartedLink = this.page.locator("#get-started-link")
+  private signIn = this.page.locator("#sign-in-link")
 
   //getters
   getDescription() {
@@ -38,6 +39,10 @@ export class Home {
 
   getGetStartedLink() {
     return this.getStartedLink
+  }
+
+  getSignIn() {
+    return this.signIn
   }
   //actions
   async navigateToPage() {
