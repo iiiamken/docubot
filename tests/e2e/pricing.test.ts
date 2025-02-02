@@ -39,7 +39,9 @@ test.describe("test Pricing page", () => {
     await expect(proPlan).toBeVisible()
   })
 
-  test.only("sign-up link navigates to kinde sign up", async ({ page }) => {
+  test.only("free sign-up link navigates to kinde sign up", async ({
+    page,
+  }) => {
     const pricingPage = new Pricing(page)
     await pricingPage.navigateToPricingPage()
 
@@ -49,6 +51,21 @@ test.describe("test Pricing page", () => {
 
     await freeSignUpLink.click()
 
-    expect(page).toHaveURL(regexKindeLogin)
+    await expect(page).toHaveURL(regexKindeLogin)
+  })
+
+  test.only("pro sign up link navigatest to kinde sign up", async ({
+    page,
+  }) => {
+    const pricingPage = new Pricing(page)
+    await pricingPage.navigateToPricingPage()
+
+    const proSignUpLink = pricingPage.getProSignUpLink()
+
+    expect(proSignUpLink).toBeVisible()
+
+    await proSignUpLink.click()
+
+    await expect(page).toHaveURL(regexKindeLogin)
   })
 })
