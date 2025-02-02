@@ -110,7 +110,7 @@ test.describe("Test homepage", () => {
     )
   })
 
-  test.only("pricing button to navigate to pricing page", async ({ page }) => {
+  test("pricing button to navigate to pricing page", async ({ page }) => {
     const homePage = new Home(page)
     await homePage.navigateToPage()
 
@@ -120,6 +120,6 @@ test.describe("Test homepage", () => {
 
     await pricingLink.click()
 
-    await expect(page).toHaveURL("https://dokubot.vercel.app/pricing")
+    await expect(page).toHaveURL("https://dokubot.vercel.app/pricing/")
   })
 })
