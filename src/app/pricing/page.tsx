@@ -176,7 +176,7 @@ const Page = async () => {
                 <div className="p-5">
                   {plan === "Free" ? (
                     <Link
-                      id={user ? "upgrade-link" : "sign-up-link"}
+                      id={user ? "free-upgrade-link" : "free-sign-up-link"}
                       href={user ? "/dashboard" : "/sign-in"}
                       className={buttonVariants({
                         className: "w-full",
@@ -188,11 +188,11 @@ const Page = async () => {
                     </Link>
                   ) : user ? (
                     <UpgradeButton
-                      id={user ? "upgrade-link" : "sign-up-link"}
+                      id={user ? "pro-upgrade-link" : "pro-sign-up-link"}
                     />
                   ) : (
                     <Link
-                      id={user ? "upgrade-link" : "sign-up-link"}
+                      id={user ? "pro-upgrade-link" : "pro-sign-up-link"}
                       href="/sign-in"
                       className={buttonVariants({
                         className: "w-full",

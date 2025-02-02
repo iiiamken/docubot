@@ -8,7 +8,7 @@ export class Pricing {
   private freePlan = this.page.locator("#Free-pricing-plan")
   private proPlan = this.page.locator("#Pro-pricing-plan")
   private pricingIntro = this.page.locator("#pricing-intro")
-  private signUpLink = this.page.locator("#sign-up-link")
+  private freeSignUpLink = this.page.locator("#free-sign-up-link")
   private upgradeLink = this.page.locator("#upgrade-link")
 
   //getters
@@ -28,8 +28,8 @@ export class Pricing {
     return this.pricingIntro
   }
 
-  getSignUpLink() {
-    return this.signUpLink
+  getFreeSignUpLink() {
+    return this.freeSignUpLink
   }
 
   getUpgradeLink() {

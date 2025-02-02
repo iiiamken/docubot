@@ -39,15 +39,15 @@ test.describe("test Pricing page", () => {
     await expect(proPlan).toBeVisible()
   })
 
-  test("sign-up link navigates to kinde sign up", async ({ page }) => {
+  test.only("sign-up link navigates to kinde sign up", async ({ page }) => {
     const pricingPage = new Pricing(page)
     await pricingPage.navigateToPricingPage()
 
-    const signUpLink = pricingPage.getSignUpLink()
+    const freeSignUpLink = pricingPage.getFreeSignUpLink()
 
-    expect(signUpLink).toBeVisible()
+    expect(freeSignUpLink).toBeVisible()
 
-    await signUpLink.click()
+    await freeSignUpLink.click()
 
     expect(page).toHaveURL(regexKindeLogin)
   })
