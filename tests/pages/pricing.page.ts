@@ -14,6 +14,8 @@ export class Pricing {
   private freeMaxPages = this.page.locator("#free-max-pages")
   private proMaxPages = this.page.locator("#pro-max-pages")
   private navbar = this.page.locator("#navbar")
+  private signIn = this.page.locator("#sign-in-link")
+  private registerLink = this.page.locator("#register-link")
 
   //getters
   getPricingTitle() {
@@ -54,6 +56,14 @@ export class Pricing {
 
   getNavbar() {
     return this.navbar
+  }
+
+  getSignIn() {
+    return this.signIn
+  }
+
+  getRegisterLink() {
+    return this.registerLink
   }
   //actions
   async navigateToPricingPage() {
