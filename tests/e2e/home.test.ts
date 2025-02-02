@@ -1,5 +1,6 @@
 import test, { expect } from "@playwright/test"
 import { Home } from "../pages/home.page"
+import { regexKindeLogin, regexKindeRegister } from "../test-data/test.data"
 
 test.describe("Test homepage", () => {
   test("Go to homepage", async ({ page }) => {
@@ -73,9 +74,7 @@ test.describe("Test homepage", () => {
     ])
 
     await newPage.waitForLoadState() // Ensure the page is fully loaded
-    await expect(newPage).toHaveURL(
-      /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:login/
-    )
+    await expect(newPage).toHaveURL(regexKindeLogin)
   })
 
   test("sign in button navigate to kinde login", async ({ page }) => {
@@ -88,9 +87,7 @@ test.describe("Test homepage", () => {
 
     await signIn.click()
 
-    await expect(page).toHaveURL(
-      /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:login/
-    )
+    await expect(page).toHaveURL(regexKindeLogin)
   })
 
   test("get started navbar button navigate to kinde register page", async ({
@@ -105,9 +102,7 @@ test.describe("Test homepage", () => {
 
     await registerLink.click()
 
-    await expect(page).toHaveURL(
-      /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:register/
-    )
+    await expect(page).toHaveURL(regexKindeRegister)
   })
 
   test("pricing button to navigate to pricing page", async ({ page }) => {

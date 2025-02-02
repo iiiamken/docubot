@@ -1,5 +1,6 @@
 import test, { expect } from "@playwright/test"
 import { Pricing } from "../pages/pricing.page"
+import { regexKindeLogin } from "../test-data/test.data"
 
 test.describe("test Pricing page", () => {
   test("title visible", async ({ page }) => {
@@ -11,7 +12,7 @@ test.describe("test Pricing page", () => {
     await expect(pricingTitle).toBeVisible()
   })
 
-  test.only("description visible", async ({ page }) => {
+  test("description visible", async ({ page }) => {
     const pricingPage = new Pricing(page)
     await pricingPage.navigateToPricingPage()
 
@@ -36,5 +37,18 @@ test.describe("test Pricing page", () => {
     const proPlan = pricingPage.getProPlan()
 
     await expect(proPlan).toBeVisible()
+  })
+
+  test("sign-up link navigates to kinde sign up", async ({ page }) => {
+    const pricingPage = new Pricing(page)
+    await pricingPage.navigateToPricingPage()
+
+    const signUpLink = pricingPage.getSignUpLink()
+
+    expect(signUpLink).toBeVisible()
+
+    await signUpLink.click()
+
+    expect(page).toHaveURL(regexKindeLogin)
   })
 })
