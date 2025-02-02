@@ -1,6 +1,5 @@
 import test, { expect } from "@playwright/test"
 import { Home } from "../pages/home.page"
-import { sign } from "crypto"
 
 test.describe("Test homepage", () => {
   test("Go to homepage", async ({ page }) => {
