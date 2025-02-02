@@ -79,7 +79,7 @@ test.describe("Test homepage", () => {
     )
   })
 
-  test.only("sign in button navigate to kinde login", async ({ page }) => {
+  test("sign in button navigate to kinde login", async ({ page }) => {
     const homePage = new Home(page)
     await homePage.navigateToPage()
 
@@ -91,6 +91,23 @@ test.describe("Test homepage", () => {
 
     await expect(page).toHaveURL(
       /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:login/
+    )
+  })
+
+  test.only("get started navbar button navigate to kinde register page", async ({
+    page,
+  }) => {
+    const homePage = new Home(page)
+    await homePage.navigateToPage()
+
+    const registerLink = homePage.getRegisterLink()
+
+    await expect(registerLink).toBeVisible()
+
+    await registerLink.click()
+
+    await expect(page).toHaveURL(
+      /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:register/
     )
   })
 })
