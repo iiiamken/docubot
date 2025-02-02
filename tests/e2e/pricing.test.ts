@@ -10,4 +10,13 @@ test.describe("test Pricing page", () => {
 
     await expect(pricingTitle).toBeVisible()
   })
+
+  test("free plan visible", async ({ page }) => {
+    const pricingPage = new Pricing(page)
+    await pricingPage.navigateToPricingPage()
+
+    const freePlan = pricingPage.getFreePlan()
+
+    await expect(freePlan).toBeVisible()
+  })
 })

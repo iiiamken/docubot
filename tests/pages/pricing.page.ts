@@ -5,10 +5,15 @@ export class Pricing {
 
   //locators
   private pricingTitle = this.page.locator("#pricing-title")
+  private freePlan = this.page.locator("#free-pricing-plan")
 
   //getters
   getPricingTitle() {
     return this.pricingTitle
+  }
+
+  getFreePlan() {
+    return this.freePlan
   }
 
   //actions
