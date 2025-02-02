@@ -2,7 +2,7 @@ import test, { expect } from "@playwright/test"
 import { Pricing } from "../pages/pricing.page"
 
 test.describe("test Pricing page", () => {
-  test.only("title visible", async ({ page }) => {
+  test("title visible", async ({ page }) => {
     const pricingPage = new Pricing(page)
     await pricingPage.navigateToPricingPage()
 
@@ -18,5 +18,14 @@ test.describe("test Pricing page", () => {
     const freePlan = pricingPage.getFreePlan()
 
     await expect(freePlan).toBeVisible()
+  })
+
+  test("pro plan visible", async ({ page }) => {
+    const pricingPage = new Pricing(page)
+    await pricingPage.navigateToPricingPage()
+
+    const proPlan = pricingPage.getProPlan()
+
+    await expect(proPlan).toBeVisible()
   })
 })
