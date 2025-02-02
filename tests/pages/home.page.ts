@@ -14,6 +14,7 @@ export class Home {
   private getStartedLink = this.page.locator("#get-started-link")
   private signIn = this.page.locator("#sign-in-link")
   private registerLink = this.page.locator("#register-link")
+  private pricingLink = this.page.locator("#pricing-link")
 
   //getters
   getDescription() {
@@ -48,6 +49,10 @@ export class Home {
 
   getRegisterLink() {
     return this.registerLink
+  }
+
+  getPricingLink() {
+    return this.pricingLink
   }
   //actions
   async navigateToPage() {

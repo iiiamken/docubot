@@ -94,7 +94,7 @@ test.describe("Test homepage", () => {
     )
   })
 
-  test.only("get started navbar button navigate to kinde register page", async ({
+  test("get started navbar button navigate to kinde register page", async ({
     page,
   }) => {
     const homePage = new Home(page)
@@ -109,5 +109,18 @@ test.describe("Test homepage", () => {
     await expect(page).toHaveURL(
       /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:register/
     )
+  })
+
+  test.only("pricing button to navigate to pricing page", async ({ page }) => {
+    const homePage = new Home(page)
+    await homePage.navigateToPage()
+
+    const pricingLink = homePage.getPricingLink()
+
+    await expect(pricingLink).toBeVisible()
+
+    await pricingLink.click()
+
+    await expect(page).toHaveURL("https://dokubot.vercel.app/pricing")
   })
 })
