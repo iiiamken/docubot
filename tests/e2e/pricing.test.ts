@@ -1,6 +1,7 @@
 import test, { expect } from "@playwright/test"
 import { Pricing } from "../pages/pricing.page"
 import { regexKindeLogin } from "../test-data/test.data"
+import exp from "constants"
 
 test.describe("test Pricing page", () => {
   test("title visible", async ({ page }) => {
@@ -39,30 +40,39 @@ test.describe("test Pricing page", () => {
     await expect(proPlan).toBeVisible()
   })
 
-  test.only("free sign-up link navigates to kinde sign up", async ({
-    page,
-  }) => {
+  test("free max pages correctly rendered", async ({ page }) => {
+    const pricingPage = new Pricing(page)
+    await pricingPage.navigateToPricingPage()
+
+    const freeMaxPages = pricingPage.getFreeMaxPages()
+
+    await expect(freeMaxPages).toBeVisible()
+
+    const freeMaxPagesText = freeMaxPages.textContent()
+
+    expect(freeMaxPagesText).toBe("10 pages per PDF")
+  })
+
+  test("free sign-up link navigates to kinde sign up", async ({ page }) => {
     const pricingPage = new Pricing(page)
     await pricingPage.navigateToPricingPage()
 
     const freeSignUpLink = pricingPage.getFreeSignUpLink()
 
-    expect(freeSignUpLink).toBeVisible()
+    await expect(freeSignUpLink).toBeVisible()
 
     await freeSignUpLink.click()
 
     await expect(page).toHaveURL(regexKindeLogin)
   })
 
-  test.only("pro sign up link navigatest to kinde sign up", async ({
-    page,
-  }) => {
+  test("pro sign up link navigatest to kinde sign up", async ({ page }) => {
     const pricingPage = new Pricing(page)
     await pricingPage.navigateToPricingPage()
 
     const proSignUpLink = pricingPage.getProSignUpLink()
 
-    expect(proSignUpLink).toBeVisible()
+    await expect(proSignUpLink).toBeVisible()
 
     await proSignUpLink.click()
 

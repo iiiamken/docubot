@@ -145,6 +145,11 @@ const Page = async () => {
                       {footnote ? (
                         <div className="flex items-center space-x-1">
                           <p
+                            id={
+                              plan === "Pro"
+                                ? "pro-max-pages"
+                                : "free-max-pages"
+                            }
                             className={cn("text-gray-600", {
                               "text-gray-400": negative,
                             })}
