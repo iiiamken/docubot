@@ -88,4 +88,13 @@ test.describe("test Pricing page", () => {
 
     await expect(page).toHaveURL(regexKindeLogin)
   })
+
+  test("navbar to be visible on pricing page", async ({ page }) => {
+    const pricingPage = new Pricing(page)
+    await pricingPage.navigateToPricingPage()
+
+    const navbar = pricingPage.getNavbar()
+
+    await expect(navbar).toBeVisible()
+  })
 })

@@ -13,6 +13,7 @@ export class Pricing {
   private freeUpgradeLink = this.page.locator("#free-upgrade-link")
   private freeMaxPages = this.page.locator("#free-max-pages")
   private proMaxPages = this.page.locator("#pro-max-pages")
+  private navbar = this.page.locator("#navbar")
 
   //getters
   getPricingTitle() {
@@ -49,6 +50,10 @@ export class Pricing {
 
   getProMaxPages() {
     return this.proMaxPages
+  }
+
+  getNavbar() {
+    return this.navbar
   }
   //actions
   async navigateToPricingPage() {
