@@ -8,7 +8,7 @@ export class Dashboard {
   //getters
 
   //actions
-  async navigateToPricingPage() {
+  async navigateToDashboard() {
     await this.page.goto("https://dokubot.vercel.app/dashboard/")
   }
 }
