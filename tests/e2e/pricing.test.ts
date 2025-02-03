@@ -39,7 +39,7 @@ test.describe("test Pricing page", () => {
     await expect(proPlan).toBeVisible()
   })
 
-  test.only("free max pages and pro max pages to be correctly rendered", async ({
+  test("free max pages and pro max pages to be correctly rendered", async ({
     page,
   }) => {
     const pricingPage = new Pricing(page)
