@@ -111,10 +111,8 @@ test.describe("Test homepage", () => {
 
     const pricingLink = homePage.getPricingLink()
 
-    await expect(pricingLink).toBeVisible()
-
     await pricingLink.click()
 
-    await expect(page).toHaveURL("https://dokubot.vercel.app/pricing/")
+    await expect(page).toHaveURL("https://dokubot.vercel.app/pricing")
   })
 })

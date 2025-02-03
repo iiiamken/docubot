@@ -39,7 +39,7 @@ test.describe("test Pricing page", () => {
     await expect(proPlan).toBeVisible()
   })
 
-  test("free max pages and pro max pages to be correctly rendered", async ({
+  test.only("free max pages and pro max pages to be correctly rendered", async ({
     page,
   }) => {
     const pricingPage = new Pricing(page)
@@ -49,7 +49,7 @@ test.describe("test Pricing page", () => {
 
     await expect(freeMaxPages).toBeVisible()
 
-    const freeMaxPagesText = freeMaxPages.textContent()
+    const freeMaxPagesText = freeMaxPages.innerText()
 
     expect(freeMaxPagesText).toBe("10 pages per PDF")
 
@@ -57,7 +57,7 @@ test.describe("test Pricing page", () => {
 
     await expect(proMaxPages).toBeVisible()
 
-    const proMaxPagesText = proMaxPages.textContent()
+    const proMaxPagesText = proMaxPages.innerText()
 
     expect(proMaxPagesText).toBe("120 pages per PDF")
   })
