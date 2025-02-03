@@ -10,8 +10,9 @@ test.describe("api test cases for auth callback api endpoint", () => {
 
     // Parse response JSON
     const data = await response.json()
-    console.log(data)
     // Verify error code is "UNAUTHORIZED"
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
+
+  test("returns success code when user is logged in", async ({ page }) => {})
 })
