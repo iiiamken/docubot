@@ -38,7 +38,7 @@ export class LoginPage {
 
   //actions
   async navigateToLoginPage() {
-    await this.page.goto(kindeLoginPage)
+    await this.page.goto("https://dokubot.vercel.app/dashboard/")
   }
 
   async login(username: string, password: string): Promise<void> {

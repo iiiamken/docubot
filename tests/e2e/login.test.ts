@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test"
 import { LoginPage } from "../pages/loginPage.page"
 import { kindePassword, kindeUsername } from "../test-data/test.data"
 
-test("Login and save session state", async ({ page }) => {
+test.only("Login and save session state", async ({ page }) => {
   const loginPage = new LoginPage(page)
 
   await loginPage.navigateToLoginPage()

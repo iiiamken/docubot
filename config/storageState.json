@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "kbtc",
+      "value": "ktt_8a96bd5031af40a3ab28a6ecb956a6dc",
+      "domain": ".dokubot.kinde.com",
+      "path": "/",
+      "expires": 1770244262,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ac-state-key",
+      "value": "3ef4d425014f12ac6a65bccbf12d",
+      "domain": "dokubot.vercel.app",
+      "path": "/",
+      "expires": 1741213862,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}
