@@ -52,6 +52,7 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
             )
             .map((file) => (
               <li
+                id={file.id}
                 key={file.id}
                 className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
               >
