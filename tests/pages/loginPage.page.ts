@@ -16,4 +16,21 @@ export class LoginPage {
   )
 
   //getters
+  getUsernameInput() {
+    return this.usernameInput
+  }
+  getPasswordInput() {
+    return this.passwordInput
+  }
+  getUsernameSubmitBtn() {
+    return this.usernameSubmitButton
+  }
+  getPasswordSubmitBtn() {
+    return this.passwordSubmitButton
+  }
+
+  //actions
+  async navigateToDashboard() {
+    await this.page.goto(kindeLoginPage)
+  }
 }
