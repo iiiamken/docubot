@@ -3,3 +3,6 @@ export const regexKindeLogin =
 
 export const regexKindeRegister =
   /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:register/
+
+export const kindeLoginPage =
+  "https://dokubot.kinde.com/auth/cx/_:nav&m:login&psid:0194d2f5c1707141f450121c0b4e4cf4"
