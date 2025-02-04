@@ -37,7 +37,7 @@ export class LoginPage {
   }
 
   //actions
-  async navigateToDashboard() {
+  async navigateToLoginPage() {
     await this.page.goto(kindeLoginPage)
   }
 
