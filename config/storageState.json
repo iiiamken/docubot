@@ -2,20 +2,20 @@
   "cookies": [
     {
       "name": "kbtc",
-      "value": "ktt_8a96bd5031af40a3ab28a6ecb956a6dc",
+      "value": "ktt_4070f92e73aa4755bdbc1ce0c7829318",
       "domain": ".dokubot.kinde.com",
       "path": "/",
-      "expires": 1770244262,
+      "expires": 1770244869,
       "httpOnly": true,
       "secure": true,
-      "sameSite": "Lax"
+      "sameSite": "None"
     },
     {
       "name": "ac-state-key",
-      "value": "3ef4d425014f12ac6a65bccbf12d",
+      "value": "e799d39be4771672b732ad9dbb69",
       "domain": "dokubot.vercel.app",
       "path": "/",
-      "expires": 1741213862,
+      "expires": 1741214648,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"

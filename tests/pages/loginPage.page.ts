@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test"
-import { kindeLoginPage } from "../test-data/test.data"
 
 export class LoginPage {
   constructor(private page: Page) {}
