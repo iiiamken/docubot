@@ -15,7 +15,7 @@
       "value": "e799d39be4771672b732ad9dbb69",
       "domain": "dokubot.vercel.app",
       "path": "/",
-      "expires": 1741214648,
+      "expires": 1741214843,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"
