@@ -20,7 +20,7 @@ test.describe("tests for dashboard page", () => {
     await expect(page.locator("#dashboard-title")).toBeVisible()
   })
 
-  test("check if upload button is opens modal", async ({ page }) => {
+  test.only("check if upload button is opens modal", async ({ page }) => {
     const dashboardPage = new Dashboard(page)
     await dashboardPage.navigateToDashboard()
 
@@ -31,20 +31,20 @@ test.describe("tests for dashboard page", () => {
 
     await expect(uploadButton).toBeVisible()
 
-    await uploadButton.click()
+    uploadButton.click()
 
     const modal = dashboardPage.getModal()
 
     await expect(modal).toBeVisible()
 
-    // await page.setInputFiles(
-    //   'input[type="file"]',
-    //   "tests/test-data/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
-    // )
+    await page.setInputFiles(
+      "#dropzone-file",
+      "tests/test-data/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+    )
 
-    // const redirectingLoader = dashboardPage.getRedirectingLoader()
+    const redirectingLoader = dashboardPage.getRedirectingLoader()
 
-    // await expect(redirectingLoader).toBeVisible()
+    await expect(redirectingLoader).toBeVisible()
   })
 
   test("file visible and navigates to message page", async ({ page }) => {
