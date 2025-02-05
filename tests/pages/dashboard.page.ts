@@ -9,7 +9,7 @@ export class Dashboard {
   private redirectingLoader = this.page.locator("#redirecting_loader")
   private fileItem = this.page.locator("#cm6fnr1lx0001jq03fz2oe6ef")
   private pdfField = this.page.locator("#pdf_field")
-  private testFileDeleteBtn = this.page.locator("#test_file.pdf_delete")
+  private testFileDeleteBtn = this.page.locator("#test_file\\.pdf")
 
   //getters
   getUploadButton() {

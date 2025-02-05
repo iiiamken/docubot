@@ -87,7 +87,7 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
                     <MessageSquare className="h-4 w-4" />
                   </div>
                   <Button
-                    id={file.name}
+                    id={`delete_${file.name}`}
                     onClick={() => deleteFile({ id: file.id })}
                     size="sm"
                     className="w-full"

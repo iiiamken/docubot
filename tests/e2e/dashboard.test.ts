@@ -30,11 +30,12 @@ test.describe("tests for dashboard page", () => {
     const uploadButton = dashboardPage.getUploadButton()
 
     await expect(uploadButton).toBeVisible()
+    await page.waitForTimeout(3000)
 
     await uploadButton.click()
     const modal = dashboardPage.getModal()
 
-    await expect(modal).toBeVisible({ timeout: 5000 })
+    await expect(modal).toBeVisible()
   })
 
   test("file visible and navigates to message page", async ({ page }) => {
@@ -53,7 +54,7 @@ test.describe("tests for dashboard page", () => {
     )
   })
 
-  test.only("check if upload pdf navigates to new message page on success", async ({
+  test("testing if upload test file and delete test file works", async ({
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
@@ -64,9 +65,10 @@ test.describe("tests for dashboard page", () => {
 
     const uploadButton = dashboardPage.getUploadButton()
 
-    await expect(uploadButton).toBeVisible({ timeout: 4000 })
+    await expect(uploadButton).toBeVisible()
+    await page.waitForTimeout(3000)
 
-    await uploadButton.click({ timeout: 1000 })
+    await uploadButton.click()
 
     await page.setInputFiles("#dropzone-file", "tests/test-data/test_file.pdf")
     await page.waitForTimeout(10000)
@@ -78,7 +80,11 @@ test.describe("tests for dashboard page", () => {
 
     const testFileDeleteBtn = dashboardPage.getTestFileDeleteBtn()
 
-    await testFileDeleteBtn.click({ timeout: 2000 })
+    console.log(testFileDeleteBtn)
+
+    await expect(testFileDeleteBtn).toBeVisible()
+
+    await testFileDeleteBtn.click()
 
     await expect(testFileDeleteBtn).toBeHidden()
   })
