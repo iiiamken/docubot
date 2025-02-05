@@ -8,6 +8,7 @@ export class Dashboard {
   private modal = this.page.locator("#radix-\\:R9fntb\\:")
   private redirectingLoader = this.page.locator("#redirecting_loader")
   private fileItem = this.page.locator("#cm6fnr1lx0001jq03fz2oe6ef")
+  private pdfField = this.page.locator("#pdf_field")
 
   //getters
   getUploadButton() {
@@ -24,6 +25,10 @@ export class Dashboard {
 
   getFileItem() {
     return this.fileItem
+  }
+
+  getPdfField() {
+    return this.pdfField
   }
   //actions
   async navigateToDashboard() {

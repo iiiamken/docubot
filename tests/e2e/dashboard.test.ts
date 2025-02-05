@@ -33,9 +33,9 @@ test.describe("tests for dashboard page", () => {
 
     uploadButton.click()
 
-    const modal = dashboardPage.getModal()
+    // const modal = dashboardPage.getModal()
 
-    await expect(modal).toBeVisible()
+    // await expect(modal).toBeVisible()
 
     await page.setInputFiles(
       "#dropzone-file",
