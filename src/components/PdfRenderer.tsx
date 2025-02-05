@@ -81,6 +81,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
       >
         <div className="flex items-center gap-1.5">
           <Button
+            id="prev_page_button"
             disabled={currPage <= 1}
             onClick={() => {
               setCurrPage((prev) => (prev - 1 > 1 ? prev - 1 : 1))
@@ -94,6 +95,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
 
           <div className="flex items-center gap-1.5">
             <Input
+              id="input_page"
               {...register("page")}
               className={cn(
                 "w-12 h-8",
@@ -112,6 +114,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           </div>
 
           <Button
+            id="next_page_button"
             disabled={numPages === undefined || currPage === numPages}
             onClick={() => {
               setCurrPage((prev) =>
@@ -129,7 +132,12 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
         <div className="space-x-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="gap-1.5" aria-label="zoom" variant="ghost">
+              <Button
+                id="zoom_button"
+                className="gap-1.5"
+                aria-label="zoom"
+                variant="ghost"
+              >
                 <Search className="h-4 w-4" />
                 {scale * 100}%
                 <ChevronDown className="h-3 w-3 opacity-50" />
@@ -152,6 +160,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           </DropdownMenu>
 
           <Button
+            id="rotate_button"
             onClick={() => setRotation((prev) => prev + 90)}
             variant="ghost"
             aria-label="rotate 90 degrees"
