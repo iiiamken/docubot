@@ -20,7 +20,7 @@ test.describe("tests for dashboard page", () => {
     await expect(page.locator("#dashboard-title")).toBeVisible()
   })
 
-  test.only("check if upload button is opens modal", async ({ page }) => {
+  test("check if upload button is opens modal", async ({ page }) => {
     const dashboardPage = new Dashboard(page)
     await dashboardPage.navigateToDashboard()
 
@@ -31,20 +31,10 @@ test.describe("tests for dashboard page", () => {
 
     await expect(uploadButton).toBeVisible()
 
-    uploadButton.click()
+    await uploadButton.click()
+    const modal = dashboardPage.getModal()
 
-    // const modal = dashboardPage.getModal()
-
-    // await expect(modal).toBeVisible()
-
-    await page.setInputFiles(
-      "#dropzone-file",
-      "tests/test-data/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
-    )
-
-    const redirectingLoader = dashboardPage.getRedirectingLoader()
-
-    await expect(redirectingLoader).toBeVisible()
+    await expect(modal).toBeVisible({ timeout: 5000 })
   })
 
   test("file visible and navigates to message page", async ({ page }) => {
@@ -61,5 +51,28 @@ test.describe("tests for dashboard page", () => {
     await expect(page).toHaveURL(
       `https://dokubot.vercel.app/dashboard/${fileItemId}`
     )
+  })
+
+  test("check if upload pdf works", async ({ page }) => {
+    const dashboardPage = new Dashboard(page)
+    await dashboardPage.navigateToDashboard()
+
+    const loginPage = new LoginPage(page)
+    await loginPage.login(kindeUsername, kindePassword)
+
+    const uploadButton = dashboardPage.getUploadButton()
+
+    await expect(uploadButton).toBeVisible({ timeout: 3000 })
+
+    uploadButton.click()
+
+    await page.setInputFiles(
+      "#dropzone-file",
+      "tests/test-data/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+    )
+    await page.waitForTimeout(10000)
+    const pdfField = dashboardPage.getPdfField()
+
+    await expect(pdfField).toBeVisible()
   })
 })
