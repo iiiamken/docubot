@@ -1,7 +1,11 @@
 import test, { expect } from "@playwright/test"
 import { Dashboard } from "../pages/dashboard.page"
 import { LoginPage } from "../pages/loginPage.page"
-import { kindePassword, kindeUsername } from "../test-data/test.data"
+import {
+  fileItemId,
+  kindePassword,
+  kindeUsername,
+} from "../test-data/test.data"
 
 test.describe("tests for dashboard page", () => {
   test("login to navigate to dashboard, expect title to be visible", async ({
@@ -54,8 +58,10 @@ test.describe("tests for dashboard page", () => {
 
     await fileItem.click()
 
+    console.log(`https://dokubot.vercel.app/dashboard/${fileItemId}`)
+
     await expect(page).toHaveURL(
-      `https://dokubot.vercel.app/dashboard/${fileItem}`
+      `https://dokubot.vercel.app/dashboard/${fileItemId}`
     )
   })
 })
