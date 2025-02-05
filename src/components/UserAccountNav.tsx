@@ -30,7 +30,10 @@ const UserAccountNav = async ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="overflow-visible">
-        <Button className="rounded-full h-8 w-8 aspect-square bg-slate-400">
+        <Button
+          id="icon_dropdown_menu"
+          className="rounded-full h-8 w-8 aspect-square bg-slate-400"
+        >
           <Avatar className="relative w-8 h-8">
             {imageUrl ? (
               <div className="relative aspect-square h-full w-full">
@@ -66,14 +69,18 @@ const UserAccountNav = async ({
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">Dashboard</Link>
+          <Link id="dashboard_nav_button" href="/dashboard">
+            Dashboard
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           {subscriptionPlan?.isSubscribed ? (
-            <Link href="/dashboard/billing">Manage Subscription</Link>
+            <Link id="manage_sub_button" href="/dashboard/billing">
+              Manage Subscription
+            </Link>
           ) : (
-            <Link href="/pricing">
+            <Link id="upgrade_button" href="/pricing">
               Upgrade <Gem className="text-blue-600 h-4 w-4 ml-1.5" />
             </Link>
           )}
@@ -81,7 +88,7 @@ const UserAccountNav = async ({
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem className="cursor-pointer" asChild>
+        <DropdownMenuItem id="logout_button" className="cursor-pointer" asChild>
           <LogoutLink>Log out</LogoutLink>
         </DropdownMenuItem>
       </DropdownMenuContent>
