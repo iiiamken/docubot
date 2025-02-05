@@ -8,7 +8,6 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   use: {
-    storageState: "config/storageState.json",
     baseURL: "https://dokubot.vercel.app/",
 
     trace: "on-first-retry",

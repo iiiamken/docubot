@@ -5,7 +5,7 @@ export class Dashboard {
 
   //locators
   private uploadButton = this.page.locator("#upload_button")
-  private modal = this.page.locator("#radix-:R9fntb:")
+  private modal = this.page.locator("#radix-\\:R9fntb\\:")
 
   //getters
   getUploadButton() {

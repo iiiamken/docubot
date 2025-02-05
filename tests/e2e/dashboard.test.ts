@@ -16,7 +16,7 @@ test.describe("tests for dashboard page", () => {
     await expect(page.locator("#dashboard-title")).toBeVisible()
   })
 
-  test("check if upload button is opens modal", async ({ page }) => {
+  test.only("check if upload button is opens modal", async ({ page }) => {
     const dashboardPage = new Dashboard(page)
     await dashboardPage.navigateToDashboard()
 
@@ -24,6 +24,8 @@ test.describe("tests for dashboard page", () => {
     await loginPage.login(kindeUsername, kindePassword)
 
     const uploadButton = dashboardPage.getUploadButton()
+
+    await expect(uploadButton).toBeVisible()
 
     await uploadButton.click()
 
