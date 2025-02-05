@@ -8,8 +8,6 @@ test("Login and save session state", async ({ page }) => {
   await loginPage.navigateToLoginPage()
   await loginPage.login(kindeUsername, kindePassword)
 
-  // Save session state
-
   // Validate that login was successful
   await expect(page.locator("#dashboard-title")).toBeVisible()
 })
