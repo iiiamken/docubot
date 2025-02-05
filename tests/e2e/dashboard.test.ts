@@ -47,7 +47,7 @@ test.describe("tests for dashboard page", () => {
     // await expect(redirectingLoader).toBeVisible()
   })
 
-  test.only("file visible and navigates to message page", async ({ page }) => {
+  test("file visible and navigates to message page", async ({ page }) => {
     const dashboardPage = new Dashboard(page)
     await dashboardPage.navigateToDashboard()
 
@@ -57,8 +57,6 @@ test.describe("tests for dashboard page", () => {
     const fileItem = dashboardPage.getFileItem()
 
     await fileItem.click()
-
-    console.log(`https://dokubot.vercel.app/dashboard/${fileItemId}`)
 
     await expect(page).toHaveURL(
       `https://dokubot.vercel.app/dashboard/${fileItemId}`

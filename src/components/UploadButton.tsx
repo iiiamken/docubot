@@ -132,7 +132,7 @@ const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
                   </div>
                 )}
                 <input
-                  {...getInputProps}
+                  {...getInputProps()}
                   type="file"
                   id="dropzone-file"
                   className="hidden"
