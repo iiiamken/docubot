@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test"
+import { fileItemId } from "../test-data/test.data"
 
 export class Dashboard {
   constructor(private page: Page) {}
@@ -7,7 +8,7 @@ export class Dashboard {
   private uploadButton = this.page.locator("#upload_button")
   private modal = this.page.locator("#radix-\\:R9fntb\\:")
   private redirectingLoader = this.page.locator("#redirecting_loader")
-  private fileItem = this.page.locator("#cm6fnr1lx0001jq03fz2oe6ef")
+  private fileItem = this.page.locator(fileItemId)
   private pdfField = this.page.locator("#pdf_field")
   private testFileDeleteBtn = this.page.locator("#test_file\\.pdf")
 
@@ -35,6 +36,7 @@ export class Dashboard {
   getTestFileDeleteBtn() {
     return this.testFileDeleteBtn
   }
+
   //actions
   async navigateToDashboard() {
     await this.page.goto("https://dokubot.vercel.app/dashboard/")
