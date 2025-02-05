@@ -19,6 +19,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
           <div className="relative flex flex-col w-full flex-grow p-4">
             <div className="relative">
               <Textarea
+                id="text_input_field"
                 ref={textareaRef}
                 onChange={handleInputChange}
                 value={message}

@@ -37,7 +37,10 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
 
   if (isLoading)
     return (
-      <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
+      <div
+        id="message_content"
+        className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2"
+      >
         <div className="flex-1 flex justify-center items-center flex-col mb-28">
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
@@ -71,10 +74,13 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
     return (
       <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
         <div className="flex-1 flex justify-center items-center flex-col mb-28">
-          <div className="flex flex-col items-center gap-2">
+          <div
+            id="too_many_pages_error"
+            className="flex flex-col items-center gap-2"
+          >
             <XCircle className="h-8 w-8 text-red-500" />
             <h3 className="font-semibold text-xl">Too many pages in PDF</h3>
-            <p className="text-zinc-500 text-sm">
+            <p id="error_plan_info" className="text-zinc-500 text-sm">
               Your{" "}
               <span className="font-medium">
                 {isSubscribed ? "Pro" : "Free"}
@@ -86,6 +92,7 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
               pages per PDF.
             </p>
             <Link
+              id="too_many_pages_back_button"
               href="/dashboard"
               className={buttonVariants({
                 variant: "secondary",
