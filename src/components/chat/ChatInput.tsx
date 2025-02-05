@@ -40,6 +40,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
               />
 
               <Button
+                id="submit_message_button"
                 disabled={isLoading || isDisabled}
                 type="submit"
                 onClick={() => {
