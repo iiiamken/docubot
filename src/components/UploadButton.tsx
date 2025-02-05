@@ -122,7 +122,10 @@ const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
                     />
                     {uploadProgress === 100 && (
                       <div className="flex gap-1 items-center justify-center text-sm text-zinc-700 text-center pt-2">
-                        <Loader2 className="h-3 w-3 animate-spin" />
+                        <Loader2
+                          id="redirecting_loader"
+                          className="h-3 w-3 animate-spin"
+                        />
                         Redirecting...
                       </div>
                     )}

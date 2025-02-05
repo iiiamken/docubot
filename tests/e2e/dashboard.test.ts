@@ -32,5 +32,14 @@ test.describe("tests for dashboard page", () => {
     const modal = dashboardPage.getModal()
 
     await expect(modal).toBeVisible()
+
+    await page.setInputFiles(
+      'input[type="file"]',
+      "tests/test-data/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+    )
+
+    const redirectingLoader = dashboardPage.getRedirectingLoader()
+
+    await expect(redirectingLoader).toBeVisible()
   })
 })

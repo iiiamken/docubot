@@ -6,6 +6,7 @@ export class Dashboard {
   //locators
   private uploadButton = this.page.locator("#upload_button")
   private modal = this.page.locator("#radix-\\:R9fntb\\:")
+  private redirectingLoader = this.page.locator("#redirecting_loader")
 
   //getters
   getUploadButton() {
@@ -14,6 +15,10 @@ export class Dashboard {
 
   getModal() {
     return this.modal
+  }
+
+  getRedirectingLoader() {
+    return this.redirectingLoader
   }
 
   //actions
