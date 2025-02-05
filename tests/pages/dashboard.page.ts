@@ -9,7 +9,7 @@ export class Dashboard {
   private redirectingLoader = this.page.locator("#redirecting_loader")
   private fileItem = this.page.locator("#cm6fnr1lx0001jq03fz2oe6ef")
   private pdfField = this.page.locator("#pdf_field")
-  private testFile = this.page.locator("test_file_delete")
+  private testFileDeleteBtn = this.page.locator("#test_file.pdf_delete")
 
   //getters
   getUploadButton() {
@@ -32,8 +32,8 @@ export class Dashboard {
     return this.pdfField
   }
 
-  getTestFile() {
-    return this.testFile
+  getTestFileDeleteBtn() {
+    return this.testFileDeleteBtn
   }
   //actions
   async navigateToDashboard() {

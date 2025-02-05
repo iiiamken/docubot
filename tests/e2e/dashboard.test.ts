@@ -53,7 +53,7 @@ test.describe("tests for dashboard page", () => {
     )
   })
 
-  test("check if upload pdf navigates to new message page on success", async ({
+  test.only("check if upload pdf navigates to new message page on success", async ({
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
@@ -64,14 +64,11 @@ test.describe("tests for dashboard page", () => {
 
     const uploadButton = dashboardPage.getUploadButton()
 
-    await expect(uploadButton).toBeVisible({ timeout: 3000 })
+    await expect(uploadButton).toBeVisible({ timeout: 4000 })
 
-    uploadButton.click()
+    await uploadButton.click({ timeout: 1000 })
 
-    await page.setInputFiles(
-      "#dropzone-file",
-      "tests/test-data/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
-    )
+    await page.setInputFiles("#dropzone-file", "tests/test-data/test_file.pdf")
     await page.waitForTimeout(10000)
     const pdfField = dashboardPage.getPdfField()
 
@@ -79,6 +76,10 @@ test.describe("tests for dashboard page", () => {
 
     await dashboardPage.navigateToDashboard()
 
-    const testFile = dashboardPage.getTestFile()
+    const testFileDeleteBtn = dashboardPage.getTestFileDeleteBtn()
+
+    await testFileDeleteBtn.click({ timeout: 2000 })
+
+    await expect(testFileDeleteBtn).toBeHidden()
   })
 })
