@@ -52,7 +52,6 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
             )
             .map((file) => (
               <li
-                id={file.id}
                 key={file.id}
                 className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
               >
@@ -60,7 +59,10 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
                   href={`/dashboard/${file.id}`}
                   className="flex flex-col gap-2"
                 >
-                  <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
+                  <div
+                    id={file.id}
+                    className="pt-6 px-6 flex w-full items-center justify-between space-x-6"
+                  >
                     <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
                     <div className="flex-1 truncate">
                       <div className="flex items-center space-x-3">
