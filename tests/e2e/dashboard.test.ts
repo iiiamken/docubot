@@ -53,7 +53,9 @@ test.describe("tests for dashboard page", () => {
     )
   })
 
-  test("check if upload pdf works", async ({ page }) => {
+  test("check if upload pdf navigates to new message page on success", async ({
+    page,
+  }) => {
     const dashboardPage = new Dashboard(page)
     await dashboardPage.navigateToDashboard()
 
@@ -74,5 +76,9 @@ test.describe("tests for dashboard page", () => {
     const pdfField = dashboardPage.getPdfField()
 
     await expect(pdfField).toBeVisible()
+
+    await dashboardPage.navigateToDashboard()
+
+    const testFile = dashboardPage.getTestFile()
   })
 })

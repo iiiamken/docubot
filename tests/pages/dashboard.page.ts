@@ -9,6 +9,7 @@ export class Dashboard {
   private redirectingLoader = this.page.locator("#redirecting_loader")
   private fileItem = this.page.locator("#cm6fnr1lx0001jq03fz2oe6ef")
   private pdfField = this.page.locator("#pdf_field")
+  private testFile = this.page.locator("test_file_delete")
 
   //getters
   getUploadButton() {
@@ -29,6 +30,10 @@ export class Dashboard {
 
   getPdfField() {
     return this.pdfField
+  }
+
+  getTestFile() {
+    return this.testFile
   }
   //actions
   async navigateToDashboard() {
