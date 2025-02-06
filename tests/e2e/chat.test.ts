@@ -81,16 +81,20 @@ test.describe("tests for chat page with test file item", () => {
     const scale = await chatPage.getScaleFactor()
     expect(scale).toMatch(/^2\./)
   })
-  test("pdf options rotate button rotates page", async ({ page }) => {
+  test.only("pdf options rotate button rotates page", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage(page)
     await page.waitForTimeout(5000)
 
+    let rotationValue = await chatPage.getRotationValue()
+    expect(rotationValue).toBe("0")
+
     const rotateButton = chatPage.getRotateButton()
     await rotateButton.click()
-    await page.waitForTimeout(3000)
 
-    const rotationValue = await chatPage.getRotationValue()
+    rotationValue = await chatPage.getRotationValue()
+
+    await page.waitForTimeout(3000)
 
     expect(rotationValue).toBe("90")
   })
