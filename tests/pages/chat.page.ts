@@ -14,12 +14,17 @@ export class Chat {
   private testFile = this.page.locator(fileItemId)
   private pdfContent = this.page.locator(".react-pdf__Page")
   private pdfOptionsBar = this.page.locator("pdf_options_bar")
+  private pageNumber = this.page.getAttribute(
+    ".react-pdf__Page",
+    "data-page-number"
+  )
+
+  private nextPage = this.page.locator("#next_page_button")
+  private prevPage = this.page.locator("#prev_page_button")
+  private inputPage = this.page.locator("#input_page")
   private rotation = this.page
     .locator(".react-pdf__Page__textContent")
     .getAttribute("data-main-rotation")
-  private pageNumber = this.page
-    .locator(".react-pdf__Page")
-    .getAttribute("data-page-number")
   private scaleFactor = this.page
     .locator(".react-pdf__Page")
     .evaluate((el) =>
@@ -49,6 +54,18 @@ export class Chat {
 
   getPageNumber() {
     return this.pageNumber
+  }
+
+  getNextPageButton() {
+    return this.nextPage
+  }
+
+  getPrevPageButton() {
+    return this.prevPage
+  }
+
+  getInputPage() {
+    return this.inputPage
   }
 
   getScaleFactor() {
