@@ -26,6 +26,7 @@ export class Chat {
       getComputedStyle(el).getPropertyValue("--scale-factor").trim()
     )
   private fullscreenModal = this.page.locator("#radix-:r2:")
+  private zoomButton = this.page.locator("#zoom_button")
 
   //getters
   getTestFile() {
@@ -50,6 +51,10 @@ export class Chat {
 
   async getPageNumber() {
     return await this.page.getAttribute(".react-pdf__Page", "data-page-number")
+  }
+
+  getZoomButton() {
+    return this.zoomButton
   }
 
   getNextPageButton() {

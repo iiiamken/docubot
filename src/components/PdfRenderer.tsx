@@ -150,7 +150,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               <DropdownMenuItem onSelect={() => setScale(1.5)}>
                 150%
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => setScale(2)}>
+              <DropdownMenuItem id="zoom_200" onSelect={() => setScale(2)}>
                 200%
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setScale(2.5)}>
