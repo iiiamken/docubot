@@ -81,7 +81,7 @@ test.describe("tests for chat page with test file item", () => {
     const scale = await chatPage.getScaleFactor()
     expect(scale).toMatch(/^2\./)
   })
-  test.only("pdf options rotate button rotates page", async ({ page }) => {
+  test("pdf options rotate button rotates page", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage(page)
     await page.waitForTimeout(5000)
@@ -98,5 +98,17 @@ test.describe("tests for chat page with test file item", () => {
 
     expect(rotationValue).toBe("90")
   })
-  // test("pdf options fullscreen feature opens modal", async ({ page }) => {})
+  test("pdf options fullscreen feature opens modal", async ({ page }) => {
+    const chatPage = new Chat(page)
+    await chatPage.navigateToChatPage(page)
+    await page.waitForTimeout(5000)
+
+    const fullscreenButton = chatPage.getFullscreenButton()
+    await fullscreenButton.click()
+    await page.waitForTimeout(3000)
+
+    const fullscreenModal = chatPage.getFullscreenModal()
+
+    await expect(fullscreenModal).toBeVisible()
+  })
 })

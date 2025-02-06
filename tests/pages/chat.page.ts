@@ -17,11 +17,9 @@ export class Chat {
   private nextPage = this.page.locator("#next_page_button")
   private prevPage = this.page.locator("#prev_page_button")
   private inputPage = this.page.locator("#input_page")
-  // private rotationValue = this.page
-  //   .locator(".react-pdf__Page__textContent")
-  //   .getAttribute("data-main-rotation")
   private rotationButton = this.page.locator("#rotate_button")
-  private fullscreenModal = this.page.locator("#radix-:r2:")
+  private fullscreenModal = this.page.locator("#radix-\\:r2\\:")
+  private fullscreenButton = this.page.locator("#fullscreen_button")
   private zoomButton = this.page.locator("#zoom_button")
   private zoomOption200 = this.page.locator("#zoom_200")
 
@@ -84,6 +82,10 @@ export class Chat {
 
   getFullscreenModal() {
     return this.fullscreenModal
+  }
+
+  getFullscreenButton() {
+    return this.fullscreenButton
   }
 
   //actions
