@@ -14,11 +14,6 @@ export class Chat {
   private testFile = this.page.locator(fileItemId)
   private pdfContent = this.page.locator(".react-pdf__Page")
   private pdfOptionsBar = this.page.locator("pdf_options_bar")
-  private pageNumber = this.page.getAttribute(
-    ".react-pdf__Page",
-    "data-page-number"
-  )
-
   private nextPage = this.page.locator("#next_page_button")
   private prevPage = this.page.locator("#prev_page_button")
   private inputPage = this.page.locator("#input_page")
@@ -31,6 +26,7 @@ export class Chat {
       getComputedStyle(el).getPropertyValue("--scale-factor").trim()
     )
   private fullscreenModal = this.page.locator("#radix-:r2:")
+
   //getters
   getTestFile() {
     return this.testFile
@@ -52,8 +48,8 @@ export class Chat {
     return this.rotation
   }
 
-  getPageNumber() {
-    return this.pageNumber
+  async getPageNumber() {
+    return await this.page.getAttribute(".react-pdf__Page", "data-page-number")
   }
 
   getNextPageButton() {
