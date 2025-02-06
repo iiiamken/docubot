@@ -1,5 +1,11 @@
 import { Page } from "@playwright/test"
-import { chatPageUrl, fileItemId } from "../test-data/test.data"
+import {
+  chatPageUrl,
+  fileItemId,
+  kindePassword,
+  kindeUsername,
+} from "../test-data/test.data"
+import { LoginPage } from "./loginPage.page"
 
 export class Chat {
   constructor(private page: Page) {}
@@ -18,7 +24,12 @@ export class Chat {
   }
 
   //actions
-  async navigateToChatPage() {
+  async navigateToChatPage(page: Page) {
     await this.page.goto(chatPageUrl)
+    const loginPage = new LoginPage(page)
+    await loginPage.login(kindeUsername, kindePassword)
+
+    const testFile = this.getTestFile()
+    await testFile.click()
   }
 }

@@ -192,25 +192,6 @@ export const appRouter = router({
 
     return { url: stripeSession.url }
   }),
-  // getMessageCount: privateProcedure
-  //   .input(
-  //     z.object({
-  //       fileId: z.string(),
-  //     })
-  //   )
-  //   .query(async ({ input, ctx }) => {
-  //     const { fileId } = input
-  //     const { userId } = ctx
-
-  //     const messageCount = await db.message.count({
-  //       where: {
-  //         fileId,
-  //         userId,
-  //       },
-  //     })
-
-  //     return { count: messageCount }
-  //   }),
 })
 
 export type AppRouter = typeof appRouter

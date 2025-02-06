@@ -82,8 +82,6 @@ test.describe("tests for dashboard page", () => {
 
     const testFileDeleteBtn = dashboardPage.getTestFileDeleteBtn()
 
-    console.log(testFileDeleteBtn)
-
     await expect(testFileDeleteBtn).toBeVisible()
 
     await testFileDeleteBtn.click()
