@@ -23,6 +23,8 @@ export class Chat {
   private zoomButton = this.page.locator("#zoom_button")
   private zoomOption200 = this.page.locator("#zoom_200")
 
+  private tooManyPages = this.page.locator("#too_many_pages_error")
+
   //getters
   getTestFile() {
     return this.testFile
@@ -88,6 +90,11 @@ export class Chat {
     return this.fullscreenButton
   }
 
+  //message getters
+
+  getTooManyPages() {
+    return this.tooManyPages
+  }
   //actions
   async navigateToChatPage(page: Page) {
     await this.page.goto(chatPageUrl)

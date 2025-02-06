@@ -113,4 +113,16 @@ test.describe("tests for chat page pdf section", () => {
   })
 })
 
-test.describe("tests for chat message section", () => {})
+test.describe("tests for chat message section", () => {
+  test.only("too many pages error to be visible when user not subbed", async ({
+    page,
+  }) => {
+    const chatPage = new Chat(page)
+    await chatPage.navigateToChatPage(page)
+    await page.waitForTimeout(5000)
+
+    const tooManyPages = chatPage.getTooManyPages()
+
+    expect(tooManyPages).toBeVisible()
+  })
+})
