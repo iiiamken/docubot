@@ -153,4 +153,11 @@ test.describe("tests for chat message section", () => {
 
     await expect(page).toHaveURL("https://dokubot.vercel.app/dashboard")
   })
+
+  test("renders ready to chat text when first time chatting", async ({
+    page,
+  }) => {
+    const chatPage = new Chat(page)
+    await chatPage.navigateToSubbedChatPage(page)
+  })
 })

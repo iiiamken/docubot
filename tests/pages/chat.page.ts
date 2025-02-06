@@ -4,6 +4,9 @@ import {
   fileItemId,
   kindePassword,
   kindeUsername,
+  SubbedFileItemId,
+  subbedKindePassword,
+  subbedKindeUsername,
 } from "../test-data/test.data"
 import { LoginPage } from "./loginPage.page"
 
@@ -12,6 +15,8 @@ export class Chat {
 
   //locators
   private testFile = this.page.locator(fileItemId)
+  private subbedTestFile = this.page.locator(SubbedFileItemId)
+
   private pdfContent = this.page.locator(".react-pdf__Page")
   private pdfOptionsBar = this.page.locator("pdf_options_bar")
   private nextPage = this.page.locator("#next_page_button")
@@ -105,6 +110,10 @@ export class Chat {
   getErrorBackButton() {
     return this.errorBackButton
   }
+
+  getSubbedTestFile() {
+    return this.subbedTestFile
+  }
   //actions
   async navigateToChatPage(page: Page) {
     await this.page.goto(chatPageUrl)
@@ -113,5 +122,14 @@ export class Chat {
 
     const testFile = this.getTestFile()
     await testFile.click()
+  }
+
+  async navigateToSubbedChatPage(page: Page) {
+    await this.page.goto(chatPageUrl)
+    const loginPage = new LoginPage(page)
+    await loginPage.login(subbedKindeUsername, subbedKindePassword)
+
+    const subbedTestFile = this.getSubbedTestFile()
+    await subbedTestFile.click()
   }
 }
