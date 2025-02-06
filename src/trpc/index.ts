@@ -41,7 +41,18 @@ export const appRouter = router({
         userId,
       },
     })
-    return files
+
+    const filesWithCount = await Promise.all(
+      files.map(async (file) => {
+        const messageCount = await db.message.count({
+          where: { fileId: file.id, userId },
+        })
+
+        return { ...file, messageCount }
+      })
+    )
+
+    return filesWithCount
   }),
   deleteFile: privateProcedure
     .input(z.object({ id: z.string() }))
@@ -181,6 +192,25 @@ export const appRouter = router({
 
     return { url: stripeSession.url }
   }),
+  // getMessageCount: privateProcedure
+  //   .input(
+  //     z.object({
+  //       fileId: z.string(),
+  //     })
+  //   )
+  //   .query(async ({ input, ctx }) => {
+  //     const { fileId } = input
+  //     const { userId } = ctx
+
+  //     const messageCount = await db.message.count({
+  //       where: {
+  //         fileId,
+  //         userId,
+  //       },
+  //     })
+
+  //     return { count: messageCount }
+  //   }),
 })
 
 export type AppRouter = typeof appRouter

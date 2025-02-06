@@ -38,7 +38,9 @@ test.describe("tests for dashboard page", () => {
     await expect(modal).toBeVisible()
   })
 
-  test("file visible and navigates to message page", async ({ page }) => {
+  test("test file visible on login and navigates to message page on click", async ({
+    page,
+  }) => {
     const dashboardPage = new Dashboard(page)
     await dashboardPage.navigateToDashboard()
 
@@ -54,7 +56,7 @@ test.describe("tests for dashboard page", () => {
     )
   })
 
-  test("testing if upload test file and delete test file works", async ({
+  test("testing if upload new test file and delete test file works", async ({
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
