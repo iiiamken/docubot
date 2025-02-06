@@ -13,9 +13,19 @@ export class Chat {
   //locators
   private testFile = this.page.locator(fileItemId)
   private pdfContent = this.page.locator(".react-pdf__Page")
-  private pdfPageNav = this.page.locator("pdf_page_nav")
   private pdfOptionsBar = this.page.locator("pdf_options_bar")
-
+  private rotation = this.page
+    .locator(".react-pdf__Page__textContent")
+    .getAttribute("data-main-rotation")
+  private pageNumber = this.page
+    .locator(".react-pdf__Page")
+    .getAttribute("data-page-number")
+  private scaleFactor = this.page
+    .locator(".react-pdf__Page")
+    .evaluate((el) =>
+      getComputedStyle(el).getPropertyValue("--scale-factor").trim()
+    )
+  private fullscreenModal = this.page.locator("#radix-:r2:")
   //getters
   getTestFile() {
     return this.testFile
@@ -31,6 +41,22 @@ export class Chat {
 
   getPdfOptionsBar() {
     return this.pdfOptionsBar
+  }
+
+  getRotation() {
+    return this.rotation
+  }
+
+  getPageNumber() {
+    return this.pageNumber
+  }
+
+  getScaleFactor() {
+    return this.scaleFactor
+  }
+
+  getFullscreenModal() {
+    return this.fullscreenModal
   }
 
   //actions

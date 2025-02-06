@@ -26,7 +26,16 @@ test.describe("tests for chat page with test file item", () => {
     const pdfOptionsBar = chatPage.getPdfOptionsBar()
     await expect(pdfOptionsBar).toBeVisible()
   })
-  test("pdf options page navigation works", async ({ page }) => {})
+  test("pdf options page navigation works", async ({ page }) => {
+    const chatPage = new Chat(page)
+    await chatPage.navigateToChatPage(page)
+
+    //1. next page
+
+    //2. prev page
+
+    //3. navigate to page
+  })
   test("pdf options zoom works", async ({ page }) => {})
   test("pdf options rotate page feature  works", async ({ page }) => {})
   test("pdf options fullscreen feature opens modal", async ({ page }) => {})
