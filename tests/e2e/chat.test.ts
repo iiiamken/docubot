@@ -2,7 +2,7 @@ import test, { expect } from "@playwright/test"
 import { Chat } from "../pages/chat.page"
 import { chatPageUrl } from "../test-data/test.data"
 
-test.describe("tests for chat page with test file item", () => {
+test.describe("tests for chat page pdf section", () => {
   test("navigations to testfile works", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage(page)
@@ -112,3 +112,5 @@ test.describe("tests for chat page with test file item", () => {
     await expect(fullscreenModal).toBeVisible()
   })
 })
+
+test.describe("tests for chat message section", () => {})
