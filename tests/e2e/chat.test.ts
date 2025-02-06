@@ -1,6 +1,7 @@
 import test, { expect } from "@playwright/test"
 import { Chat } from "../pages/chat.page"
 import { chatPageUrl } from "../test-data/test.data"
+import { read } from "fs"
 
 test.describe("tests for chat page pdf section", () => {
   test("navigations to testfile works", async ({ page }) => {
@@ -159,5 +160,10 @@ test.describe("tests for chat message section", () => {
   }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToSubbedChatPage(page)
+    await page.waitForTimeout(5000)
+
+    const readyToChat = chatPage.getReadyToChat()
+
+    await expect(readyToChat).toBeVisible()
   })
 })
