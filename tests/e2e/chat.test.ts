@@ -155,7 +155,7 @@ test.describe("tests for chat message section", () => {
     await expect(page).toHaveURL("https://dokubot.vercel.app/dashboard")
   })
 
-  test("renders ready to chat text when first time chatting", async ({
+  test("renders ready to chat text when subbed user is chatting first time ", async ({
     page,
   }) => {
     const chatPage = new Chat(page)
@@ -166,4 +166,8 @@ test.describe("tests for chat message section", () => {
 
     await expect(readyToChat).toBeVisible()
   })
+
+  // test("sends message to AI and gets a response successfully", async ({
+  //   page,
+  // }) => {})
 })

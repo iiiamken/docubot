@@ -32,6 +32,8 @@ export class Chat {
   private errorPlanInfo = this.page.locator("#error_plan_info")
   private errorBackButton = this.page.locator("#too_many_pages_back_button")
   private readyToChat = this.page.locator("#all_set")
+  private submitMessageButton = this.page.locator("#submit_message_button")
+  private textInputField = this.page.locator("#text_input_field")
 
   //getters
   getTestFile() {
@@ -118,6 +120,14 @@ export class Chat {
 
   getReadyToChat() {
     return this.readyToChat
+  }
+
+  getSubmitMessageButton() {
+    return this.submitMessageButton
+  }
+
+  getTextInputField() {
+    return this.textInputField
   }
   //actions
   async navigateToChatPage(page: Page) {
