@@ -25,6 +25,7 @@ export class Chat {
 
   private tooManyPages = this.page.locator("#too_many_pages_error")
   private errorPlanInfo = this.page.locator("#error_plan_info")
+  private errorBackButton = this.page.locator("#too_many_pages_back_button")
 
   //getters
   getTestFile() {
@@ -99,6 +100,10 @@ export class Chat {
 
   getErrorPlanInfo() {
     return this.errorPlanInfo
+  }
+
+  getErrorBackButton() {
+    return this.errorBackButton
   }
   //actions
   async navigateToChatPage(page: Page) {

@@ -140,4 +140,18 @@ test.describe("tests for chat message section", () => {
       "Your Free plan supports up to 10 pages per PDF."
     )
   })
+
+  test("too many pages back button navigates to dashboard", async ({
+    page,
+  }) => {
+    const chatPage = new Chat(page)
+    await chatPage.navigateToChatPage(page)
+    await page.waitForTimeout(5000)
+
+    const errorBackButton = chatPage.getErrorBackButton()
+
+    await errorBackButton.click()
+
+    await expect(page).toHaveURL("https://dokubot.vercel.app/dashboard")
+  })
 })
