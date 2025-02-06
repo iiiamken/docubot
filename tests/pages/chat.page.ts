@@ -17,9 +17,10 @@ export class Chat {
   private nextPage = this.page.locator("#next_page_button")
   private prevPage = this.page.locator("#prev_page_button")
   private inputPage = this.page.locator("#input_page")
-  private rotation = this.page
-    .locator(".react-pdf__Page__textContent")
-    .getAttribute("data-main-rotation")
+  // private rotationValue = this.page
+  //   .locator(".react-pdf__Page__textContent")
+  //   .getAttribute("data-main-rotation")
+  private rotationButton = this.page.locator("#rotate_button")
   private fullscreenModal = this.page.locator("#radix-:r2:")
   private zoomButton = this.page.locator("#zoom_button")
   private zoomOption200 = this.page.locator("#zoom_200")
@@ -39,10 +40,6 @@ export class Chat {
 
   getPdfOptionsBar() {
     return this.pdfOptionsBar
-  }
-
-  getRotation() {
-    return this.rotation
   }
 
   getPageNumber() {
@@ -74,6 +71,15 @@ export class Chat {
       .evaluate((el) =>
         getComputedStyle(el).getPropertyValue("--scale-factor").trim()
       )
+  }
+
+  getRotationValue() {
+    return this.page
+      .locator(".react-pdf__Page__textContent")
+      .getAttribute("data-main-rotation")
+  }
+  getRotateButton() {
+    return this.rotationButton
   }
 
   getFullscreenModal() {
