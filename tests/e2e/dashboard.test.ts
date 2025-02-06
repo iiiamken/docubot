@@ -1,31 +1,20 @@
 import test, { expect } from "@playwright/test"
 import { Dashboard } from "../pages/dashboard.page"
-import { LoginPage } from "../pages/loginPage.page"
-import {
-  fileItemId,
-  kindePassword,
-  kindeUsername,
-} from "../test-data/test.data"
+import { fileItemId } from "../test-data/test.data"
 
 test.describe("tests for dashboard page", () => {
   test("login to navigate to dashboard, expect title to be visible", async ({
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard()
-
-    const loginPage = new LoginPage(page)
-    await loginPage.login(kindeUsername, kindePassword)
+    await dashboardPage.navigateToDashboard(page)
 
     await expect(page.locator("#dashboard-title")).toBeVisible()
   })
 
   test("check if upload button is opens modal", async ({ page }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard()
-
-    const loginPage = new LoginPage(page)
-    await loginPage.login(kindeUsername, kindePassword)
+    await dashboardPage.navigateToDashboard(page)
 
     const uploadButton = dashboardPage.getUploadButton()
 
@@ -42,10 +31,7 @@ test.describe("tests for dashboard page", () => {
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard()
-
-    const loginPage = new LoginPage(page)
-    await loginPage.login(kindeUsername, kindePassword)
+    await dashboardPage.navigateToDashboard(page)
 
     const fileItem = dashboardPage.getFileItem()
 
@@ -60,10 +46,7 @@ test.describe("tests for dashboard page", () => {
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard()
-
-    const loginPage = new LoginPage(page)
-    await loginPage.login(kindeUsername, kindePassword)
+    await dashboardPage.navigateToDashboard(page)
 
     const uploadButton = dashboardPage.getUploadButton()
 
@@ -78,7 +61,7 @@ test.describe("tests for dashboard page", () => {
 
     await expect(pdfField).toBeVisible()
 
-    await dashboardPage.navigateToDashboard()
+    await page.goto("https://dokubot.vercel.app/dashboard/")
 
     const testFileDeleteBtn = dashboardPage.getTestFileDeleteBtn()
 

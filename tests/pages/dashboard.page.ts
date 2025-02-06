@@ -1,5 +1,10 @@
 import { Page } from "@playwright/test"
-import { fileItemId } from "../test-data/test.data"
+import {
+  fileItemId,
+  kindePassword,
+  kindeUsername,
+} from "../test-data/test.data"
+import { LoginPage } from "./loginPage.page"
 
 export class Dashboard {
   constructor(private page: Page) {}
@@ -10,7 +15,7 @@ export class Dashboard {
   private redirectingLoader = this.page.locator("#redirecting_loader")
   private fileItem = this.page.locator(fileItemId)
   private pdfField = this.page.locator("#pdf_field")
-  private testFileDeleteBtn = this.page.locator("#test_file\\.pdf")
+  private testFileDeleteBtn = this.page.locator("#delete_test_file\\.pdf")
 
   //getters
   getUploadButton() {
@@ -38,7 +43,9 @@ export class Dashboard {
   }
 
   //actions
-  async navigateToDashboard() {
+  async navigateToDashboard(page: Page) {
     await this.page.goto("https://dokubot.vercel.app/dashboard/")
+    const loginPage = new LoginPage(page)
+    await loginPage.login(kindeUsername, kindePassword)
   }
 }

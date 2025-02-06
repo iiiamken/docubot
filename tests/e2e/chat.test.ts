@@ -10,7 +10,7 @@ test.describe("tests for chat page with test file item", () => {
     await expect(page).toHaveURL(chatPageUrl)
   })
 
-  test.only("pdf loader renders file", async ({ page }) => {
+  test("pdf loader renders file", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage(page)
 
