@@ -66,7 +66,7 @@ test.describe("tests for chat page with test file item", () => {
 
     expect(pageNumber).toBe("5")
   })
-  test.only("pdf options zoom changes scale factor", async ({ page }) => {
+  test("pdf options zoom changes scale factor", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage(page)
     await page.waitForTimeout(5000)

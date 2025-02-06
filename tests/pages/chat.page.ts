@@ -45,8 +45,8 @@ export class Chat {
     return this.rotation
   }
 
-  async getPageNumber() {
-    return await this.page.getAttribute(".react-pdf__Page", "data-page-number")
+  getPageNumber() {
+    return this.page.getAttribute(".react-pdf__Page", "data-page-number")
   }
 
   getZoomButton() {
