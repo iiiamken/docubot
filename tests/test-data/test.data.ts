@@ -7,6 +7,9 @@ export const regexKindeRegister =
 export const kindeUsername = "d_kenii@hotmail.com"
 export const kindePassword = "x7Vh3DJbQQ3jCn9"
 
+export const subbedKindeUsername = "iiiamawe@gmail.com"
+export const subbedKindePassword = "EjVQku5Jtsj8Lvg"
+
 export const fileItemId = "#cm6se7ovk0003la03gf36jd92"
 
 export const chatPageUrl =

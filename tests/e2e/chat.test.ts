@@ -1,7 +1,6 @@
 import test, { expect } from "@playwright/test"
 import { Chat } from "../pages/chat.page"
 import { chatPageUrl } from "../test-data/test.data"
-import { error } from "console"
 
 test.describe("tests for chat page pdf section", () => {
   test("navigations to testfile works", async ({ page }) => {
