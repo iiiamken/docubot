@@ -19,7 +19,13 @@ test.describe("tests for chat page with test file item", () => {
     await expect(pdfContent).toBeVisible()
   })
 
-  test("pdf options bar visible", async ({ page }) => {})
+  test("pdf options bar visible", async ({ page }) => {
+    const chatPage = new Chat(page)
+    await chatPage.navigateToChatPage(page)
+
+    const pdfOptionsBar = chatPage.getPdfOptionsBar()
+    await expect(pdfOptionsBar).toBeVisible()
+  })
   test("pdf options page navigation works", async ({ page }) => {})
   test("pdf options zoom works", async ({ page }) => {})
   test("pdf options rotate page feature  works", async ({ page }) => {})

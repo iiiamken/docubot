@@ -11,8 +11,10 @@ export class Chat {
   constructor(private page: Page) {}
 
   //locators
-  testFile = this.page.locator(fileItemId)
-  pdfContent = this.page.locator(".react-pdf__Page")
+  private testFile = this.page.locator(fileItemId)
+  private pdfContent = this.page.locator(".react-pdf__Page")
+  private pdfPageNav = this.page.locator("pdf_page_nav")
+  private pdfOptionsBar = this.page.locator("pdf_options_bar")
 
   //getters
   getTestFile() {
@@ -21,6 +23,14 @@ export class Chat {
 
   getPdfContent() {
     return this.pdfContent
+  }
+
+  getPdfPageNav() {
+    return this.getPdfPageNav
+  }
+
+  getPdfOptionsBar() {
+    return this.pdfOptionsBar
   }
 
   //actions

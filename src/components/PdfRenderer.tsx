@@ -76,10 +76,10 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   return (
     <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
       <div
-        id="pdf_options"
+        id="pdf_options_bar"
         className="h-14 w-full border-b border-zinc-200 flex items-center justify-between px-2"
       >
-        <div className="flex items-center gap-1.5">
+        <div id="pdf_page_nav" className="flex items-center gap-1.5">
           <Button
             id="prev_page_button"
             disabled={currPage <= 1}
