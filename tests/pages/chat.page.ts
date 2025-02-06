@@ -24,6 +24,7 @@ export class Chat {
   private zoomOption200 = this.page.locator("#zoom_200")
 
   private tooManyPages = this.page.locator("#too_many_pages_error")
+  private errorPlanInfo = this.page.locator("#error_plan_info")
 
   //getters
   getTestFile() {
@@ -94,6 +95,10 @@ export class Chat {
 
   getTooManyPages() {
     return this.tooManyPages
+  }
+
+  getErrorPlanInfo() {
+    return this.errorPlanInfo
   }
   //actions
   async navigateToChatPage(page: Page) {

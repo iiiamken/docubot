@@ -1,6 +1,7 @@
 import test, { expect } from "@playwright/test"
 import { Chat } from "../pages/chat.page"
 import { chatPageUrl } from "../test-data/test.data"
+import { error } from "console"
 
 test.describe("tests for chat page pdf section", () => {
   test("navigations to testfile works", async ({ page }) => {
@@ -114,7 +115,7 @@ test.describe("tests for chat page pdf section", () => {
 })
 
 test.describe("tests for chat message section", () => {
-  test.only("too many pages error to be visible when user not subbed", async ({
+  test("too many pages error to be visible when user not subbed", async ({
     page,
   }) => {
     const chatPage = new Chat(page)
@@ -124,5 +125,19 @@ test.describe("tests for chat message section", () => {
     const tooManyPages = chatPage.getTooManyPages()
 
     expect(tooManyPages).toBeVisible()
+  })
+
+  test("error plan info to render max pages for free user", async ({
+    page,
+  }) => {
+    const chatPage = new Chat(page)
+    await chatPage.navigateToChatPage(page)
+    await page.waitForTimeout(5000)
+
+    const errorInfoText = await chatPage.getErrorPlanInfo().textContent()
+
+    expect(errorInfoText).toBe(
+      "Your Free plan supports up to 10 pages per PDF."
+    )
   })
 })
