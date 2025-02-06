@@ -20,13 +20,9 @@ export class Chat {
   private rotation = this.page
     .locator(".react-pdf__Page__textContent")
     .getAttribute("data-main-rotation")
-  private scaleFactor = this.page
-    .locator(".react-pdf__Page")
-    .evaluate((el) =>
-      getComputedStyle(el).getPropertyValue("--scale-factor").trim()
-    )
   private fullscreenModal = this.page.locator("#radix-:r2:")
   private zoomButton = this.page.locator("#zoom_button")
+  private zoomOption200 = this.page.locator("#zoom_200")
 
   //getters
   getTestFile() {
@@ -57,6 +53,9 @@ export class Chat {
     return this.zoomButton
   }
 
+  getZoomOption200() {
+    return this.zoomOption200
+  }
   getNextPageButton() {
     return this.nextPage
   }
@@ -70,7 +69,11 @@ export class Chat {
   }
 
   getScaleFactor() {
-    return this.scaleFactor
+    return this.page
+      .locator('.react-pdf__Page[data-page-number="1"]:not(.hidden)')
+      .evaluate((el) =>
+        getComputedStyle(el).getPropertyValue("--scale-factor").trim()
+      )
   }
 
   getFullscreenModal() {

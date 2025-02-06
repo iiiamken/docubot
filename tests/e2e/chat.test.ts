@@ -27,7 +27,7 @@ test.describe("tests for chat page with test file item", () => {
     await expect(pdfOptionsBar).toBeVisible()
   })
 
-  test.only("pdf options page navigation works", async ({ page }) => {
+  test("pdf options page navigation works", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage(page)
     await page.waitForTimeout(5000)
@@ -66,12 +66,20 @@ test.describe("tests for chat page with test file item", () => {
 
     expect(pageNumber).toBe("5")
   })
-  test("pdf options zoom changes scale factor", async ({ page }) => {
+  test.only("pdf options zoom changes scale factor", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage(page)
     await page.waitForTimeout(5000)
 
     const zoomButton = chatPage.getZoomButton()
+    await zoomButton.click()
+
+    const zoomOption200 = chatPage.getZoomOption200()
+    await zoomOption200.click()
+    await page.waitForTimeout(3000)
+
+    const scale = await chatPage.getScaleFactor()
+    expect(scale).toMatch(/^2\./)
   })
   // test("pdf options rotate button rotates page", async ({ page }) => {})
   // test("pdf options fullscreen feature opens modal", async ({ page }) => {})
