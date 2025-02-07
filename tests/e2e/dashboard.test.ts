@@ -7,14 +7,14 @@ test.describe("tests for dashboard page", () => {
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard(page)
+    await dashboardPage.navigateToDashboard()
 
     await expect(page.locator("#dashboard-title")).toBeVisible()
   })
 
   test("check if upload button is opens modal", async ({ page }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard(page)
+    await dashboardPage.navigateToDashboard()
 
     const uploadButton = dashboardPage.getUploadButton()
 
@@ -31,7 +31,7 @@ test.describe("tests for dashboard page", () => {
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard(page)
+    await dashboardPage.navigateToDashboard()
 
     const fileItem = dashboardPage.getFileItem()
 
@@ -46,7 +46,7 @@ test.describe("tests for dashboard page", () => {
     page,
   }) => {
     const dashboardPage = new Dashboard(page)
-    await dashboardPage.navigateToDashboard(page)
+    await dashboardPage.navigateToDashboard()
 
     const uploadButton = dashboardPage.getUploadButton()
 

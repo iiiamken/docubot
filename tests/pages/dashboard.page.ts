@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test"
+import { Locator, Page } from "@playwright/test"
 import {
   fileItemId,
   kindePassword,
@@ -7,15 +7,19 @@ import {
 import { LoginPage } from "./loginPage.page"
 
 export class Dashboard {
-  constructor(private page: Page) {}
+  private uploadButton: Locator
+  private modal: Locator
+  private fileItem: Locator
+  private pdfField: Locator
+  private testFileDeleteBtn: Locator
 
-  //locators
-  private uploadButton = this.page.locator("#upload_button")
-  private modal = this.page.locator("#radix-\\:R9fntb\\:")
-  private redirectingLoader = this.page.locator("#redirecting_loader")
-  private fileItem = this.page.locator(fileItemId)
-  private pdfField = this.page.locator("#pdf_field")
-  private testFileDeleteBtn = this.page.locator("#delete_test_file\\.pdf")
+  constructor(private page: Page) {
+    this.uploadButton = this.page.locator("#upload_button")
+    this.modal = this.page.locator("#radix-\\:R9fntb\\:")
+    this.fileItem = this.page.locator(fileItemId)
+    this.pdfField = this.page.locator("#pdf_field")
+    this.testFileDeleteBtn = this.page.locator("#delete_test_file\\.pdf")
+  }
 
   //getters
   getUploadButton() {
@@ -24,10 +28,6 @@ export class Dashboard {
 
   getModal() {
     return this.modal
-  }
-
-  getRedirectingLoader() {
-    return this.redirectingLoader
   }
 
   getFileItem() {
@@ -43,9 +43,9 @@ export class Dashboard {
   }
 
   //actions
-  async navigateToDashboard(page: Page) {
+  async navigateToDashboard() {
     await this.page.goto("https://dokubot.vercel.app/dashboard/")
-    const loginPage = new LoginPage(page)
+    const loginPage = new LoginPage(this.page)
     await loginPage.login(kindeUsername, kindePassword)
   }
 }
