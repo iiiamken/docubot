@@ -14,6 +14,7 @@ export class Dashboard {
   private testFileDeleteBtn: Locator
 
   constructor(private page: Page) {
+    //locators
     this.uploadButton = this.page.locator("#upload_button")
     this.modal = this.page.locator("#radix-\\:R9fntb\\:")
     this.fileItem = this.page.locator(fileItemId)

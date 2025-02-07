@@ -1,7 +1,6 @@
 import { Locator, Page } from "@playwright/test"
 
 export class Home {
-  link: Locator | undefined
   private description: Locator
   private previewImage: Locator
   private step1: Locator
@@ -68,9 +67,5 @@ export class Home {
   //actions
   async navigateToPage() {
     await this.page.goto("https://dokubot.vercel.app/")
-  }
-
-  async clickLink() {
-    await this.link?.click()
   }
 }

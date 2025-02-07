@@ -31,9 +31,10 @@ export class Chat {
   private textInputField: Locator
 
   constructor(private page: Page) {
+    //locators
     this.testFile = this.page.locator(fileItemId)
     this.subbedTestFile = this.page.locator(SubbedFileItemId)
-
+    //chat section locators
     this.pdfContent = this.page.locator(".react-pdf__Page")
     this.pdfOptionsBar = this.page.locator("#pdf_options_bar")
     this.nextPage = this.page.locator("#next_page_button")
@@ -44,6 +45,7 @@ export class Chat {
     this.fullscreenButton = this.page.locator("#fullscreen_button")
     this.zoomButton = this.page.locator("#zoom_button")
     this.zoomOption200 = this.page.locator("#zoom_200")
+    //message section locators
 
     this.tooManyPages = this.page.locator("#too_many_pages_error")
     this.errorPlanInfo = this.page.locator("#error_plan_info")
@@ -52,8 +54,6 @@ export class Chat {
     this.submitMessageButton = this.page.locator("#submit_message_button")
     this.textInputField = this.page.locator("#text_input_field")
   }
-
-  //locators
 
   // //getters
   getTestFile() {
