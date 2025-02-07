@@ -1,12 +1,18 @@
 import { Page } from "@playwright/test"
 
 export class LoginPage {
-  constructor(private page: Page) {}
-  //selectors
-  private usernameInput = "#sign_up_sign_in_credentials_p_email"
-  private passwordInput = "#verify_password_p_password"
-  private usernameSubmitButton = ".kinde-button.kinde-button-variant-primary"
-  private passwordSubmitButton = ".kinde-button.kinde-button-variant-primary"
+  private usernameInput: string
+  private passwordInput: string
+  private usernameSubmitButton: string
+  private passwordSubmitButton: string
+
+  constructor(private page: Page) {
+    //selectors
+    this.usernameInput = "#sign_up_sign_in_credentials_p_email"
+    this.passwordInput = "#verify_password_p_password"
+    this.usernameSubmitButton = ".kinde-button.kinde-button-variant-primary"
+    this.passwordSubmitButton = ".kinde-button.kinde-button-variant-primary"
+  }
 
   //actions
   async navigateToLoginPage() {
