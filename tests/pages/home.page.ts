@@ -2,19 +2,30 @@ import { Locator, Page } from "@playwright/test"
 
 export class Home {
   link: Locator | undefined
-  constructor(private page: Page) {}
+  private description: Locator
+  private previewImage: Locator
+  private step1: Locator
+  private step2: Locator
+  private step3: Locator
+  private getStartedLink: Locator
+  private uploadImage: Locator
+  private signIn: Locator
+  private registerLink: Locator
+  private pricingLink: Locator
 
-  //locators
-  private description = this.page.locator("#test-description")
-  private previewImage = this.page.locator("#dashboard-preview-image")
-  private uploadImage = this.page.locator("#file-upload-preview-image")
-  private step1 = this.page.locator("#step-1")
-  private step2 = this.page.locator("#step-2")
-  private step3 = this.page.locator("#step-3")
-  private getStartedLink = this.page.locator("#get-started-link")
-  private signIn = this.page.locator("#sign-in-link")
-  private registerLink = this.page.locator("#register-link")
-  private pricingLink = this.page.locator("#pricing-link")
+  constructor(private page: Page) {
+    //locators
+    this.description = this.page.locator("#test-description")
+    this.previewImage = this.page.locator("#dashboard-preview-image")
+    this.uploadImage = this.page.locator("#file-upload-preview-image")
+    this.step1 = this.page.locator("#step-1")
+    this.step2 = this.page.locator("#step-2")
+    this.step3 = this.page.locator("#step-3")
+    this.getStartedLink = this.page.locator("#get-started-link")
+    this.signIn = this.page.locator("#sign-in-link")
+    this.registerLink = this.page.locator("#register-link")
+    this.pricingLink = this.page.locator("#pricing-link")
+  }
 
   //getters
   getDescription() {
