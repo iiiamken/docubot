@@ -35,7 +35,7 @@ export class Chat {
     this.subbedTestFile = this.page.locator(SubbedFileItemId)
 
     this.pdfContent = this.page.locator(".react-pdf__Page")
-    this.pdfOptionsBar = this.page.locator("pdf_options_bar")
+    this.pdfOptionsBar = this.page.locator("#pdf_options_bar")
     this.nextPage = this.page.locator("#next_page_button")
     this.prevPage = this.page.locator("#prev_page_button")
     this.inputPage = this.page.locator("#input_page")

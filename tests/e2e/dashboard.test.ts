@@ -1,6 +1,5 @@
 import test, { expect } from "@playwright/test"
 import { Dashboard } from "../pages/dashboard.page"
-import { fileItemId } from "../test-data/test.data"
 
 test.describe("tests for dashboard page", () => {
   test("login to navigate to dashboard, expect title to be visible", async ({
@@ -38,7 +37,7 @@ test.describe("tests for dashboard page", () => {
     await fileItem.click()
 
     await expect(page).toHaveURL(
-      `https://dokubot.vercel.app/dashboard/${fileItemId}`
+      "https://dokubot.vercel.app/dashboard/cm6se7ovk0003la03gf36jd92"
     )
   })
 

@@ -22,6 +22,7 @@ test.describe("tests for chat page pdf section", () => {
   test("pdf options bar visible", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
+    await page.waitForTimeout(5000)
 
     const pdfOptionsBar = chatPage.getPdfOptionsBar()
     await expect(pdfOptionsBar).toBeVisible()
@@ -123,7 +124,7 @@ test.describe("tests for chat message section", () => {
 
     const tooManyPages = chatPage.getTooManyPages()
 
-    expect(tooManyPages).toBeVisible()
+    await expect(tooManyPages).toBeVisible()
   })
 
   test("error plan info to render max pages for free user", async ({
