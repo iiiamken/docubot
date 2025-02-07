@@ -1,19 +1,18 @@
 import test, { expect } from "@playwright/test"
 import { Chat } from "../pages/chat.page"
 import { chatPageUrl } from "../test-data/test.data"
-import { read } from "fs"
 
 test.describe("tests for chat page pdf section", () => {
   test("navigations to testfile works", async ({ page }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
 
     await expect(page).toHaveURL(chatPageUrl)
   })
 
   test("pdf loader renders file", async ({ page }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
 
     const pdfContent = chatPage.getPdfContent()
 
@@ -22,7 +21,7 @@ test.describe("tests for chat page pdf section", () => {
 
   test("pdf options bar visible", async ({ page }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
 
     const pdfOptionsBar = chatPage.getPdfOptionsBar()
     await expect(pdfOptionsBar).toBeVisible()
@@ -30,7 +29,7 @@ test.describe("tests for chat page pdf section", () => {
 
   test("pdf options page navigation works", async ({ page }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
     //1. next page
     const nextPageBtn = chatPage.getNextPageButton()
@@ -69,7 +68,7 @@ test.describe("tests for chat page pdf section", () => {
   })
   test("pdf options zoom changes scale factor", async ({ page }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
 
     const zoomButton = chatPage.getZoomButton()
@@ -84,7 +83,7 @@ test.describe("tests for chat page pdf section", () => {
   })
   test("pdf options rotate button rotates page", async ({ page }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
 
     let rotationValue = await chatPage.getRotationValue()
@@ -101,7 +100,7 @@ test.describe("tests for chat page pdf section", () => {
   })
   test("pdf options fullscreen feature opens modal", async ({ page }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
 
     const fullscreenButton = chatPage.getFullscreenButton()
@@ -119,7 +118,7 @@ test.describe("tests for chat message section", () => {
     page,
   }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
 
     const tooManyPages = chatPage.getTooManyPages()
@@ -131,7 +130,7 @@ test.describe("tests for chat message section", () => {
     page,
   }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
 
     const errorInfoText = await chatPage.getErrorPlanInfo().textContent()
@@ -145,7 +144,7 @@ test.describe("tests for chat message section", () => {
     page,
   }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToChatPage(page)
+    await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
 
     const errorBackButton = chatPage.getErrorBackButton()
@@ -159,7 +158,7 @@ test.describe("tests for chat message section", () => {
     page,
   }) => {
     const chatPage = new Chat(page)
-    await chatPage.navigateToSubbedChatPage(page)
+    await chatPage.navigateToSubbedChatPage()
     await page.waitForTimeout(5000)
 
     const readyToChat = chatPage.getReadyToChat()
