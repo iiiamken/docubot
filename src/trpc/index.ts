@@ -9,6 +9,9 @@ import { absoluteUrl } from "../lib/utils"
 import { privateProcedure, publicProcedure, router } from "./trpc"
 
 export const appRouter = router({
+  test: publicProcedure.query(async () => {
+    return { success: true }
+  }),
   test3: publicProcedure
     .input(
       z.object({
