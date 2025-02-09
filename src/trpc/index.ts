@@ -140,7 +140,7 @@ export const appRouter = router({
 
       return { success: true, dbUser }
     }),
-  getUserFiles: privateProcedure
+  getUserFiles: publicProcedure
     .input(
       z.object({
         id: z.string(),
@@ -150,15 +150,15 @@ export const appRouter = router({
         picture: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      let submitUser
+    .mutation(async ({ input }) => {
+      // let submitUser
       const data = input.id
-      submitUser = data
+      const submitUser = data
 
-      if (!data) {
-        const { userId } = ctx
-        submitUser = userId
-      }
+      // if (!data) {
+      //   const { userId } = ctx
+      //   submitUser = userId
+      // }
 
       const files = await db.file.findMany({
         where: {
