@@ -41,9 +41,7 @@ export const appRouter = router({
       })
     )
     .query(async ({ input }) => {
-      const testUser = input
-
-      return { success: true, testUser }
+      return { success: true, input }
     }),
   test2: publicProcedure
     .input(
@@ -89,30 +87,59 @@ export const appRouter = router({
 
       return { success: true, testUser }
     }),
-  authCallback: publicProcedure.query(async () => {
-    const { getUser } = getKindeServerSession()
-    const user = await getUser()
+  authCallback: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        email: z.string(),
+        given_name: z.string(),
+        family_name: z.string(),
+        picture: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const testUser = input
+      if (!testUser) {
+        const { getUser } = getKindeServerSession()
+        const user = await getUser()
 
-    if (!user || !user.id || !user.email)
-      throw new TRPCError({ code: "UNAUTHORIZED" })
+        if (!user || !user.id || !user.email)
+          throw new TRPCError({ code: "UNAUTHORIZED" })
 
-    const dbUser = await db.user.findFirst({
-      where: {
-        id: user.id,
-      },
-    })
+        const dbUser = await db.user.findFirst({
+          where: {
+            id: user.id,
+          },
+        })
 
-    if (!dbUser) {
-      await db.user.create({
-        data: {
-          id: user.id,
-          email: user.email,
+        if (!dbUser) {
+          await db.user.create({
+            data: {
+              id: user.id,
+              email: user.email,
+            },
+          })
+        }
+        return { success: true, dbUser }
+      }
+
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: testUser.id,
         },
       })
-    }
 
-    return { success: true }
-  }),
+      if (!dbUser) {
+        await db.user.create({
+          data: {
+            id: testUser.id,
+            email: testUser.email,
+          },
+        })
+      }
+
+      return { success: true, dbUser }
+    }),
   getUserFiles: privateProcedure.query(async ({ ctx }) => {
     const { userId } = ctx
 
