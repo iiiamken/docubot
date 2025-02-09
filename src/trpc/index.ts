@@ -14,15 +14,17 @@ export const appRouter = router({
       z.object({
         id: z.string(),
         email: z.string(),
+        given_name: z.string(),
+        family_name: z.string(),
+        picture: z.string(),
       })
     )
     .query(async (input) => {
       const { getUser } = getKindeServerSession()
-      const user = await getUser()
+      let user = await getUser()
 
       if (input.input) {
-        const inputUser = input.input
-        return { success: true, inputUser }
+        user = input.input
       }
 
       if (!user || !user.id || !user.email)
