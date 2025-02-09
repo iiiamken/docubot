@@ -20,11 +20,12 @@ export const appRouter = router({
       })
     )
     .query(async (input) => {
-      const { getUser } = getKindeServerSession()
-      let user = await getUser()
-
+      let user
       if (input.input) {
         user = input.input
+      } else {
+        const { getUser } = getKindeServerSession()
+        user = await getUser()
       }
 
       if (!user || !user.id || !user.email)
