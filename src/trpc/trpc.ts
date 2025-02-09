@@ -11,7 +11,7 @@ const isAuth = middleware(async (opts) => {
   const user = await getUser()
 
   if (!user || !user.id) {
-    throw new TRPCError({ code: "BAD_REQUEST" })
+    throw new TRPCError({ code: "UNAUTHORIZED" })
   }
 
   return opts.next({
