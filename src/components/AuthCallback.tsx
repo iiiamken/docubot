@@ -8,7 +8,7 @@ const AuthCallback = () => {
   const origin = searchParams.get("origin")
 
   const { data, isError, error, isSuccess } =
-    trpc.authCallback.useQuery(undefined)
+    trpc.authCallback.useMutation(undefined)
 
   if (isSuccess && data?.success) {
     router.push(origin ? `/${origin}` : "/dashboard")
