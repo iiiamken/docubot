@@ -52,14 +52,30 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const { getUser } = getKindeServerSession()
-      const user = await getUser()
-
-      if (!user || !user.id || !user.email)
-        throw new TRPCError({ code: "UNAUTHORIZED" })
       return { success: true, input }
     }),
+  test5: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        email: z.string(),
+        given_name: z.string(),
+        family_name: z.string(),
+        picture: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const testUser = input
+      if (!testUser) {
+        const { getUser } = getKindeServerSession()
+        const user = await getUser()
 
+        if (!user || !user.id || !user.email)
+          throw new TRPCError({ code: "UNAUTHORIZED" })
+      }
+
+      return { success: true, testUser }
+    }),
   authCallback: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession()
     const user = await getUser()
