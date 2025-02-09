@@ -9,9 +9,26 @@ import { absoluteUrl } from "../lib/utils"
 import { privateProcedure, publicProcedure, router } from "./trpc"
 
 export const appRouter = router({
-  test: publicProcedure.query(async () => {
-    return { success: true }
-  }),
+  test3: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        email: z.string(),
+      })
+    )
+    .query(async (input) => {
+      const { getUser } = getKindeServerSession()
+      const user = await getUser()
+
+      if (input.input) {
+        const inputUser = input.input
+        return { success: true, inputUser }
+      }
+
+      if (!user || !user.id || !user.email)
+        throw new TRPCError({ code: "UNAUTHORIZED" })
+      return { success: true }
+    }),
   test2: publicProcedure
     .input(
       z.object({
@@ -21,6 +38,7 @@ export const appRouter = router({
     .mutation(async ({ input: { test } }) => {
       return { success: true, test }
     }),
+
   authCallback: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession()
     const user = await getUser()
