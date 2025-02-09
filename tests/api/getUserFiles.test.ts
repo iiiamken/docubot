@@ -2,11 +2,13 @@ import test, { expect } from "@playwright/test"
 import { getToken } from "../../utils/getToken"
 
 test.describe("api test cases for auth callback api endpoint", () => {
-  test("user not logged in returns UNAUTHORIZED", async ({ request }) => {
+  test.only("GET USER FILES user not logged in returns UNAUTHORIZED", async ({
+    request,
+  }) => {
     const token = await getToken()
     console.log(token)
     const response = await request.get(
-      "https://dokubot.vercel.app/api/trpc/authCallback"
+      "https://dokubot.vercel.app/api/trpc/getUserFiles"
     )
 
     const data = await response.json()

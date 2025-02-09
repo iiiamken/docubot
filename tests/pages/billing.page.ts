@@ -11,7 +11,21 @@ export class Billing {
     this.currentPlanDetails = this.page.locator("#current_plan_description")
     this.planDuration = this.page.locator("#plan_duration")
   }
-  //actions
 
   //methods
+  async isManageSubButtonVisible() {
+    return await this.manageSubButton.isVisible()
+  }
+
+  async clickManageSubButton() {
+    await this.manageSubButton.click()
+  }
+
+  async isCurrentPlanDetailsVisible() {
+    return await this.currentPlanDetails.isVisible()
+  }
+
+  async isPlanDurationVisible() {
+    return await this.planDuration.isVisible()
+  }
 }
