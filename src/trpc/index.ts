@@ -19,10 +19,10 @@ export const appRouter = router({
         picture: z.string(),
       })
     )
-    .query(async (input) => {
+    .query(async ({ input }) => {
       let user
-      if (input.input) {
-        user = input.input
+      if (input) {
+        user = input
       } else {
         const { getUser } = getKindeServerSession()
         user = await getUser()
@@ -40,6 +40,19 @@ export const appRouter = router({
     )
     .mutation(async ({ input: { test } }) => {
       return { success: true, test }
+    }),
+  test4: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        email: z.string(),
+        given_name: z.string(),
+        family_name: z.string(),
+        picture: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      return { success: true, input }
     }),
 
   authCallback: publicProcedure.query(async () => {
