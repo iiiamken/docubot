@@ -7,7 +7,7 @@ test.describe("api test cases for getUserFiles api endpoint", () => {
   }) => {
     const token = await getToken()
     console.log(token)
-    const response = await request.get(
+    const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/getUserFiles"
     )
 
