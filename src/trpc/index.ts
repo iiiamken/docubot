@@ -87,7 +87,7 @@ export const appRouter = router({
 
       return { success: true, testUser }
     }),
-  authCallback: publicProcedure
+  authCallback: privateProcedure
     .input(
       z.object({
         id: z.string(),
