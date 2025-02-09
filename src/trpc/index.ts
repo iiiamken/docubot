@@ -97,7 +97,7 @@ export const appRouter = router({
         picture: z.string(),
       })
     )
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const testUser = input
       if (!testUser) {
         const { getUser } = getKindeServerSession()
