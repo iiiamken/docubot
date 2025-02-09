@@ -20,17 +20,16 @@ export const appRouter = router({
       })
     )
     .query(async ({ input }) => {
-      let user
-      if (input) {
-        user = input
-      } else {
+      const testUser = input
+      if (!testUser) {
         const { getUser } = getKindeServerSession()
-        user = await getUser()
+        const user = await getUser()
+
+        if (!user || !user.id || !user.email)
+          throw new TRPCError({ code: "UNAUTHORIZED" })
       }
 
-      if (!user || !user.id || !user.email)
-        throw new TRPCError({ code: "UNAUTHORIZED" })
-      return { success: true }
+      return { success: true, testUser }
     }),
   test2: publicProcedure
     .input(
