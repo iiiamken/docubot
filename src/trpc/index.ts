@@ -31,6 +31,21 @@ export const appRouter = router({
 
       return { success: true, testUser }
     }),
+  test1: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        email: z.string(),
+        given_name: z.string(),
+        family_name: z.string(),
+        picture: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const testUser = input
+
+      return { success: true, testUser }
+    }),
   test2: publicProcedure
     .input(
       z.object({
