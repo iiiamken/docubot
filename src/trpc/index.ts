@@ -9,6 +9,10 @@ import { absoluteUrl } from "../lib/utils"
 import { privateProcedure, publicProcedure, router } from "./trpc"
 
 export const appRouter = router({
+  test: publicProcedure.query(async () => {
+    return { success: true }
+  }),
+
   authCallback: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession()
     const user = await getUser()
