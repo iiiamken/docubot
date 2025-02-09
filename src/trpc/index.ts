@@ -87,7 +87,7 @@ export const appRouter = router({
 
       return { success: true, testUser }
     }),
-  authCallback: privateProcedure
+  authCallback: publicProcedure
     .input(
       z.object({
         id: z.string(),
@@ -140,27 +140,44 @@ export const appRouter = router({
 
       return { success: true, dbUser }
     }),
-  getUserFiles: privateProcedure.query(async ({ ctx }) => {
-    const { userId } = ctx
-
-    const files = await db.file.findMany({
-      where: {
-        userId,
-      },
-    })
-
-    const filesWithCount = await Promise.all(
-      files.map(async (file) => {
-        const messageCount = await db.message.count({
-          where: { fileId: file.id, userId },
-        })
-
-        return { ...file, messageCount }
+  getUserFiles: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        email: z.string(),
+        given_name: z.string(),
+        family_name: z.string(),
+        picture: z.string(),
       })
     )
+    .mutation(async ({ ctx, input }) => {
+      let submitUser
+      const data = input.id
+      submitUser = data
 
-    return filesWithCount
-  }),
+      if (!data) {
+        const { userId } = ctx
+        submitUser = userId
+      }
+
+      const files = await db.file.findMany({
+        where: {
+          userId: submitUser,
+        },
+      })
+
+      const filesWithCount = await Promise.all(
+        files.map(async (file) => {
+          const messageCount = await db.message.count({
+            where: { fileId: file.id, userId: submitUser },
+          })
+
+          return { ...file, messageCount }
+        })
+      )
+
+      return filesWithCount
+    }),
   deleteFile: privateProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
