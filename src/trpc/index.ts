@@ -52,6 +52,11 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
+      const { getUser } = getKindeServerSession()
+      const user = await getUser()
+
+      if (!user || !user.id || !user.email)
+        throw new TRPCError({ code: "UNAUTHORIZED" })
       return { success: true, input }
     }),
 
