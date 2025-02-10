@@ -17,9 +17,7 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
     string | null
   >(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  // const [files, setFiles] = useState()
 
-  // const utils = trpc.useUtils()
   const { mutate, data: files } = trpc.getUserFiles.useMutation({
     onMutate: () => {
       setIsLoading(true)
@@ -34,9 +32,9 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
   }, [mutate])
 
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
-    // onSuccess: () => {
-    //   mutate({})
-    // },
+    onSuccess: () => {
+      mutate({})
+    },
     onMutate: ({ id }) => {
       setIsLoading(true)
       setCurrentlyDeletingFile(id)
@@ -44,7 +42,6 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
     onSettled: () => {
       setIsLoading(false)
       setCurrentlyDeletingFile(null)
-      mutate({})
     },
   })
 

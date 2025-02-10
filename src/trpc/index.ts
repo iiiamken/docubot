@@ -143,11 +143,11 @@ export const appRouter = router({
   getUserFiles: privateProcedure
     .input(
       z.object({
-        id: z.string().optional(),
-        email: z.string().optional(),
-        given_name: z.string().optional(),
-        family_name: z.string().optional(),
-        picture: z.string().optional(),
+        id: z.string(),
+        email: z.string(),
+        given_name: z.string(),
+        family_name: z.string(),
+        picture: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
