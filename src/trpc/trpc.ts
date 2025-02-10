@@ -5,7 +5,13 @@ const t = initTRPC.create()
 const middleware = t.middleware
 
 const isAuth = middleware(async (opts) => {
-  const input = opts.getRawInput as unknown as { id: string }
+  const input = opts.input as {
+    id: string
+    email: string
+    given_name: string
+    family_name: string
+    picture: string
+  }
   // if (!input.id) return
 
   const { getUser } = getKindeServerSession()
