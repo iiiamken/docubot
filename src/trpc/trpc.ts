@@ -6,13 +6,7 @@ const middleware = t.middleware
 
 const isAuth = middleware(async (opts) => {
   // 1
-  const input = opts.input as {
-    id?: string
-    email?: string
-    given_name?: string
-    family_name?: string
-    picture?: string
-  }
+  const input = opts.getRawInput
   //
   // 2
   // const input = opts.getRawInput as unknown as { id: string }
