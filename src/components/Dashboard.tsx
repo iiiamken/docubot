@@ -3,7 +3,7 @@ import { trpc } from "@/app/_trpc/client"
 import { format } from "date-fns"
 import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import { Button } from "./ui/button"
 import UploadButton from "./UploadButton"
@@ -17,10 +17,14 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
     string | null
   >(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  // const [files, setFiles] = useState()
 
   // const utils = trpc.useUtils()
+  const { data: files, mutate } = trpc.getUserFiles.useMutation()
+  useEffect(() => {
+    mutate({})
+  }, [mutate])
 
-  const { data: files } = trpc.getUserFiles.useMutation()
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
     onSuccess: () => {},
     onMutate: ({ id }) => {

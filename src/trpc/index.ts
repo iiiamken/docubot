@@ -143,33 +143,33 @@ export const appRouter = router({
   getUserFiles: privateProcedure
     .input(
       z.object({
-        id: z.string(),
-        email: z.string(),
-        given_name: z.string(),
-        family_name: z.string(),
-        picture: z.string(),
+        id: z.string().optional(),
+        email: z.string().optional(),
+        given_name: z.string().optional(),
+        family_name: z.string().optional(),
+        picture: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      let submitUser
-      const data = input.id
-      submitUser = data
+      let submitUserId
+      const inpudId = input.id
+      submitUserId = inpudId
 
-      if (!data) {
+      if (!inpudId) {
         const { userId } = ctx
-        submitUser = userId
+        submitUserId = userId
       }
 
       const files = await db.file.findMany({
         where: {
-          userId: submitUser,
+          userId: submitUserId,
         },
       })
 
       const filesWithCount = await Promise.all(
         files.map(async (file) => {
           const messageCount = await db.message.count({
-            where: { fileId: file.id, userId: submitUser },
+            where: { fileId: file.id, userId: submitUserId },
           })
 
           return { ...file, messageCount }
