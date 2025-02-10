@@ -5,17 +5,28 @@ const t = initTRPC.create()
 const middleware = t.middleware
 
 const isAuth = middleware(async (opts) => {
+  const input = opts.getRawInput as unknown as { id: string }
+  // if (!input.id) return
+
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
-  if (!user || !user.id) {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+  if (!input) {
+    if (!user || !user.id) {
+      throw new TRPCError({ code: "UNAUTHORIZED" })
+    }
+    return opts.next({
+      ctx: {
+        userId: user.id,
+        user,
+      },
+    })
   }
 
   return opts.next({
     ctx: {
-      userId: user.id,
-      user,
+      userId: input.id,
+      user: input,
     },
   })
 })
