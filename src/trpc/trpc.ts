@@ -6,19 +6,19 @@ const middleware = t.middleware
 
 const isAuth = middleware(async (opts) => {
   // 1
-  const input = opts.getRawInput
+  // const input = opts.getRawInput
   //
   // 2
   // const input = opts.getRawInput as unknown as { id: string }
   //
   //3
-  // const input = opts.input as {
-  //   id: string
-  //   email: string
-  //   given_name: string
-  //   family_name: string
-  //   picture: string
-  // }
+  const input = opts.getRawInput as {
+    id?: string
+    email?: string
+    given_name?: string
+    family_name?: string
+    picture?: string
+  }
 
   if (!input) {
     const { getUser } = getKindeServerSession()
@@ -33,13 +33,12 @@ const isAuth = middleware(async (opts) => {
       },
     })
   }
-  return opts
-    .next
-    // ctx: {
-    //   userId: input.id,
-    //   user: input,
-    // },
-    ()
+  return opts.next({
+    ctx: {
+      userId: input.id,
+      user: input,
+    },
+  })
 })
 
 export const router = t.router
