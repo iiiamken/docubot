@@ -40,12 +40,13 @@ const isAuth = middleware(async (opts) => {
       },
     })
   }
-  return opts.next({
+  return opts
+    .next
     // ctx: {
     //   userId: input.id,
     //   user: input,
     // },
-  })
+    ()
 })
 
 export const router = t.router
