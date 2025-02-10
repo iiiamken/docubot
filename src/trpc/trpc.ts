@@ -12,7 +12,14 @@ const isAuth = middleware(async (opts) => {
   //   family_name: string
   //   picture: string
   // }
-  const input = opts.getRawInput as unknown as { id: string }
+  // const input = opts.getRawInput as unknown as { id: string }
+  const input = opts.input as {
+    id: string
+    email: string
+    given_name: string
+    family_name: string
+    picture: string
+  }
 
   // if (!input.id) return
 
