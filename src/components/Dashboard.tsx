@@ -24,6 +24,12 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
     onSuccess: (data) => {
       console.log("Mutation result:", data) // This will log the data when the mutation completes
     },
+    onMutate: () => {
+      setIsLoading(true)
+    },
+    onSettled: () => {
+      setIsLoading(false)
+    },
   })
 
   useEffect(() => {
