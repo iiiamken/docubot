@@ -5,7 +5,7 @@ const t = initTRPC.create()
 const middleware = t.middleware
 
 const isAuth = middleware(async (opts) => {
-  const input = opts.getRawInput as {
+  const input = opts.input as {
     id?: string
     email?: string
     given_name?: string
