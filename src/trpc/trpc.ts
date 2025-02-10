@@ -19,33 +19,33 @@ const isAuth = middleware(async (opts) => {
   //   family_name?: string
   //   picture?: string
   // }
-  const input = opts.input as {
-    id: string
-    email: string
-    given_name: string
-    family_name: string
-    picture: string
-  }
+  // const input = opts.input as {
+  //   id: string
+  //   email: string
+  //   given_name: string
+  //   family_name: string
+  //   picture: string
+  // }
 
-  if (!input.id) {
-    const { getUser } = getKindeServerSession()
-    const user = await getUser()
-    if (!user || !user.id) {
-      throw new TRPCError({ code: "UNAUTHORIZED" })
-    }
-    return opts.next({
-      ctx: {
-        userId: user.id,
-        user,
-      },
-    })
+  // if (!input) {
+  const { getUser } = getKindeServerSession()
+  const user = await getUser()
+  if (!user || !user.id) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
   }
   return opts.next({
     ctx: {
-      userId: input.id,
-      user: input,
+      userId: user.id,
+      user,
     },
   })
+  // }
+  // return opts.next({
+  //   ctx: {
+  //     userId: input.id,
+  //     user: input,
+  //   },
+  // })
 })
 
 export const router = t.router

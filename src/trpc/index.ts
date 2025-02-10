@@ -98,49 +98,37 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const testUser = input
-      if (!testUser) {
+      let submitId = input.id
+      let submitEmail = input.email
+
+      if (!input.id || !input.email) {
         const { getUser } = getKindeServerSession()
         const user = await getUser()
 
         if (!user || !user.id || !user.email)
           throw new TRPCError({ code: "UNAUTHORIZED" })
-
-        const dbUser = await db.user.findFirst({
-          where: {
-            id: user.id,
-          },
-        })
-
-        if (!dbUser) {
-          await db.user.create({
-            data: {
-              id: user.id,
-              email: user.email,
-            },
-          })
-        }
-        return { success: true, dbUser }
+        submitId = user.id
+        submitEmail = user.email
       }
 
       const dbUser = await db.user.findFirst({
         where: {
-          id: testUser.id,
+          id: submitId,
         },
       })
 
       if (!dbUser) {
         await db.user.create({
           data: {
-            id: testUser.id,
-            email: testUser.email,
+            id: submitId,
+            email: submitEmail,
           },
         })
       }
 
       return { success: true, dbUser }
     }),
-  getUserFiles: privateProcedure
+  getUserFiles: publicProcedure
     .input(
       z.object({
         id: z.string(),
@@ -150,14 +138,19 @@ export const appRouter = router({
         picture: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       let submitUserId
-      const inpudId = input.id
-      submitUserId = inpudId
+      submitUserId = input.id
 
-      if (!inpudId) {
-        const { userId } = ctx
-        submitUserId = userId
+      if (!input.id) {
+        const { getUser } = getKindeServerSession()
+        const user = await getUser()
+
+        if (!user || !user.id || !user.email)
+          throw new TRPCError({ code: "UNAUTHORIZED" })
+        // const { userId } = ctx
+        // submitUserId = userId
+        submitUserId = user.id
       }
 
       const files = await db.file.findMany({
