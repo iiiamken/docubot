@@ -39,8 +39,6 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
     // },
     onMutate: ({ id }) => {
       setIsLoading(true)
-      mutate({})
-
       setCurrentlyDeletingFile(id)
     },
     onSettled: () => {
