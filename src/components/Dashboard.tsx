@@ -35,9 +35,9 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
     onSuccess: () => {
       mutate({})
     },
-    onMutate: ({ id }) => {
+    onMutate: ({ fileId }) => {
       setIsLoading(true)
-      setCurrentlyDeletingFile(id)
+      setCurrentlyDeletingFile(fileId)
     },
     onSettled: () => {
       setIsLoading(false)
@@ -104,7 +104,7 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
                   </div>
                   <Button
                     id={`delete_${file.name}`}
-                    onClick={() => deleteFile({ id: file.id })}
+                    onClick={() => deleteFile({ fileId: file.id })}
                     size="sm"
                     className="w-full"
                     variant="destructive"

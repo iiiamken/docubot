@@ -178,15 +178,38 @@ export const appRouter = router({
 
       return filesWithCount
     }),
-  deleteFile: privateProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const { userId } = ctx
+  deleteFile: publicProcedure
+    .input(
+      z.object({
+        fileId: z.string(),
+        user: z
+          .object({
+            id: z.string().optional(),
+            email: z.string().optional(),
+            given_name: z.string().optional(),
+            family_name: z.string().optional(),
+            picture: z.string().optional(),
+          })
+          .optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      let submitUserId
+      submitUserId = input.user?.id
+      // const { userId } = ctx
+      if (!input.user?.id) {
+        const { getUser } = getKindeServerSession()
+        const user = await getUser()
+
+        if (!user || !user.id || !user.email)
+          throw new TRPCError({ code: "UNAUTHORIZED" })
+        submitUserId = user.id
+      }
 
       const file = await db.file.findFirst({
         where: {
-          id: input.id,
-          userId,
+          id: input.fileId,
+          userId: submitUserId,
         },
       })
       if (!file) {
@@ -195,7 +218,7 @@ export const appRouter = router({
 
       await db.file.delete({
         where: {
-          id: input.id,
+          id: input.fileId,
         },
       })
       return file
