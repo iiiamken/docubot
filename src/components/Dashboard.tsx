@@ -31,7 +31,9 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
   }, [mutate])
 
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
-    onSuccess: () => {},
+    onSuccess: () => {
+      mutate({})
+    },
     onMutate: ({ id }) => {
       setCurrentlyDeletingFile(id)
       setIsLoading(true)
