@@ -128,7 +128,7 @@ export const appRouter = router({
 
       return { success: true, dbUser }
     }),
-  getUserFiles: publicProcedure
+  getUserFiles: privateProcedure
     .input(
       z.object({
         id: z.string(),
@@ -138,19 +138,19 @@ export const appRouter = router({
         picture: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
       let submitUserId
       submitUserId = input.id
 
       if (!input.id) {
-        const { getUser } = getKindeServerSession()
-        const user = await getUser()
+        // const { getUser } = getKindeServerSession()
+        // const user = await getUser()
 
-        if (!user || !user.id || !user.email)
-          throw new TRPCError({ code: "UNAUTHORIZED" })
-        // const { userId } = ctx
-        // submitUserId = userId
-        submitUserId = user.id
+        // if (!user || !user.id || !user.email)
+        //   throw new TRPCError({ code: "UNAUTHORIZED" })
+        const { userId } = ctx
+        submitUserId = userId
+        // submitUserId = user.id
       }
 
       const files = await db.file.findMany({
