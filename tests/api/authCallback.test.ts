@@ -5,17 +5,30 @@ test.describe("api test cases for auth callback api endpoint", () => {
   test("user not logged in returns UNAUTHORIZED", async ({ request }) => {
     const token = await getToken()
     console.log(token)
-    const response = await request.get(
-      "https://dokubot.vercel.app/api/trpc/authCallback"
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/authCallback",
+      {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "test2",
+          email: "test2",
+          given_name: "test",
+          family_name: "test",
+          picture: "test",
+        }),
+      }
     )
 
     const data = await response.json()
 
-    console.log("datadatadatadatadatadatadata", data)
     console.log(
-      "data.error.data.codedata.error.data.codedata.error.data.codedata.error.data.codedata.error.data.code",
-      data.error.data.code
+      "datadatadatadatadatadatadata",
+      data as { data: { success: boolean } }
     )
-    expect(data.error.data.code).toBe("UNAUTHORIZED")
+
+    expect(data.result.data.success).toBe(true)
   })
 })

@@ -2,13 +2,26 @@ import test, { expect } from "@playwright/test"
 import { getToken } from "../../utils/getToken"
 
 test.describe("api test cases for getfile api endpoint", () => {
-  test.only("GETFILE user not logged in returns UNAUTHORIZED", async ({
+  test("GETFILE user not logged in returns UNAUTHORIZED", async ({
     request,
   }) => {
     const token = await getToken()
-    console.log(token)
+    console.log(token.acce)
     const response = await request.post(
-      "https://dokubot.vercel.app/api/trpc/deleteFile"
+      "https://dokubot.vercel.app/api/trpc/getFile",
+      {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "kp_e9ad9300d8cd45569c2de21a934e91ab",
+          email: "d_kenii@hotmail.com",
+          given_name: "test",
+          family_name: "test",
+          picture: "test",
+        }),
+      }
     )
 
     const data = await response.json()
@@ -18,6 +31,6 @@ test.describe("api test cases for getfile api endpoint", () => {
       "data.error.data.codedata.error.data.codedata.error.data.codedata.error.data.codedata.error.data.code",
       data.error.data.code
     )
-    expect(data.error.data.code).toBe("UNSUPPORTED_MEDIA_TYPE")
+    expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
 })

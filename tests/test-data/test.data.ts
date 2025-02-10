@@ -11,7 +11,7 @@ export const subbedKindeUsername = "iiiamawe@gmail.com"
 export const subbedKindePassword = "EjVQku5Jtsj8Lvg"
 
 export const fileItemId = "#cm6se7ovk0003la03gf36jd92"
-export const SubbedFileItemId = "#cm6tymwvn0001ju03x0dujb8q"
+export const SubbedFileItemId = "#cm6zf3t2m0003l203mmeib7zi"
 
 export const chatPageUrl =
   "https://dokubot.vercel.app/dashboard/cm6se7ovk0003la03gf36jd92"

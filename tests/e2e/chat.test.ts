@@ -92,10 +92,9 @@ test.describe("tests for chat page pdf section", () => {
 
     const rotateButton = chatPage.getRotateButton()
     await rotateButton.click()
+    await page.waitForTimeout(3000)
 
     rotationValue = await chatPage.getRotationValue()
-
-    await page.waitForTimeout(3000)
 
     expect(rotationValue).toBe("90")
   })
