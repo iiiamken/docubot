@@ -206,6 +206,13 @@ export const appRouter = router({
         submitUserId = user.id
       }
 
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: submitUserId,
+        },
+      })
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+
       const file = await db.file.findFirst({
         where: {
           id: input.fileId,
