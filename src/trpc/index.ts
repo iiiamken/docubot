@@ -128,7 +128,7 @@ export const appRouter = router({
 
       return { success: true, dbUser }
     }),
-  getUserFiles: privateProcedure
+  getUserFiles: publicProcedure
     .input(
       z.object({
         id: z.string().optional(),
@@ -138,19 +138,19 @@ export const appRouter = router({
         picture: z.string().optional(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       let submitUserId
       submitUserId = input.id
 
       if (!input.id) {
-        // const { getUser } = getKindeServerSession()
-        // const user = await getUser()
+        const { getUser } = getKindeServerSession()
+        const user = await getUser()
 
-        // if (!user || !user.id || !user.email)
-        //   throw new TRPCError({ code: "UNAUTHORIZED" })
-        const { userId } = ctx
-        submitUserId = userId
-        // submitUserId = user.id
+        if (!user || !user.id || !user.email)
+          throw new TRPCError({ code: "UNAUTHORIZED" })
+        submitUserId = user.id
+        // const { userId } = ctx
+        // submitUserId = userId
       }
       if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
