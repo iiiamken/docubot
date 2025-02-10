@@ -28,18 +28,12 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
   })
 
   useEffect(() => {
-    mutate({ id: "", email: "", given_name: "", family_name: "", picture: "" })
+    mutate({})
   }, [mutate])
 
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
     onSuccess: () => {
-      mutate({
-        id: "",
-        email: "",
-        given_name: "",
-        family_name: "",
-        picture: "",
-      })
+      mutate({})
     },
     onMutate: ({ id }) => {
       setIsLoading(true)
