@@ -13,7 +13,7 @@ const isAuth = middleware(async (opts) => {
     picture?: string
   }
 
-  if (!input.id) {
+  if (!input) {
     const { getUser } = getKindeServerSession()
     const user = await getUser()
     if (!user || !user.id) {
