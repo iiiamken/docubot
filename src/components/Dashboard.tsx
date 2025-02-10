@@ -21,9 +21,6 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
 
   // const utils = trpc.useUtils()
   const { mutate, data: files } = trpc.getUserFiles.useMutation({
-    onSuccess: (data) => {
-      console.log("Mutation result:", data) // This will log the data when the mutation completes
-    },
     onMutate: () => {
       setIsLoading(true)
     },
@@ -41,12 +38,12 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
       mutate({})
     },
     onMutate: ({ id }) => {
-      setCurrentlyDeletingFile(id)
       setIsLoading(true)
+      setCurrentlyDeletingFile(id)
     },
     onSettled: () => {
-      setCurrentlyDeletingFile(null)
       setIsLoading(false)
+      setCurrentlyDeletingFile(null)
     },
   })
 
