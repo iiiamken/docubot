@@ -140,7 +140,7 @@ export const appRouter = router({
 
       return { success: true, dbUser }
     }),
-  getUserFiles: privateProcedure
+  getUserFiles: publicProcedure
     .input(
       z.object({
         id: z.string().optional(),
