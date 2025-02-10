@@ -20,7 +20,7 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
   // const [files, setFiles] = useState()
 
   // const utils = trpc.useUtils()
-  const { mutate } = trpc.getUserFiles.useMutation({
+  const { mutate, data: files } = trpc.getUserFiles.useMutation({
     onSuccess: (data) => {
       console.log("Mutation result:", data) // This will log the data when the mutation completes
     },
