@@ -150,15 +150,18 @@ export const appRouter = router({
         picture: z.string().optional(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      let submitUserId
-      const inpudId = input.id
-      submitUserId = inpudId
+    // .mutation(async ({ ctx, input }) => {
+    //   let submitUserId
+    //   const inpudId = input.id
+    //   submitUserId = inpudId
 
-      if (!inpudId) {
-        const { userId } = ctx
-        submitUserId = userId
-      }
+    //   if (!inpudId) {
+    //     const { userId } = ctx
+    //     submitUserId = userId
+    //   }
+    .mutation(async ({ input }) => {
+      const inpudId = input.id
+      const submitUserId = inpudId
 
       const files = await db.file.findMany({
         where: {
