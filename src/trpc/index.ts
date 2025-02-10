@@ -152,6 +152,7 @@ export const appRouter = router({
         submitUserId = userId
         // submitUserId = user.id
       }
+      if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const files = await db.file.findMany({
         where: {
