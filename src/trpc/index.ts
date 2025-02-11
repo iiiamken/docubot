@@ -371,6 +371,9 @@ export const appRouter = router({
     .mutation(async ({ input }) => {
       const user = await authFn(input.user)
 
+      if (!input.limit || !input.cursor || !input.fileId)
+        throw new TRPCError({ code: "UNAUTHORIZED" })
+
       const { fileId, cursor } = input
       const limit = input?.limit ?? INFINITE_QUERY_LIMIT
 
