@@ -13,7 +13,6 @@ test.describe("tests for chat page pdf section", () => {
   test("pdf loads file", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
 
     const pdfContent = await chatPage.getPdfContent()
 
@@ -32,7 +31,7 @@ test.describe("tests for chat page pdf section", () => {
   test("pdf options page navigation works", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
+
     //1. next page
     const nextPageBtn = chatPage.getNextPageButton()
     let pageNumber = await chatPage.getPageNumber()
@@ -71,7 +70,6 @@ test.describe("tests for chat page pdf section", () => {
   test("pdf options zoom changes scale factor", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
 
     const zoomButton = chatPage.getZoomButton()
     await zoomButton.click()
@@ -86,7 +84,6 @@ test.describe("tests for chat page pdf section", () => {
   test("pdf options rotate button rotates page", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
 
     let rotationValue = await chatPage.getRotationValue()
     expect(rotationValue).toBe("0")
@@ -102,7 +99,6 @@ test.describe("tests for chat page pdf section", () => {
   test("pdf options fullscreen feature opens modal", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
 
     const fullscreenButton = chatPage.getFullscreenButton()
     await fullscreenButton.click()
@@ -120,7 +116,6 @@ test.describe("tests for chat message section", () => {
   }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
 
     const tooManyPages = chatPage.getTooManyPages()
 
@@ -132,7 +127,6 @@ test.describe("tests for chat message section", () => {
   }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
 
     const errorInfoText = await chatPage.getErrorPlanInfo().textContent()
 
@@ -146,7 +140,6 @@ test.describe("tests for chat message section", () => {
   }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
-    await page.waitForTimeout(5000)
 
     const errorBackButton = chatPage.getErrorBackButton()
 
@@ -160,7 +153,6 @@ test.describe("tests for chat message section", () => {
   }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToSubbedChatPage()
-    await page.waitForTimeout(5000)
 
     const readyToChat = chatPage.getReadyToChat()
 

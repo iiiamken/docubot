@@ -165,5 +165,6 @@ export class Chat {
 
     const subbedTestFile = this.getSubbedTestFile()
     await subbedTestFile.click()
+    await this.page.waitForTimeout(3000)
   }
 }

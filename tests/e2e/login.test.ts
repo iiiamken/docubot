@@ -10,6 +10,5 @@ test("Login and save session state", async ({ page }) => {
     process.env.KINDE_PASSWORD!
   )
 
-  // Validate that login was successful
   await expect(page.locator("#dashboard-title")).toBeVisible()
 })

@@ -67,5 +67,6 @@ export class Home {
   //actions
   async navigateToPage() {
     await this.page.goto("https://dokubot.vercel.app/")
+    await this.page.waitForTimeout(3000)
   }
 }

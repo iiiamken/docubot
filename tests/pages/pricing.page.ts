@@ -81,5 +81,6 @@ export class Pricing {
   //actions
   async navigateToPricingPage() {
     await this.page.goto("https://dokubot.vercel.app/pricing/")
+    await this.page.waitForTimeout(3000)
   }
 }
