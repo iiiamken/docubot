@@ -60,8 +60,8 @@ export class Chat {
     return this.testFile
   }
 
-  getPdfContent() {
-    return this.pdfContent
+  async getPdfContent() {
+    return this.page.locator(".react-pdf__Page")
   }
 
   getPdfOptionsBar() {

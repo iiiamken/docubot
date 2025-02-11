@@ -10,12 +10,12 @@ test.describe("tests for chat page pdf section", () => {
     await expect(page).toHaveURL(chatPageUrl)
   })
 
-  test("pdf loader renders file", async ({ page }) => {
+  test("pdf loads file", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
     await page.waitForTimeout(5000)
 
-    const pdfContent = chatPage.getPdfContent()
+    const pdfContent = await chatPage.getPdfContent()
 
     await expect(pdfContent).toBeVisible()
   })
