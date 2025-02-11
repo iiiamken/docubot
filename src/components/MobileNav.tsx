@@ -1,11 +1,15 @@
 "use client"
 
-import { ArrowRight, Menu } from "lucide-react"
+import { ArrowRight, Gem, Menu } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
-const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
+interface MobileNavProps {
+  isAuth: boolean
+  isUserSubbed: boolean
+}
+const MobileNav = ({ isAuth, isUserSubbed }: MobileNavProps) => {
   const [isOpen, setOpen] = useState<boolean>(false)
 
   const toggleOpen = () => setOpen((prev) => !prev)
@@ -77,6 +81,25 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                   </Link>
                 </li>
                 <li className="my-3 h-px w-full bg-gray-300" />
+                <li>
+                  {isUserSubbed ? (
+                    <Link
+                      className="flex items-center w-full font-semibold"
+                      id="mobile_manage_sub_button"
+                      href="/dashboard/billing"
+                    >
+                      Manage Subscription
+                    </Link>
+                  ) : (
+                    <Link
+                      className="flex items-center w-full font-semibold"
+                      id="mobile_upgrade_button"
+                      href="/pricing"
+                    >
+                      Upgrade <Gem className="text-blue-600 h-4 w-4 ml-1.5" />
+                    </Link>
+                  )}
+                </li>
                 <li>
                   <Link
                     className="flex items-center w-full font-semibold"
