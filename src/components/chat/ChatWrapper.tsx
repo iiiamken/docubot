@@ -4,7 +4,7 @@ import { trpc } from "@/app/_trpc/client"
 import { PLANS } from "@/config/stripe"
 import { ChevronLeft, Loader2, XCircle } from "lucide-react"
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { buttonVariants } from "../ui/button"
 import { ChatContextProvider } from "./ChatContext"
 import ChatInput from "./ChatInput"
@@ -16,24 +16,24 @@ interface ChatWrapperProps {
 }
 
 const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
-  const { data, isLoading, refetch } = trpc.getFileUploadStatus.useQuery({
-    fileId,
-  })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { data, mutate: getUploadstatus } =
+    trpc.getFileUploadStatus.useMutation({
+      onSuccess: () => {
+        setIsLoading(false)
+      },
+      onMutate: () => setIsLoading(true),
+      onSettled: (data) => {
+        if (data?.status === "SUCCESS" || data?.status === "FAILED") {
+          setIsLoading(false)
+        }
+        getUploadstatus({ fileId })
+      },
+    })
+
   useEffect(() => {
-    const pollStatus = async () => {
-      const result = await refetch()
-
-      const status = result.data?.status
-
-      if (status === "SUCCESS" || status === "FAILED") {
-        clearInterval(intervalId)
-      }
-    }
-
-    const intervalId = setInterval(pollStatus, 500)
-
-    return () => clearInterval(intervalId)
-  }, [fileId, refetch])
+    return getUploadstatus({ fileId })
+  }, [getUploadstatus, fileId])
 
   if (isLoading)
     return (

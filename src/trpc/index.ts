@@ -351,34 +351,21 @@ export const appRouter = router({
 
       return { status: file.uploadStatus }
     }),
-  getFileMessages: publicProcedure
+  getFileMessages: privateProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(100).nullish(),
         cursor: z.string().nullish(),
         fileId: z.string(),
-        user: z
-          .object({
-            id: z.string().optional(),
-            email: z.string().optional(),
-            given_name: z.string().optional(),
-            family_name: z.string().optional(),
-            picture: z.string().optional(),
-          })
-          .optional(),
       })
     )
-    .mutation(async ({ input }) => {
-      const user = await authFn(input.user)
-
-      if (!input.limit || !input.cursor || !input.fileId)
-        throw new TRPCError({ code: "UNAUTHORIZED" })
-
+    .query(async ({ input, ctx }) => {
+      const { userId } = ctx
       const { fileId, cursor } = input
       const limit = input?.limit ?? INFINITE_QUERY_LIMIT
 
       const file = await db.file.findFirst({
-        where: { userId: user.id, id: fileId },
+        where: { userId, id: fileId },
       })
 
       if (!file) throw new TRPCError({ code: "NOT_FOUND" })
