@@ -35,7 +35,7 @@ const authFn = async function (input?: {
     },
   })
   if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
-  return submitUserId
+  return { ...input, id: submitUserId }
 }
 
 export const appRouter = router({
@@ -128,32 +128,36 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      let submitId = input.id
-      let submitEmail = input.email
+      // let submitId = input.id
+      // let submitEmail = input.email
 
-      if (!input.id || !input.email) {
-        const { getUser } = getKindeServerSession()
-        const user = await getUser()
+      // if (!input.id || !input.email) {
+      //   const { getUser } = getKindeServerSession()
+      //   const user = await getUser()
 
-        if (!user || !user.id || !user.email)
-          throw new TRPCError({ code: "UNAUTHORIZED" })
-        submitId = user.id
-        submitEmail = user.email
-      }
-      if (!submitId || !submitEmail)
-        throw new TRPCError({ code: "UNAUTHORIZED" })
+      //   if (!user || !user.id || !user.email)
+      //     throw new TRPCError({ code: "UNAUTHORIZED" })
+      //   submitId = user.id
+      //   submitEmail = user.email
+      // }
+      // if (!submitId || !submitEmail)
+      //   throw new TRPCError({ code: "UNAUTHORIZED" })
+
+      const user = await authFn(input)
+
+      if (!user.email) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const dbUser = await db.user.findFirst({
         where: {
-          id: submitId,
+          id: user.id,
         },
       })
 
       if (!dbUser) {
         await db.user.create({
           data: {
-            id: submitId,
-            email: submitEmail,
+            id: user.id,
+            email: user.email,
           },
         })
       }
@@ -190,11 +194,11 @@ export const appRouter = router({
       // })
       // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
 
-      const submitUserId = await authFn(input)
+      const user = await authFn(input)
 
       const files = await db.file.findMany({
         where: {
-          userId: submitUserId,
+          userId: user.id,
         },
       })
 
@@ -203,7 +207,7 @@ export const appRouter = router({
       const filesWithCount = await Promise.all(
         files.map(async (file) => {
           const messageCount = await db.message.count({
-            where: { fileId: file.id, userId: submitUserId },
+            where: { fileId: file.id, userId: user.id },
           })
 
           return { ...file, messageCount }
@@ -247,13 +251,13 @@ export const appRouter = router({
       //   },
       // })
       // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
-      const submitUserId = await authFn(input.user)
+      const user = await authFn(input.user)
       if (!input.fileId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const file = await db.file.findFirst({
         where: {
           id: input.fileId,
-          userId: submitUserId,
+          userId: user.id,
         },
       })
       if (!file) {
@@ -304,13 +308,13 @@ export const appRouter = router({
       //   },
       // })
       // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
-      const submitUserId = await authFn(input.user)
+      const user = await authFn(input.user)
       if (!input.key) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const file = await db.file.findFirst({
         where: {
           key: input.key,
-          userId: submitUserId,
+          userId: user.id,
         },
       })
       if (!file) {
@@ -334,12 +338,12 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const submitUserId = await authFn(input.user)
+      const user = await authFn(input.user)
 
       const file = await db.file.findFirst({
         where: {
           id: input.fileId,
-          userId: submitUserId,
+          userId: user.id,
         },
       })
 
@@ -347,21 +351,31 @@ export const appRouter = router({
 
       return { status: file.uploadStatus }
     }),
-  getFileMessages: privateProcedure
+  getFileMessages: publicProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(100).nullish(),
         cursor: z.string().nullish(),
         fileId: z.string(),
+        user: z
+          .object({
+            id: z.string().optional(),
+            email: z.string().optional(),
+            given_name: z.string().optional(),
+            family_name: z.string().optional(),
+            picture: z.string().optional(),
+          })
+          .optional(),
       })
     )
-    .query(async ({ input, ctx }) => {
-      const { userId } = ctx
+    .mutation(async ({ input }) => {
+      const user = await authFn(input.user)
+
       const { fileId, cursor } = input
       const limit = input?.limit ?? INFINITE_QUERY_LIMIT
 
       const file = await db.file.findFirst({
-        where: { userId, id: fileId },
+        where: { userId: user.id, id: fileId },
       })
 
       if (!file) throw new TRPCError({ code: "NOT_FOUND" })
