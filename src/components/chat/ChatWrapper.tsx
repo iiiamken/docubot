@@ -20,9 +20,7 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
   const { data, mutate: getUploadstatus } =
     trpc.getFileUploadStatus.useMutation({
       onSuccess: () => {
-        if (data?.status === "PENDING") {
-          getUploadstatus({ fileId })
-        }
+        setIsLoading(false)
       },
       onMutate: () => setIsLoading(true),
       onSettled: () => {
@@ -31,8 +29,10 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
     })
   useEffect(() => {
     getUploadstatus({ fileId })
-  })
-
+  }, [getUploadstatus, fileId])
+  if (data?.status === "PENDING") {
+    getUploadstatus({ fileId })
+  }
   if (isLoading)
     return (
       <div
