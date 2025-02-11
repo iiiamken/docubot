@@ -24,9 +24,10 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
       },
       onMutate: () => setIsLoading(true),
       onSettled: (data) => {
-        if (data?.status === "SUCCESS" || data?.status === "FAILED") {
+        if (data?.status === "PENDING") {
+          getUploadstatus({ fileId })
+          setIsLoading(false)
         }
-        setIsLoading(false)
         getUploadstatus({ fileId })
       },
     })
