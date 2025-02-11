@@ -1,5 +1,4 @@
 import test, { expect } from "@playwright/test"
-import { kindeUsername, userId } from "../test-data/test.data"
 
 test.describe("api test cases for createStripeSession api endpoint", () => {
   test("create stripe session", async ({ request }) => {
@@ -10,8 +9,8 @@ test.describe("api test cases for createStripeSession api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          id: userId,
-          email: kindeUsername,
+          id: process.env.USER_ID!,
+          email: process.env.KINDE_USERNAME!,
           given_name: "test",
           family_name: "test",
           picture: "test",

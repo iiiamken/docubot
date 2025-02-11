@@ -1,5 +1,4 @@
 import test, { expect } from "@playwright/test"
-import { kindeUsername, userId } from "../test-data/test.data"
 
 test.describe("api test cases for getUserFiles api endpoint", () => {
   test("get files with valid userId returns users files", async ({
@@ -12,8 +11,8 @@ test.describe("api test cases for getUserFiles api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          id: userId,
-          email: kindeUsername,
+          id: process.env.USER_ID!,
+          email: process.env.KINDE_USERNAME!,
           given_name: "test",
           family_name: "test",
           picture: "test",
@@ -23,7 +22,7 @@ test.describe("api test cases for getUserFiles api endpoint", () => {
 
     const data = await response.json()
 
-    expect(data.result.data[0].userId).toBe(userId)
+    expect(data.result.data[0].userId).toBe(process.env.USER_ID)
   })
 
   test("get files with invalid userId returns UNAUTHORIZED", async ({
@@ -49,7 +48,7 @@ test.describe("api test cases for getUserFiles api endpoint", () => {
 
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
-  
+
   test("get files with empty fields returns UNAUTHORIZED", async ({
     request,
   }) => {

@@ -1,5 +1,5 @@
 import test, { expect } from "@playwright/test"
-import { fileId, kindeUsername, userId } from "../test-data/test.data"
+import { fileId } from "../test-data/test.data"
 
 test.describe("api test cases for getFileUploadStatus api endpoint", () => {
   test("get file upload status with valid file id returns the correct file", async ({
@@ -14,8 +14,8 @@ test.describe("api test cases for getFileUploadStatus api endpoint", () => {
         data: JSON.stringify({
           fileId: fileId,
           user: {
-            id: userId,
-            email: kindeUsername,
+            id: process.env.USER_ID!,
+            email: process.env.KINDE_USERNAME!,
             given_name: "test",
             family_name: "test",
             picture: "test",
@@ -39,8 +39,8 @@ test.describe("api test cases for getFileUploadStatus api endpoint", () => {
         data: JSON.stringify({
           fileId: "",
           user: {
-            id: userId,
-            email: kindeUsername,
+            id: process.env.USER_ID!,
+            email: process.env.KINDE_USERNAME!,
             given_name: "test",
             family_name: "test",
             picture: "test",

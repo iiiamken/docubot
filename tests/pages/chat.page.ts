@@ -2,11 +2,7 @@ import { Locator, Page } from "@playwright/test"
 import {
   chatPageUrl,
   fileItemId,
-  kindePassword,
-  kindeUsername,
   SubbedFileItemId,
-  subbedKindePassword,
-  subbedKindeUsername,
 } from "../test-data/test.data"
 import { LoginPage } from "./loginPage.page"
 
@@ -150,7 +146,10 @@ export class Chat {
   async navigateToChatPage() {
     await this.page.goto(chatPageUrl)
     const loginPage = new LoginPage(this.page)
-    await loginPage.login(kindeUsername, kindePassword)
+    await loginPage.login(
+      process.env.KINDE_USERNAME!,
+      process.env.KINDE_PASSWORD!
+    )
 
     const testFile = this.getTestFile()
     await testFile.click()
@@ -159,7 +158,10 @@ export class Chat {
   async navigateToSubbedChatPage() {
     await this.page.goto(chatPageUrl)
     const loginPage = new LoginPage(this.page)
-    await loginPage.login(subbedKindeUsername, subbedKindePassword)
+    await loginPage.login(
+      process.env.SUBBED_KINDE_USERNAME!,
+      process.env.SUBBED_KINDE_PASSWORD!
+    )
 
     const subbedTestFile = this.getSubbedTestFile()
     await subbedTestFile.click()

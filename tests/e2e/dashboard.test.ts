@@ -50,17 +50,20 @@ test.describe("tests for dashboard page", () => {
     const uploadButton = dashboardPage.getUploadButton()
 
     await expect(uploadButton).toBeVisible()
-    await page.waitForTimeout(3000)
 
     await uploadButton.click()
 
-    await page.setInputFiles("#dropzone-file", "tests/test-data/test_file.pdf")
+    await page.setInputFiles(
+      "#dropzone-file",
+      "tests/test-data/test_file_upload.pdf"
+    )
     await page.waitForTimeout(10000)
     const pdfField = dashboardPage.getPdfField()
 
     await expect(pdfField).toBeVisible()
 
     await page.goto("https://dokubot.vercel.app/dashboard/")
+    await page.waitForTimeout(3000)
 
     const testFileDeleteBtn = dashboardPage.getTestFileDeleteBtn()
 

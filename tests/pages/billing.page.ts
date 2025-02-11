@@ -1,10 +1,4 @@
 import { Locator, Page } from "@playwright/test"
-import {
-  kindePassword,
-  kindeUsername,
-  subbedKindePassword,
-  subbedKindeUsername,
-} from "../test-data/test.data"
 import { LoginPage } from "./loginPage.page"
 
 export class Billing {
@@ -43,7 +37,10 @@ export class Billing {
   async navigateToBillingPage() {
     await this.page.goto("https://dokubot.vercel.app/dashboard")
     const loginPage = new LoginPage(this.page)
-    await loginPage.login(kindeUsername, kindePassword)
+    await loginPage.login(
+      process.env.KINDE_USERNAME!,
+      process.env.KINDE_PASSWORD!
+    )
     await this.page.waitForTimeout(5000)
 
     await this.page.goto("https://dokubot.vercel.app/dashboard/billing")
@@ -52,7 +49,10 @@ export class Billing {
   async navigateToBillingPageSubbed() {
     await this.page.goto("https://dokubot.vercel.app/dashboard")
     const loginPage = new LoginPage(this.page)
-    await loginPage.login(subbedKindeUsername, subbedKindePassword)
+    await loginPage.login(
+      process.env.SUBBED_KINDE_USERNAME!,
+      process.env.SUBBED_KINDE_PASSWORD!
+    )
     await this.page.waitForTimeout(5000)
 
     await this.page.goto("https://dokubot.vercel.app/dashboard/billing")

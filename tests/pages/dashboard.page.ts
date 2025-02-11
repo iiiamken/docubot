@@ -1,9 +1,5 @@
 import { Locator, Page } from "@playwright/test"
-import {
-  fileItemId,
-  kindePassword,
-  kindeUsername,
-} from "../test-data/test.data"
+import { fileItemId } from "../test-data/test.data"
 import { LoginPage } from "./loginPage.page"
 
 export class Dashboard {
@@ -19,7 +15,7 @@ export class Dashboard {
     this.modal = this.page.locator("#radix-\\:R9fntb\\:")
     this.fileItem = this.page.locator(fileItemId)
     this.pdfField = this.page.locator("#pdf_field")
-    this.testFileDeleteBtn = this.page.locator("#delete_test_file\\.pdf")
+    this.testFileDeleteBtn = this.page.locator("#delete_test_file_upload\\.pdf")
   }
 
   //getters
@@ -47,6 +43,10 @@ export class Dashboard {
   async navigateToDashboard() {
     await this.page.goto("https://dokubot.vercel.app/dashboard/")
     const loginPage = new LoginPage(this.page)
-    await loginPage.login(kindeUsername, kindePassword)
+    await loginPage.login(
+      process.env.KINDE_USERNAME!,
+      process.env.KINDE_PASSWORD!
+    )
+    await this.page.waitForTimeout(3000)
   }
 }

@@ -1,10 +1,5 @@
 import test, { expect } from "@playwright/test"
-import {
-  deleteFileId,
-  fileId,
-  kindeUsername,
-  userId,
-} from "../test-data/test.data"
+import { deleteFileId, fileId } from "../test-data/test.data"
 
 test.describe("api test cases for deleteFile api endpoint", () => {
   test.skip("deletes file with valid user and fild id", async ({ request }) => {
@@ -17,8 +12,8 @@ test.describe("api test cases for deleteFile api endpoint", () => {
         data: JSON.stringify({
           fileId: deleteFileId,
           user: {
-            id: userId,
-            email: kindeUsername,
+            id: process.env.USER_ID!,
+            email: process.env.KINDE_USERNAME!,
             given_name: "test",
             family_name: "test",
             picture: "test",

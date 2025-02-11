@@ -1,8 +1,7 @@
 import test, { expect } from "@playwright/test"
-import { fileKey, kindeUsername, userId } from "../test-data/test.data"
 
 test.describe("api test cases for getfile api endpoint", () => {
-  test("get file with valid fileKey returns the correct file", async ({
+  test("get file with valid FILE_KEY returns the correct file", async ({
     request,
   }) => {
     const response = await request.post(
@@ -12,10 +11,10 @@ test.describe("api test cases for getfile api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          key: fileKey,
+          key: process.env.FILE_KEY!,
           user: {
-            id: userId,
-            email: kindeUsername,
+            id: process.env.USER_ID!,
+            email: process.env.KINDE_USERNAME!,
             given_name: "test",
             family_name: "test",
             picture: "test",
@@ -26,10 +25,10 @@ test.describe("api test cases for getfile api endpoint", () => {
 
     const data = await response.json()
 
-    expect(data.result.data.key).toBe(fileKey)
+    expect(data.result.data.key).toBe(process.env.FILE_KEY!)
   })
 
-  test("get file with no fileKey", async ({ request }) => {
+  test("get file with FILE_KEY,", async ({ request }) => {
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/getFile",
       {
@@ -39,8 +38,8 @@ test.describe("api test cases for getfile api endpoint", () => {
         data: JSON.stringify({
           key: "",
           user: {
-            id: userId,
-            email: kindeUsername,
+            id: process.env.USER_ID!,
+            email: process.env.KINDE_USERNAME!,
             given_name: "test",
             family_name: "test",
             picture: "test",
@@ -54,7 +53,7 @@ test.describe("api test cases for getfile api endpoint", () => {
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
 
-  test("get file with invalid fileKey", async ({ request }) => {
+  test("get file with invald FILE_KEY", async ({ request }) => {
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/getFile",
       {
@@ -64,8 +63,8 @@ test.describe("api test cases for getfile api endpoint", () => {
         data: JSON.stringify({
           key: "test",
           user: {
-            id: userId,
-            email: kindeUsername,
+            id: process.env.USER_ID!,
+            email: process.env.KINDE_USERNAME!,
             given_name: "test",
             family_name: "test",
             picture: "test",
@@ -104,7 +103,9 @@ test.describe("api test cases for getfile api endpoint", () => {
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
 
-  test("get file with invalid user id with fileKey", async ({ request }) => {
+  test("get file with invalid user id with valid FILE_KEY,", async ({
+    request,
+  }) => {
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/getFile",
       {
@@ -112,7 +113,7 @@ test.describe("api test cases for getfile api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          key: fileKey,
+          key: process.env.FILE_KEY!,
           user: {
             id: "test",
             email: "test",

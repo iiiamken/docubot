@@ -20,7 +20,6 @@ export async function getToken() {
     }
 
     const token = await response.json()
-    console.log(token)
     return token
   } catch (error) {
     console.error("err", error)
