@@ -29,15 +29,9 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
         setIsLoading(false)
       },
     })
-  // useEffect(() => {
-  // if (data?.status === "PENDING") {
   useEffect(() => {
     getUploadstatus({ fileId })
-  }, [getUploadstatus, fileId, data?.status])
-  // }
-  //   const uploadStatus = getUploadstatus({ fileId })
-  //   return uploadStatus
-  // }, [fileId, data?.status])
+  })
 
   if (isLoading)
     return (
