@@ -1,22 +1,19 @@
 import test, { expect } from "@playwright/test"
-import { getToken } from "../../utils/getToken"
+import { kindeUsername, userId } from "../test-data/test.data"
 
-test.describe("api test cases for getfile api endpoint", () => {
-  test.only("GETFILE user not logged in returns UNAUTHORIZED", async ({
+test.describe("api test cases for getUserFiles api endpoint", () => {
+  test("get files with valid userId returns users files", async ({
     request,
   }) => {
-    const token = await getToken()
-    console.log(token.access_token)
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/getUserFiles",
       {
         headers: {
-          Authorization: `Bearer ${token.access_token}`,
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          id: "kp_e9ad9300d8cd45569c2de21a934e91ab",
-          email: "d_kenii@hotmail.com",
+          id: userId,
+          email: kindeUsername,
           given_name: "test",
           family_name: "test",
           picture: "test",
@@ -26,11 +23,69 @@ test.describe("api test cases for getfile api endpoint", () => {
 
     const data = await response.json()
 
-    console.log("datadatadatadatadatadatadata", data)
-    console.log(
-      "data.error.data.codedata.error.data.codedata.error.data.codedata.error.data.codedata.error.data.code",
-      data.error.data.code
+    expect(data.result.data[0].userId).toBe(userId)
+  })
+
+  test("get files with invalid userId returns UNAUTHORIZED", async ({
+    request,
+  }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/getUserFiles",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "testing",
+          email: "testing",
+          given_name: "test",
+          family_name: "test",
+          picture: "test",
+        }),
+      }
     )
+
+    const data = await response.json()
+
+    expect(data.error.data.code).toBe("UNAUTHORIZED")
+  })
+  test("get files with empty fields returns UNAUTHORIZED", async ({
+    request,
+  }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/getUserFiles",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "",
+          email: "",
+          given_name: "",
+          family_name: "",
+          picture: "",
+        }),
+      }
+    )
+
+    const data = await response.json()
+
+    console.log(data)
+    expect(data.error.data.code).toBe("UNAUTHORIZED")
+  })
+
+  test("get files with no user returns UNAUTHORIZED", async ({ request }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/getUserFiles",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({}),
+      }
+    )
+
+    const data = await response.json()
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
 })

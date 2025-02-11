@@ -13,6 +13,7 @@ test.describe("tests for chat page pdf section", () => {
   test("pdf loader renders file", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
+    await page.waitForTimeout(5000)
 
     const pdfContent = chatPage.getPdfContent()
 

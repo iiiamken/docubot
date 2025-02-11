@@ -1,15 +1,11 @@
 import test, { expect } from "@playwright/test"
-import { getToken } from "../../utils/getToken"
 
 test.describe("api test cases for auth callback api endpoint", () => {
-  test("user not logged in returns UNAUTHORIZED", async ({ request }) => {
-    const token = await getToken()
-    console.log(token)
+  test("valid user returns success", async ({ request }) => {
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/authCallback",
       {
         headers: {
-          Authorization: `Bearer ${token.access_token}`,
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
@@ -24,11 +20,44 @@ test.describe("api test cases for auth callback api endpoint", () => {
 
     const data = await response.json()
 
-    console.log(
-      "datadatadatadatadatadatadata",
-      data as { data: { success: boolean } }
+    expect(data.result.data.success).toBe(true)
+  })
+
+  test.only("invalid user returns UNAUTHORIZED", async ({ request }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/authCallback",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "",
+          email: "",
+          given_name: "",
+          family_name: "",
+          picture: "",
+        }),
+      }
     )
 
-    expect(data.result.data.success).toBe(true)
+    const data = await response.json()
+
+    expect(data.error.data.code).toBe("UNAUTHORIZED")
+  })
+
+  test.only("no user returns UNAUTHORIZED", async ({ request }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/authCallback",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({}),
+      }
+    )
+
+    const data = await response.json()
+
+    expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
 })

@@ -90,11 +90,11 @@ export const appRouter = router({
   authCallback: publicProcedure
     .input(
       z.object({
-        id: z.string(),
-        email: z.string(),
-        given_name: z.string(),
-        family_name: z.string(),
-        picture: z.string(),
+        id: z.string().optional(),
+        email: z.string().optional(),
+        given_name: z.string().optional(),
+        family_name: z.string().optional(),
+        picture: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -110,6 +110,8 @@ export const appRouter = router({
         submitId = user.id
         submitEmail = user.email
       }
+      if (!submitId || !submitEmail)
+        throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const dbUser = await db.user.findFirst({
         where: {
