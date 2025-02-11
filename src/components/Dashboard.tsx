@@ -33,7 +33,7 @@ const Dashboard = ({ subscriptionPlan }: PageProps) => {
 
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
     onSuccess: () => {
-      mutate({})
+      mutate({}) //rerenders
     },
     onMutate: ({ fileId }) => {
       setIsLoading(true)

@@ -19,12 +19,6 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { data, mutate: getUploadstatus } =
     trpc.getFileUploadStatus.useMutation({
-      onSuccess: () => {
-        setIsLoading(false)
-        if (data?.status === "PENDING") {
-          getUploadstatus({ fileId })
-        }
-      },
       onMutate: () => setIsLoading(true),
       onSettled: () => {
         setIsLoading(false)
@@ -34,8 +28,11 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
   // useEffect(() => {
   // if (data?.status === "PENDING") {
   useEffect(() => {
+    if (data?.status === "PENDING") {
+      getUploadstatus({ fileId })
+    }
     getUploadstatus({ fileId })
-  }, [getUploadstatus, fileId])
+  }, [getUploadstatus, fileId, data?.status])
   // }
   //   const uploadStatus = getUploadstatus({ fileId })
   //   return uploadStatus
