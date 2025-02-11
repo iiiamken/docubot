@@ -1,4 +1,11 @@
 import { Locator, Page } from "@playwright/test"
+import {
+  kindePassword,
+  kindeUsername,
+  subbedKindePassword,
+  subbedKindeUsername,
+} from "../test-data/test.data"
+import { LoginPage } from "./loginPage.page"
 
 export class Billing {
   private manageSubButton: Locator
@@ -19,6 +26,10 @@ export class Billing {
 
   async clickManageSubButton() {
     await this.manageSubButton.click()
+    await this.page.waitForTimeout(3000)
+  }
+  async toHaveUrlStripeCheckout() {
+    return this.page.url()
   }
 
   async isCurrentPlanDetailsVisible() {
@@ -27,5 +38,24 @@ export class Billing {
 
   async isPlanDurationVisible() {
     return await this.planDuration.isVisible()
+  }
+
+  async navigateToBillingPage() {
+    await this.page.goto("https://dokubot.vercel.app/dashboard")
+    const loginPage = new LoginPage(this.page)
+    await loginPage.login(kindeUsername, kindePassword)
+    await this.page.waitForTimeout(5000)
+
+    await this.page.goto("https://dokubot.vercel.app/dashboard/billing")
+    await this.page.waitForTimeout(3000)
+  }
+  async navigateToBillingPageSubbed() {
+    await this.page.goto("https://dokubot.vercel.app/dashboard")
+    const loginPage = new LoginPage(this.page)
+    await loginPage.login(subbedKindeUsername, subbedKindePassword)
+    await this.page.waitForTimeout(5000)
+
+    await this.page.goto("https://dokubot.vercel.app/dashboard/billing")
+    await this.page.waitForTimeout(3000)
   }
 }

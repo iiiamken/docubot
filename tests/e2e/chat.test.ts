@@ -166,8 +166,4 @@ test.describe("tests for chat message section", () => {
 
     await expect(readyToChat).toBeVisible()
   })
-
-  // test("sends message to AI and gets a response successfully", async ({
-  //   page,
-  // }) => {})
 })

@@ -22,6 +22,7 @@ test.describe("api test cases for createStripeSession api endpoint", () => {
 
     expect(data.result.data.url).toBeTruthy()
   })
+
   test("input invalid user returns UNAUTHORIZED", async ({ request }) => {
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/createStripeSession",

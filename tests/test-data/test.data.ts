@@ -4,6 +4,9 @@ export const regexKindeLogin =
 export const regexKindeRegister =
   /^https:\/\/dokubot\.kinde\.com\/auth\/cx\/[^&]+&m:register/
 
+export const regexStripeCheckout = /^https:\/\/checkout\.stripe\.com\/.*/
+export const regexStripeBilling = /^https:\/\/billing\.stripe\.com\/.*/
+
 export const kindeUsername = "d_kenii@hotmail.com"
 export const kindePassword = "x7Vh3DJbQQ3jCn9"
 
