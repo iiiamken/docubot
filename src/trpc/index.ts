@@ -112,7 +112,6 @@ export const appRouter = router({
       }
       if (!submitId || !submitEmail)
         throw new TRPCError({ code: "UNAUTHORIZED" })
-
       const dbUser = await db.user.findFirst({
         where: {
           id: submitId,
@@ -208,6 +207,8 @@ export const appRouter = router({
         submitUserId = user.id
       }
 
+      if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
+
       const dbUser = await db.user.findFirst({
         where: {
           id: submitUserId,
@@ -232,15 +233,40 @@ export const appRouter = router({
       })
       return file
     }),
-  getFile: privateProcedure
-    .input(z.object({ key: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const { userId } = ctx
+  getFile: publicProcedure
+    .input(
+      z.object({
+        key: z.string(),
+        user: z
+          .object({
+            id: z.string().optional(),
+            email: z.string().optional(),
+            given_name: z.string().optional(),
+            family_name: z.string().optional(),
+            picture: z.string().optional(),
+          })
+          .optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      let submitUserId
+      submitUserId = input.user?.id
+
+      if (!input.user?.id) {
+        const { getUser } = getKindeServerSession()
+        const user = await getUser()
+
+        if (!user || !user.id || !user.email)
+          throw new TRPCError({ code: "UNAUTHORIZED" })
+        submitUserId = user.id
+      }
+
+      if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const file = await db.file.findFirst({
         where: {
           key: input.key,
-          userId,
+          userId: submitUserId,
         },
       })
       if (!file) {
