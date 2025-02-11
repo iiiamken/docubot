@@ -70,7 +70,6 @@ test.describe("api test cases for getUserFiles api endpoint", () => {
 
     const data = await response.json()
 
-    console.log(data)
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
 

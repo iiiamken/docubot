@@ -39,84 +39,6 @@ const authFn = async function (input?: {
 }
 
 export const appRouter = router({
-  test: publicProcedure.query(async () => {
-    return { success: true }
-  }),
-  test3: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        email: z.string(),
-        given_name: z.string(),
-        family_name: z.string(),
-        picture: z.string(),
-      })
-    )
-    .query(async ({ input }) => {
-      const testUser = input
-      if (!testUser) {
-        const { getUser } = getKindeServerSession()
-        const user = await getUser()
-
-        if (!user || !user.id || !user.email)
-          throw new TRPCError({ code: "UNAUTHORIZED" })
-      }
-
-      return { success: true, testUser }
-    }),
-  test1: publicProcedure
-    .input(
-      z.object({
-        test: z.string(),
-      })
-    )
-    .query(async ({ input }) => {
-      return { success: true, input }
-    }),
-  test2: publicProcedure
-    .input(
-      z.object({
-        test: z.string(),
-      })
-    )
-    .mutation(async ({ input: { test } }) => {
-      return { success: true, test }
-    }),
-  test4: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        email: z.string(),
-        given_name: z.string(),
-        family_name: z.string(),
-        picture: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      return { success: true, input }
-    }),
-  test5: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        email: z.string(),
-        given_name: z.string(),
-        family_name: z.string(),
-        picture: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const testUser = input
-      if (!testUser) {
-        const { getUser } = getKindeServerSession()
-        const user = await getUser()
-
-        if (!user || !user.id || !user.email)
-          throw new TRPCError({ code: "UNAUTHORIZED" })
-      }
-
-      return { success: true, testUser }
-    }),
   authCallback: publicProcedure
     .input(
       z.object({
@@ -128,21 +50,6 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      // let submitId = input.id
-      // let submitEmail = input.email
-
-      // if (!input.id || !input.email) {
-      //   const { getUser } = getKindeServerSession()
-      //   const user = await getUser()
-
-      //   if (!user || !user.id || !user.email)
-      //     throw new TRPCError({ code: "UNAUTHORIZED" })
-      //   submitId = user.id
-      //   submitEmail = user.email
-      // }
-      // if (!submitId || !submitEmail)
-      //   throw new TRPCError({ code: "UNAUTHORIZED" })
-
       const user = await authFn(input)
 
       if (!user.email) throw new TRPCError({ code: "UNAUTHORIZED" })
@@ -175,25 +82,6 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      // let submitUserId
-      // submitUserId = input.id
-
-      // if (!input.id) {
-      //   const { getUser } = getKindeServerSession()
-      //   const user = await getUser()
-
-      //   if (!user || !user.id || !user.email)
-      //     throw new TRPCError({ code: "UNAUTHORIZED" })
-      //   submitUserId = user.id
-      // }
-
-      // const dbUser = await db.user.findFirst({
-      //   where: {
-      //     id: submitUserId,
-      //   },
-      // })
-      // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
-
       const user = await authFn(input)
 
       const files = await db.file.findMany({
@@ -207,7 +95,7 @@ export const appRouter = router({
       const filesWithCount = await Promise.all(
         files.map(async (file) => {
           const messageCount = await db.message.count({
-            where: { fileId: file.id, userId: user.id },
+            where: { fileId: file.id, userId: user.id, isUserMessage: true },
           })
 
           return { ...file, messageCount }
@@ -232,25 +120,6 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      // let submitUserId
-      // submitUserId = input.user?.id
-      // if (!input.user?.id) {
-      //   const { getUser } = getKindeServerSession()
-      //   const user = await getUser()
-
-      //   if (!user || !user.id || !user.email)
-      //     throw new TRPCError({ code: "UNAUTHORIZED" })
-      //   submitUserId = user.id
-      // }
-
-      // if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
-
-      // const dbUser = await db.user.findFirst({
-      //   where: {
-      //     id: submitUserId,
-      //   },
-      // })
-      // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
       const user = await authFn(input.user)
       if (!input.fileId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
@@ -287,27 +156,6 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      // let submitUserId
-      // submitUserId = input.user?.id
-
-      // if (!input.user?.id) {
-      //   const { getUser } = getKindeServerSession()
-      //   const user = await getUser()
-
-      //   if (!user || !user.id || !user.email)
-      //     throw new TRPCError({ code: "UNAUTHORIZED" })
-      //   submitUserId = user.id
-      // }
-
-      // if (!submitUserId || !input.key)
-      //   throw new TRPCError({ code: "UNAUTHORIZED" })
-
-      // const dbUser = await db.user.findFirst({
-      //   where: {
-      //     id: submitUserId,
-      //   },
-      // })
-      // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
       const user = await authFn(input.user)
       if (!input.key) throw new TRPCError({ code: "UNAUTHORIZED" })
 

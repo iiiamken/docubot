@@ -4,18 +4,7 @@ import { initTRPC, TRPCError } from "@trpc/server"
 const t = initTRPC.create()
 const middleware = t.middleware
 
-// type inputType = {
-//   id?: string
-//   email?: string
-//   given_name?: string
-//   family_name?: string
-//   picture?: string
-// }
-
 const isAuth = middleware(async (opts) => {
-  // const inputdata = opts.getRawInput() as inputType
-
-  // if (!inputdata) {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
   if (!user || !user.id) {
@@ -27,13 +16,6 @@ const isAuth = middleware(async (opts) => {
       user,
     },
   })
-  // }
-  // return opts.next({
-  //   ctx: {
-  //     userId: inputdata.id,
-  //     user: inputdata,
-  //   },
-  // })
 })
 
 export const router = t.router
