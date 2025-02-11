@@ -340,6 +340,8 @@ export const appRouter = router({
     .mutation(async ({ input }) => {
       const user = await authFn(input.user)
 
+      if (!input.fileId) throw new TRPCError({ code: "UNAUTHORIZED" })
+
       const file = await db.file.findFirst({
         where: {
           id: input.fileId,
@@ -391,52 +393,62 @@ export const appRouter = router({
 
       return { messages, nextCursor }
     }),
-  createStripeSession: privateProcedure.mutation(async ({ ctx }) => {
-    const { userId } = ctx
+  createStripeSession: publicProcedure
+    .input(
+      z
+        .object({
+          id: z.string().optional(),
+          email: z.string().optional(),
+          given_name: z.string().optional(),
+          family_name: z.string().optional(),
+          picture: z.string().optional(),
+        })
+        .optional()
+    )
+    .mutation(async ({ input }) => {
+      const user = await authFn(input)
+      const billingUrl = absoluteUrl("/dashboard/billing")
 
-    const billingUrl = absoluteUrl("/dashboard/billing")
-
-    if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" })
-
-    const dbUser = await db.user.findFirst({
-      where: {
-        id: userId,
-      },
-    })
-
-    if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
-
-    const subscriptionPlan = await getUserSubscriptionPlan()
-
-    if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
-      const stripeSession = await stripe.billingPortal.sessions.create({
-        customer: dbUser.stripeCustomerId,
-        return_url: "https://dokubot.vercel.app/dashboard/billing",
-      })
-      const stripeUrl = { url: stripeSession.url }
-
-      return stripeUrl
-    }
-
-    const stripeSession = await stripe.checkout.sessions.create({
-      success_url: billingUrl,
-      cancel_url: billingUrl,
-      payment_method_types: ["card"],
-      mode: "subscription",
-      billing_address_collection: "auto",
-      line_items: [
-        {
-          price: PLANS.find((plan) => plan.name === "Pro")?.price.priceIds.test,
-          quantity: 1,
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: user.id,
         },
-      ],
-      metadata: {
-        userId: userId,
-      },
-    })
+      })
 
-    return { url: stripeSession.url }
-  }),
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+
+      const subscriptionPlan = await getUserSubscriptionPlan()
+
+      if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
+        const stripeSession = await stripe.billingPortal.sessions.create({
+          customer: dbUser.stripeCustomerId,
+          return_url: "https://dokubot.vercel.app/dashboard/billing",
+        })
+        const stripeUrl = { url: stripeSession.url }
+
+        return stripeUrl
+      }
+
+      const stripeSession = await stripe.checkout.sessions.create({
+        success_url: billingUrl,
+        cancel_url: billingUrl,
+        payment_method_types: ["card"],
+        mode: "subscription",
+        billing_address_collection: "auto",
+        line_items: [
+          {
+            price: PLANS.find((plan) => plan.name === "Pro")?.price.priceIds
+              .test,
+            quantity: 1,
+          },
+        ],
+        metadata: {
+          userId: user.id,
+        },
+      })
+
+      return { url: stripeSession.url }
+    }),
 })
 
 export type AppRouter = typeof appRouter

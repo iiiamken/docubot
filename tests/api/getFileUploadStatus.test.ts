@@ -1,19 +1,10 @@
 import test, { expect } from "@playwright/test"
+import { fileId, kindeUsername, userId } from "../test-data/test.data"
 
 test.describe("api test cases for getFileUploadStatus api endpoint", () => {
-  test.only("get file upload status with valid fileKey returns the correct file", async ({
+  test("get file upload status with valid file id returns the correct file", async ({
     request,
   }) => {
-    const inputData = {
-      fileId: "test",
-      user: {
-        id: "test",
-        email: "test",
-        given_name: "test",
-        family_name: "test",
-        picture: "test",
-      },
-    }
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/getFileUploadStatus",
       {
@@ -21,7 +12,41 @@ test.describe("api test cases for getFileUploadStatus api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          inputData,
+          fileId: fileId,
+          user: {
+            id: userId,
+            email: kindeUsername,
+            given_name: "test",
+            family_name: "test",
+            picture: "test",
+          },
+        }),
+      }
+    )
+
+    const data = await response.json()
+
+    expect(data.result.data.status).toBe("SUCCESS")
+  })
+
+  test.only("get file upload status with invalid file id returns the correct file", async ({
+    request,
+  }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/getFileUploadStatus",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          fileId: "test",
+          user: {
+            id: userId,
+            email: kindeUsername,
+            given_name: "test",
+            family_name: "test",
+            picture: "test",
+          },
         }),
       }
     )
