@@ -23,7 +23,7 @@ test.describe("api test cases for auth callback api endpoint", () => {
     expect(data.result.data.success).toBe(true)
   })
 
-  test.only("invalid user returns UNAUTHORIZED", async ({ request }) => {
+  test("invalid user returns UNAUTHORIZED", async ({ request }) => {
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/authCallback",
       {
@@ -45,7 +45,7 @@ test.describe("api test cases for auth callback api endpoint", () => {
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
 
-  test.only("no user returns UNAUTHORIZED", async ({ request }) => {
+  test("no user returns UNAUTHORIZED", async ({ request }) => {
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/authCallback",
       {

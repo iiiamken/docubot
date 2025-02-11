@@ -14,6 +14,7 @@ export const fileItemId = "#cm6se7ovk0003la03gf36jd92"
 export const SubbedFileItemId = "#cm6zf3t2m0003l203mmeib7zi"
 
 export const userId = "kp_e9ad9300d8cd45569c2de21a934e91ab"
+export const fileKey = "ZIVin6mUDoMwoOzSmIdvdjBcy6KPlkH04ar9sUqFIneCmXpS"
 
 export const chatPageUrl =
   "https://dokubot.vercel.app/dashboard/cm6se7ovk0003la03gf36jd92"

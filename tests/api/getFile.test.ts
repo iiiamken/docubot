@@ -1,36 +1,57 @@
 import test, { expect } from "@playwright/test"
-import { getToken } from "../../utils/getToken"
+import { fileKey, kindeUsername, userId } from "../test-data/test.data"
 
 test.describe("api test cases for getfile api endpoint", () => {
-  test("GETFILE user not logged in returns UNAUTHORIZED", async ({
+  test("get file with valid fileKey returns the correct file", async ({
     request,
   }) => {
-    const token = await getToken()
-    console.log(token.acce)
     const response = await request.post(
       "https://dokubot.vercel.app/api/trpc/getFile",
       {
         headers: {
-          Authorization: `Bearer ${token.access_token}`,
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          id: "kp_e9ad9300d8cd45569c2de21a934e91ab",
-          email: "d_kenii@hotmail.com",
-          given_name: "test",
-          family_name: "test",
-          picture: "test",
+          key: fileKey,
+          user: {
+            id: userId,
+            email: kindeUsername,
+            given_name: "test",
+            family_name: "test",
+            picture: "test",
+          },
         }),
       }
     )
 
     const data = await response.json()
 
-    console.log("datadatadatadatadatadatadata", data)
-    console.log(
-      "data.error.data.codedata.error.data.codedata.error.data.codedata.error.data.codedata.error.data.code",
-      data.error.data.code
+    expect(data.result.data.key).toBe(fileKey)
+  })
+  test.only("get file with invalid fileKey returns UNAUTHORIZED", async ({
+    request,
+  }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/getFile",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          key: "",
+          user: {
+            id: userId,
+            email: kindeUsername,
+            given_name: "test",
+            family_name: "test",
+            picture: "test",
+          },
+        }),
+      }
     )
-    expect(data.error.data.code).toBe("UNAUTHORIZED")
+
+    const data = await response.json()
+
+    expect(data).toBe(fileKey)
   })
 })

@@ -261,7 +261,15 @@ export const appRouter = router({
         submitUserId = user.id
       }
 
-      if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
+      if (!submitUserId || !input.key)
+        throw new TRPCError({ code: "UNAUTHORIZED" })
+
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: submitUserId,
+        },
+      })
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const file = await db.file.findFirst({
         where: {
