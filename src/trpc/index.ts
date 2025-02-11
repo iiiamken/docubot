@@ -8,6 +8,36 @@ import { getUserSubscriptionPlan, stripe } from "../lib/stripe"
 import { absoluteUrl } from "../lib/utils"
 import { privateProcedure, publicProcedure, router } from "./trpc"
 
+const authFn = async function (input?: {
+  id?: string
+  email?: string
+  given_name?: string
+  family_name?: string
+  picture?: string
+}) {
+  let submitUserId
+  submitUserId = input?.id
+
+  if (!input?.id) {
+    const { getUser } = getKindeServerSession()
+    const user = await getUser()
+
+    if (!user || !user.id || !user.email)
+      throw new TRPCError({ code: "UNAUTHORIZED" })
+    submitUserId = user.id
+  }
+
+  if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
+
+  const dbUser = await db.user.findFirst({
+    where: {
+      id: submitUserId,
+    },
+  })
+  if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+  return submitUserId
+}
+
 export const appRouter = router({
   test: publicProcedure.query(async () => {
     return { success: true }
@@ -112,6 +142,7 @@ export const appRouter = router({
       }
       if (!submitId || !submitEmail)
         throw new TRPCError({ code: "UNAUTHORIZED" })
+
       const dbUser = await db.user.findFirst({
         where: {
           id: submitId,
@@ -140,32 +171,34 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      let submitUserId
-      submitUserId = input.id
+      // let submitUserId
+      // submitUserId = input.id
 
-      if (!input.id) {
-        const { getUser } = getKindeServerSession()
-        const user = await getUser()
+      // if (!input.id) {
+      //   const { getUser } = getKindeServerSession()
+      //   const user = await getUser()
 
-        if (!user || !user.id || !user.email)
-          throw new TRPCError({ code: "UNAUTHORIZED" })
-        submitUserId = user.id
-        // const { userId } = ctx
-        // submitUserId = userId
-      }
+      //   if (!user || !user.id || !user.email)
+      //     throw new TRPCError({ code: "UNAUTHORIZED" })
+      //   submitUserId = user.id
+      // }
 
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: submitUserId,
-        },
-      })
-      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+      // const dbUser = await db.user.findFirst({
+      //   where: {
+      //     id: submitUserId,
+      //   },
+      // })
+      // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+
+      const submitUserId = await authFn(input)
 
       const files = await db.file.findMany({
         where: {
           userId: submitUserId,
         },
       })
+
+      if (!files) throw new TRPCError({ code: "NOT_FOUND" })
 
       const filesWithCount = await Promise.all(
         files.map(async (file) => {
@@ -195,26 +228,27 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      let submitUserId
-      submitUserId = input.user?.id
-      // const { userId } = ctx
-      if (!input.user?.id) {
-        const { getUser } = getKindeServerSession()
-        const user = await getUser()
+      // let submitUserId
+      // submitUserId = input.user?.id
+      // if (!input.user?.id) {
+      //   const { getUser } = getKindeServerSession()
+      //   const user = await getUser()
 
-        if (!user || !user.id || !user.email)
-          throw new TRPCError({ code: "UNAUTHORIZED" })
-        submitUserId = user.id
-      }
+      //   if (!user || !user.id || !user.email)
+      //     throw new TRPCError({ code: "UNAUTHORIZED" })
+      //   submitUserId = user.id
+      // }
 
-      if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
+      // if (!submitUserId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: submitUserId,
-        },
-      })
-      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+      // const dbUser = await db.user.findFirst({
+      //   where: {
+      //     id: submitUserId,
+      //   },
+      // })
+      // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+      const submitUserId = await authFn(input.user)
+      if (!input.fileId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const file = await db.file.findFirst({
         where: {
@@ -249,27 +283,29 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      let submitUserId
-      submitUserId = input.user?.id
+      // let submitUserId
+      // submitUserId = input.user?.id
 
-      if (!input.user?.id) {
-        const { getUser } = getKindeServerSession()
-        const user = await getUser()
+      // if (!input.user?.id) {
+      //   const { getUser } = getKindeServerSession()
+      //   const user = await getUser()
 
-        if (!user || !user.id || !user.email)
-          throw new TRPCError({ code: "UNAUTHORIZED" })
-        submitUserId = user.id
-      }
+      //   if (!user || !user.id || !user.email)
+      //     throw new TRPCError({ code: "UNAUTHORIZED" })
+      //   submitUserId = user.id
+      // }
 
-      if (!submitUserId || !input.key)
-        throw new TRPCError({ code: "UNAUTHORIZED" })
+      // if (!submitUserId || !input.key)
+      //   throw new TRPCError({ code: "UNAUTHORIZED" })
 
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: submitUserId,
-        },
-      })
-      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+      // const dbUser = await db.user.findFirst({
+      //   where: {
+      //     id: submitUserId,
+      //   },
+      // })
+      // if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+      const submitUserId = await authFn(input.user)
+      if (!input.key) throw new TRPCError({ code: "UNAUTHORIZED" })
 
       const file = await db.file.findFirst({
         where: {
@@ -282,13 +318,28 @@ export const appRouter = router({
       }
       return file
     }),
-  getFileUploadStatus: privateProcedure
-    .input(z.object({ fileId: z.string() }))
-    .query(async ({ input, ctx }) => {
+  getFileUploadStatus: publicProcedure
+    .input(
+      z.object({
+        fileId: z.string(),
+        user: z
+          .object({
+            id: z.string().optional(),
+            email: z.string().optional(),
+            given_name: z.string().optional(),
+            family_name: z.string().optional(),
+            picture: z.string().optional(),
+          })
+          .optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const submitUserId = await authFn(input.user)
+
       const file = await db.file.findFirst({
         where: {
           id: input.fileId,
-          userId: ctx.userId,
+          userId: submitUserId,
         },
       })
 
