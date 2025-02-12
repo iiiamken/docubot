@@ -60,4 +60,26 @@ test.describe("api test cases for auth callback api endpoint", () => {
 
     expect(data.error.data.code).toBe("UNAUTHORIZED")
   })
+
+  test("user not registered does not create new user", async ({ request }) => {
+    const response = await request.post(
+      "https://dokubot.vercel.app/api/trpc/authCallback",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          id: "test",
+          email: "test",
+          given_name: "test",
+          family_name: "test",
+          picture: "test",
+        }),
+      }
+    )
+
+    const data = await response.json()
+
+    expect(data.error.data.code).toBe("UNAUTHORIZED")
+  })
 })

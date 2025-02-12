@@ -149,7 +149,7 @@ export class Chat {
 
     const testFile = this.getTestFile()
     await testFile.click()
-    await this.page.waitForTimeout(3000)
+    await this.page.waitForTimeout(5000)
   }
 
   async navigateToSubbedChatPage() {
