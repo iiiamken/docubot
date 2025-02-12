@@ -9,8 +9,8 @@ test.describe("api test cases for auth callback api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          id: "test2",
-          email: "test2",
+          id: process.env.USER_ID!,
+          email: process.env.KINDE_USERNAME!,
           given_name: "test",
           family_name: "test",
           picture: "test",
