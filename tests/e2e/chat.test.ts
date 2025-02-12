@@ -1,13 +1,12 @@
 import test, { expect } from "@playwright/test"
 import { Chat } from "../pages/chat.page"
-import { chatPageUrl } from "../test-data/test.data"
 
 test.describe("tests for chat page pdf section", () => {
   test("navigations to testfile works", async ({ page }) => {
     const chatPage = new Chat(page)
     await chatPage.navigateToChatPage()
 
-    await expect(page).toHaveURL(chatPageUrl)
+    await expect(page).toHaveURL(process.env.CHAT_PAGE_URL!)
   })
 
   test("pdf loads file", async ({ page }) => {

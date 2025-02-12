@@ -1,5 +1,4 @@
 import test, { expect } from "@playwright/test"
-import { fileId } from "../test-data/test.data"
 
 test.describe("api test cases for getFileUploadStatus api endpoint", () => {
   test("get file upload status with valid file id returns the correct file", async ({
@@ -12,7 +11,7 @@ test.describe("api test cases for getFileUploadStatus api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          fileId: fileId,
+          fileId: process.env.FILE_ID!,
           user: {
             id: process.env.USER_ID!,
             email: process.env.KINDE_USERNAME!,
@@ -62,7 +61,7 @@ test.describe("api test cases for getFileUploadStatus api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          fileId: fileId,
+          fileId: process.env.FILE_ID!,
           user: {
             id: "",
             email: "",

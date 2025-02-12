@@ -1,9 +1,4 @@
 import { Locator, Page } from "@playwright/test"
-import {
-  chatPageUrl,
-  fileItemId,
-  SubbedFileItemId,
-} from "../test-data/test.data"
 import { LoginPage } from "./loginPage.page"
 
 export class Chat {
@@ -28,8 +23,8 @@ export class Chat {
 
   constructor(private page: Page) {
     //locators
-    this.testFile = this.page.locator(fileItemId)
-    this.subbedTestFile = this.page.locator(SubbedFileItemId)
+    this.testFile = this.page.locator(`#${process.env.FILE_ID_2}`)
+    this.subbedTestFile = this.page.locator(`#${process.env.SUBBED_FILE_ID}`)
     //chat section locators
     this.pdfContent = this.page.locator(".react-pdf__Page")
     this.pdfOptionsBar = this.page.locator("#pdf_options_bar")
@@ -144,19 +139,21 @@ export class Chat {
 
   //actions
   async navigateToChatPage() {
-    await this.page.goto(chatPageUrl)
+    await this.page.goto(process.env.CHAT_PAGE_URL!)
     const loginPage = new LoginPage(this.page)
     await loginPage.login(
       process.env.KINDE_USERNAME!,
       process.env.KINDE_PASSWORD!
     )
+    await this.page.waitForTimeout(3000)
 
     const testFile = this.getTestFile()
     await testFile.click()
+    await this.page.waitForTimeout(3000)
   }
 
   async navigateToSubbedChatPage() {
-    await this.page.goto(chatPageUrl)
+    await this.page.goto(process.env.CHAT_PAGE_URL!)
     const loginPage = new LoginPage(this.page)
     await loginPage.login(
       process.env.SUBBED_KINDE_USERNAME!,

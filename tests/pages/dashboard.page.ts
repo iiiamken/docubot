@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test"
-import { fileItemId } from "../test-data/test.data"
 import { LoginPage } from "./loginPage.page"
 
 export class Dashboard {
@@ -13,7 +12,7 @@ export class Dashboard {
     //locators
     this.uploadButton = this.page.locator("#upload_button")
     this.modal = this.page.locator("#radix-\\:R9fntb\\:")
-    this.fileItem = this.page.locator(fileItemId)
+    this.fileItem = this.page.locator(`#${process.env.FILE_ID_2}`)
     this.pdfField = this.page.locator("#pdf_field")
     this.testFileDeleteBtn = this.page.locator("#delete_test_file_upload\\.pdf")
   }

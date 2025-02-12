@@ -26,7 +26,7 @@ test.describe("tests for dashboard page", () => {
     await expect(modal).toBeVisible()
   })
 
-  test("test file visible on login and navigates to message page on click", async ({
+  test("test file visible on login and navigates to chat page on click", async ({
     page,
   }) => {
     const dashboardPage = new Dashboard(page)

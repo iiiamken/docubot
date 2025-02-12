@@ -1,5 +1,4 @@
 import test, { expect } from "@playwright/test"
-import { deleteFileId, fileId } from "../test-data/test.data"
 
 test.describe("api test cases for deleteFile api endpoint", () => {
   test.skip("deletes file with valid user and fild id", async ({ request }) => {
@@ -10,7 +9,7 @@ test.describe("api test cases for deleteFile api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          fileId: deleteFileId,
+          fileId: process.env.DELETE_FILE_ID!,
           user: {
             id: process.env.USER_ID!,
             email: process.env.KINDE_USERNAME!,
@@ -24,7 +23,7 @@ test.describe("api test cases for deleteFile api endpoint", () => {
 
     const data = await response.json()
 
-    expect(data.result.data.id).toBe(deleteFileId)
+    expect(data.result.data.id).toBe(process.env.DELETE_FILE_ID)
   })
 
   test("input invalid user but valid file id", async ({ request }) => {
@@ -35,7 +34,7 @@ test.describe("api test cases for deleteFile api endpoint", () => {
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          fileId: fileId,
+          fileId: process.env.FILE_ID!,
           user: {
             id: "",
             email: "",
