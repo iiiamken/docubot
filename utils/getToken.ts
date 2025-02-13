@@ -1,5 +1,3 @@
-// const CLIENT_ID = process.env.KINDE_CLIENT_ID || ""
-// const KINDE_CLIENT_SECRET = process.env.KINDE_CLIENT_SECRET || ""
 export async function getToken() {
   try {
     const response = await fetch(`https://dokubot.kinde.com/oauth2/token`, {
